@@ -1,30 +1,29 @@
-package com.company;
+package com.model;
 
-import com.mongodb.*;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.presentation.ManagePeople;
 import org.bson.Document;
 
 public class Main {
 
-    private static MongoClient mongo;
-    private static Document client1;
-
     public static void main(String[] args) {
-	System.out.println("Prueba conexión MongoDB");
-        mongo = crearConexion();
 
+        MongoClient mongo = crearConexion();
         if (mongo != null) {
             System.out.println("Lista de bases de datos: ");
             MongoDatabase mongoDB = mongo.getDatabase("celler_aubarcaDB");
+
             MongoCollection<Document> collection = mongoDB.getCollection("clients");
 
-            client1 = new Document();
-            client1.put("name", "Sivaraman");
-            client1.put("surname", "Tikitaka");
-            client1.put("telephone", 618526311);
-            client1.put("address", "C/Els Rosers, 23");
+            Document client1 = new Document();
+            client1.append("name", "Domingo");
+            client1.append("surname", "Brull");
+            client1.append("telephone", 650575112);
+            client1.append("address", "Av PIUS XII, 33");
             collection.insertOne(client1);
+            System.out.println("Inserted one client successfully");
 
         } else {
             System.out.println("Error: Conexión no establecida");
