@@ -6,7 +6,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ManagePeople {
+public class ManagePeople extends JFrame{
+
+    private static PresentationController controller = PresentationController.getInstance();
+
     private JPanel panel1;
     private JList providersList;
     private JList clientsList;
