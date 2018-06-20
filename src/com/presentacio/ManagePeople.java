@@ -8,7 +8,7 @@ public class ManagePeople extends JFrame{
     private static final int SETUP_WIDTH = 800;
     private static final int SETUP_HEIGHT = 500;
 
-    private static PresentationController controller = PresentationController.getInstance();
+    private static ContactsViewController controller = ContactsViewController.getInstance();
 
     private JPanel rootPanel;
     private JList providersList;
