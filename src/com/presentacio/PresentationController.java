@@ -1,6 +1,9 @@
 package com.presentacio;
 
 import javax.swing.*;
+import javax.swing.plaf.IconUIResource;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PresentationController {
 
@@ -17,7 +20,6 @@ public class PresentationController {
     public static PresentationController getInstance() {
         if (instance == null) {
             instance = new PresentationController();
-            System.out.println("returned presentationController instance");
         }
         return instance;
     }
@@ -25,6 +27,7 @@ public class PresentationController {
     public void run(){
         managePeople = new ManagePeople();
         initComponents();
+        initListeners();
     }
 
     private void initComponents() {
@@ -32,7 +35,24 @@ public class PresentationController {
         AddButton = managePeople.getAddPersonButton();
         EditButton = managePeople.getEditButton();
         DeleteButton = managePeople.getDeleteButton();
+
+
     }
+
+    private void initListeners() {
+
+        AddButton.setContentAreaFilled(false);
+        EditButton.setContentAreaFilled(false);
+        AddButton.addActionListener(new AddButtonListener());
+    }
+
+    private class AddButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
 }
 
 

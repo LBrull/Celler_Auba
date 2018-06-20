@@ -6,10 +6,32 @@ import com.mongodb.client.MongoDatabase;
 import com.presentacio.PresentationController;
 import org.bson.Document;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Runner {
+
+    private static Color backgroundColor = new Color(60, 63, 65);
+    private static Color textColor = new Color(187,187,187);
+    private static Color colorAccent = new Color(231, 158, 109);
 
     public static void main(String[] args) {
 
+        //Change L&F of application
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); //Windows Look and feel
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        UIManager.put("Button.background", backgroundColor);
+
+        UIManager.put("Panel.background", backgroundColor);
+        UIManager.put("Label.foreground", textColor);
+        UIManager.put("List.background", backgroundColor);
+
+        //Change font of application
+        setUIFont (new javax.swing.plaf.FontUIResource("Calibri", Font.PLAIN,14));
         PresentationController presentationController = PresentationController.getInstance();
         presentationController.run();
 
@@ -31,6 +53,16 @@ public class Runner {
 //        } else {
 //            System.out.println("Error: Conexión no establecida");
 //        }
+    }
+
+    private static void setUIFont (javax.swing.plaf.FontUIResource f){
+        java.util.Enumeration keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get (key);
+            if (value instanceof javax.swing.plaf.FontUIResource)
+                UIManager.put (key, f);
+        }
     }
 
     private static MongoClient crearConexion(){
