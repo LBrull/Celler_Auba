@@ -1,10 +1,6 @@
 package com.presentacio;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ManagePeople extends JFrame{
 
@@ -13,7 +9,7 @@ public class ManagePeople extends JFrame{
 
     private static PresentationController controller = PresentationController.getInstance();
 
-    private JPanel panel1;
+    private JPanel rootPanel;
     private JList providersList;
     private JList clientsList;
     private JPanel bottomSpace;
@@ -25,16 +21,21 @@ public class ManagePeople extends JFrame{
     private JPanel clientsPanel;
 
     public ManagePeople() {
-        createUIComponents();
+        super();
+        setContentPane(rootPanel);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+
+        //createUIComponents();
     }
 
-    private void createUIComponents() {
-        setSize(SETUP_WIDTH, SETUP_HEIGHT);
-        panel1= new JPanel();
-        setContentPane(panel1);
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
+//    private void createUIComponents() {
+//        setSize(SETUP_WIDTH, SETUP_HEIGHT);
+//        setContentPane(rootPanel);
+//        setLocationRelativeTo(null);
+//        setVisible(true);
+//    }
 
     public JButton getAddPersonButton() {
         return AddPersonButton;
