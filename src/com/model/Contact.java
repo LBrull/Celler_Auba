@@ -10,12 +10,12 @@ public abstract class Contact {
 
     public Contact(){}
 
-    public Contact(String name, String surname, String telephone, String email, String address){
+    public Contact(String name, String surname, String telephone, String address, String email) {
         this.name = name;
         this.surname = surname;
         this.telephone = telephone;
-        this.email = email;
         this.address = address;
+        this.email = email;
     }
 
     public String getName() {

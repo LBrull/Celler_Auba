@@ -26,7 +26,26 @@ public class ContactsController {
         return dbContactsController.getClients();
     }
 
+    public ArrayList<Provider> getProviders() {
+        DBContactsController dbContactsController = DBController.getInstance().getDBContactsController();
+        return dbContactsController.getProviders();
+    }
+
     public int getClientsCount() {
         return dbController.getDBContactsController().getClientsCount();
+    }
+
+    public int getProvidersCount() {
+        return dbController.getDBContactsController().getProvidersCount();
+    }
+
+    public void saveNewClient(String name, String surname, String telephone, String address, String email) {
+        Client client = new Client(name, surname, telephone, address, email);
+        dbController.saveNewClient(client);
+    }
+
+    public void saveNewProvider(String name, String surname, String telephone, String address, String email) {
+        Provider provider = new Provider(name, surname, telephone, address, email);
+        dbController.saveNewProvider(provider);
     }
 }

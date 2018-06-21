@@ -1,17 +1,15 @@
 package com.presentacio;
 
 import com.model.Client;
+import com.model.Provider;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ManagePeople extends JFrame{
+public class ManagePeopleView extends JFrame{
 
     private static final int SETUP_WIDTH = 800;
     private static final int SETUP_HEIGHT = 500;
@@ -35,19 +33,28 @@ public class ManagePeople extends JFrame{
     private Color textColor = new Color(187,187,187);
 //    private Color gridColor = new Color(60, 63, 65);
 
-    ManagePeople() {
+    ManagePeopleView() {
         super();
         setContentPane(rootPanel);
 
         labelClients.setForeground(textColor);
+        labelClients.setFont(new Font("Calibri", Font.PLAIN, 20));
         labelProveedors.setForeground(textColor);
+        labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
-       // loadProviders();
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
+
+        AddPersonButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.addContactView();
+            }
+        });
+
         pack();
         setVisible(true);
     }
@@ -79,6 +86,33 @@ public class ManagePeople extends JFrame{
         ));
     }
 
+    private void loadProviders() {
+        int numberOfProviders = controller.getProvidersCount();
+        Object providersData[][] = new Object[numberOfProviders][5];
+        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
+        ArrayList<Provider> providers = controller.getProviders();
+
+        for(int i=0; i<numberOfProviders; ++i) {
+            providersData[i][0] = providers.get(i).getName();
+            providersData[i][1] = providers.get(i).getSurname();
+            providersData[i][2] = providers.get(i).getTelephone();
+            providersData[i][3] = providers.get(i).getAddress();
+            providersData[i][4] = providers.get(i).getEmail();
+        }
+
+        ContactsTableModel contactsTableModel = new ContactsTableModel(providersData, columnNames);
+        providersTable = new JTable(contactsTableModel);
+        providersTable.setAutoCreateRowSorter(true);
+        providersTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
+                () -> {
+                    if(!EditButton.isVisible()) {
+                        EditButton.setVisible(true);
+                        DeleteButton.setVisible(true);
+                    }
+                }
+        ));
+    }
+
     public JButton getAddPersonButton() {
         return AddPersonButton;
     }
@@ -93,5 +127,8 @@ public class ManagePeople extends JFrame{
 
     private void createUIComponents() {
         loadClients();
+        loadProviders();
     }
+
+
 }

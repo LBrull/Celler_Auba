@@ -1,5 +1,7 @@
 package com.persistencia;
 
+import com.model.Client;
+import com.model.Provider;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 
@@ -32,14 +34,6 @@ public class DBController {
         System.out.println("Success: Conexión estabecida");
     }
 
-//            MongoCollection<Document> collection = mongoDB.getCollection("clients");
-//            Document client1 = new Document();
-//            client1.append("name", "Domingo");
-//            client1.append("surname", "Brull");
-//            client1.append("telephone", 650575112);
-//            client1.append("address", "Av PIUS XII, 33");
-//            collection.insertOne(client1);
-
     private MongoClient getMongoClient(){
          return new MongoClient("localhost", 27017);
     }
@@ -49,4 +43,11 @@ public class DBController {
         return dbContactsController;
     }
 
+    public void saveNewClient(Client client) {
+        dbContactsController.saveNewClient(client);
+    }
+
+    public void saveNewProvider(Provider provider) {
+        dbContactsController.saveNewProvider(provider);
+    }
 }

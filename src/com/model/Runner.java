@@ -8,6 +8,7 @@ import java.awt.*;
 public class Runner {
 
     private static Color backgroundColor = new Color(60, 63, 65);
+    private static Color secondBackgroundColor = new Color(89, 91, 93);
     private static Color textColor = new Color(187,187,187);
     //private static Color colorAccent = new Color(231, 158, 109);
 
@@ -17,7 +18,7 @@ public class Runner {
         configureDB();
 
         ContactsViewController presentationController = ContactsViewController.getInstance();
-        presentationController.createView();
+        presentationController.contactsView();
 
     }
 
@@ -34,10 +35,11 @@ public class Runner {
         }
 
         UIManager.put("Button.background", backgroundColor);
-
         UIManager.put("Panel.background", backgroundColor);
         UIManager.put("Label.foreground", textColor);
         UIManager.put("List.background", backgroundColor);
+        UIManager.put("CheckBox.background",backgroundColor);
+        UIManager.put("FormattedTextField.background", secondBackgroundColor);
 
         //Change font of application
         setUIFont (new javax.swing.plaf.FontUIResource("Calibri", Font.PLAIN,14));
