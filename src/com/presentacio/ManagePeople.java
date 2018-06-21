@@ -31,9 +31,9 @@ public class ManagePeople extends JFrame{
     private JTable clientsTable;
     private JTable providersTable;
 
-    private Color backgroundColor = new Color(60, 63, 65);
+//    private Color backgroundColor = new Color(60, 63, 65);
     private Color textColor = new Color(187,187,187);
-    private Color gridColor = new Color(60, 63, 65);
+//    private Color gridColor = new Color(60, 63, 65);
 
     ManagePeople() {
         super();
@@ -69,22 +69,14 @@ public class ManagePeople extends JFrame{
         ContactsTableModel contactsTableModel = new ContactsTableModel(clientsData, columnNames);
         clientsTable = new JTable(contactsTableModel);
         clientsTable.setAutoCreateRowSorter(true);
-        clientsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                SwingUtilities.invokeLater(
-                    new Runnable() {
-                        public void run() {
-                            if(!EditButton.isVisible()) {
-                                EditButton.setVisible(true);
-                                DeleteButton.setVisible(true);
-                            }
-                        }
-                    }
-                );
+        clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
+            () -> {
+                if(!EditButton.isVisible()) {
+                    EditButton.setVisible(true);
+                    DeleteButton.setVisible(true);
+                }
             }
-        });
-
+        ));
     }
 
     public JButton getAddPersonButton() {
