@@ -118,6 +118,8 @@
             <properties>
               <autoCreateRowSorter value="true"/>
               <fillsViewportHeight value="true"/>
+              <selectionBackground color="-1597843"/>
+              <selectionForeground color="-13948117"/>
             </properties>
           </component>
         </children>

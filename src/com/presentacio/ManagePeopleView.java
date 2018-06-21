@@ -75,12 +75,22 @@ public class ManagePeopleView extends JFrame{
 
         ContactsTableModel contactsTableModel = new ContactsTableModel(clientsData, columnNames);
         clientsTable = new JTable(contactsTableModel);
+        clientsTable.setCellSelectionEnabled(false);
+        clientsTable.setRowSelectionAllowed(true);
+        clientsTable.setFocusable(false);
         clientsTable.setAutoCreateRowSorter(true);
         clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
                 if(!EditButton.isVisible()) {
                     EditButton.setVisible(true);
                     DeleteButton.setVisible(true);
+                }
+                if (!providersTable.getSelectionModel().isSelectionEmpty()) {
+                    providersTable.clearSelection();
+                }
+                if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
+                    EditButton.setVisible(false);
+                    DeleteButton.setVisible(false);
                 }
             }
         ));
@@ -102,14 +112,24 @@ public class ManagePeopleView extends JFrame{
 
         ContactsTableModel contactsTableModel = new ContactsTableModel(providersData, columnNames);
         providersTable = new JTable(contactsTableModel);
+        providersTable.setCellSelectionEnabled(false);
+        providersTable.setRowSelectionAllowed(true);
+        providersTable.setFocusable(false);
         providersTable.setAutoCreateRowSorter(true);
         providersTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
-                () -> {
-                    if(!EditButton.isVisible()) {
-                        EditButton.setVisible(true);
-                        DeleteButton.setVisible(true);
-                    }
+            () -> {
+                if(!EditButton.isVisible()) {
+                    EditButton.setVisible(true);
+                    DeleteButton.setVisible(true);
                 }
+                if (!clientsTable.getSelectionModel().isSelectionEmpty()) {
+                    clientsTable.clearSelection();
+                }
+                if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
+                    EditButton.setVisible(false);
+                    DeleteButton.setVisible(false);
+                }
+            }
         ));
     }
 
