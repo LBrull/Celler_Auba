@@ -3,6 +3,10 @@ package com.presentacio;
 import com.model.Client;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,7 +46,8 @@ public class ManagePeople extends JFrame{
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
        // loadProviders();
-
+        EditButton.setVisible(false);
+        DeleteButton.setVisible(false);
         pack();
         setVisible(true);
     }
@@ -64,7 +69,21 @@ public class ManagePeople extends JFrame{
         ContactsTableModel contactsTableModel = new ContactsTableModel(clientsData, columnNames);
         clientsTable = new JTable(contactsTableModel);
         clientsTable.setAutoCreateRowSorter(true);
-        clientsTable.setBackground(gridColor);
+        clientsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                SwingUtilities.invokeLater(
+                    new Runnable() {
+                        public void run() {
+                            if(!EditButton.isVisible()) {
+                                EditButton.setVisible(true);
+                                DeleteButton.setVisible(true);
+                            }
+                        }
+                    }
+                );
+            }
+        });
 
     }
 
