@@ -8,29 +8,28 @@ public class DBController {
 
     private static DBController dbController = null;
     private static MongoDatabase mongoDB = null;
-
-    // All the controllers of the DB associated to this are here
-    private static DBContactsController dbContactsController = null;
+    //TODO: add all the DB controllers
+    private DBContactsController dbContactsController;
 
     private DBController() {
+        dbContactsController = new DBContactsController();
+    }
+
+    public static MongoDatabase getMongoDB() {
+        return mongoDB;
     }
 
     public static DBController getInstance() {
         if (dbController == null) {
             dbController = new DBController();
-            System.out.println("Success: conexión establecida");
         }
         return dbController;
     }
 
-    public void connect() {
-        MongoClient mongo = crearConexion();
-        if (mongo != null) {
-            mongoDB = mongo.getDatabase("celler_aubarcaDB");
-        }
-        else {
-            System.out.println("Error: Conexión no establecida");
-        }
+    public void DBconnect() {
+        MongoClient mongo = getMongoClient();
+        mongoDB = mongo.getDatabase("celler_aubarcaDB");
+        System.out.println("Success: Conexión estabecida");
     }
 
 //            MongoCollection<Document> collection = mongoDB.getCollection("clients");
@@ -41,16 +40,13 @@ public class DBController {
 //            client1.append("address", "Av PIUS XII, 33");
 //            collection.insertOne(client1);
 
-    private MongoClient crearConexion(){
-        MongoClient mongo = null;
-        mongo = new MongoClient("localhost", 27017);
-        return mongo;
+    private MongoClient getMongoClient(){
+         return new MongoClient("localhost", 27017);
     }
 
-    // Getters for all the DB controllers
-    public static DBContactsController getDBContactsController() {
-        dbContactsController = DBContactsController.getInstance();
-        dbContactsController.setMongoDatabase(mongoDB);
+    // Getters for all the DB controllers TODO: add all the getters for all the controllers
+    public DBContactsController getDBContactsController() {
         return dbContactsController;
     }
+
 }

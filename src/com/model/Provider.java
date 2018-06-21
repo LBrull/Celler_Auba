@@ -1,6 +1,6 @@
 package com.model;
 
-public class Provider extends Person{
+public class Provider extends Contact {
 
     public Provider() {
         super();

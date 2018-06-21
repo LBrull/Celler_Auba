@@ -1,6 +1,6 @@
 package com.model;
 
-public abstract class Person {
+public abstract class Contact {
 
     private String name;
     private String surname;
@@ -8,9 +8,9 @@ public abstract class Person {
     private String email;
     private String address;
 
-    public Person(){}
+    public Contact(){}
 
-    public Person(String name, String surname, String telephone, String email, String address){
+    public Contact(String name, String surname, String telephone, String email, String address){
         this.name = name;
         this.surname = surname;
         this.telephone = telephone;

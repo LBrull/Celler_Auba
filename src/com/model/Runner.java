@@ -2,7 +2,6 @@ package com.model;
 
 import com.persistencia.DBController;
 import com.presentacio.ContactsViewController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,21 +11,19 @@ public class Runner {
     private static Color textColor = new Color(187,187,187);
     //private static Color colorAccent = new Color(231, 158, 109);
 
-    private static DBController dbController = null;
-
     public static void main(String[] args) {
 
         configureLookAndFeel();
         configureDB();
 
         ContactsViewController presentationController = ContactsViewController.getInstance();
-        presentationController.run();
+        presentationController.createView();
 
     }
 
     private static void configureDB() {
-        dbController = DBController.getInstance();
-        dbController.connect();
+        DBController dbController = DBController.getInstance();
+        dbController.DBconnect();
     }
 
     private static void configureLookAndFeel() {
