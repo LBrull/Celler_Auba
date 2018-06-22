@@ -20,16 +20,13 @@ public class ManagePeopleView extends JFrame{
     private JButton AddPersonButton;
     private JButton DeleteButton;
     private JButton EditButton;
-    private JPanel topPanel;
-    private JPanel providersTitlePanel;
-    private JPanel clientsTitlePanel;
-    private JPanel bottomPanel;
     private JLabel labelProveedors;
     private JLabel labelClients;
     private JTable clientsTable;
     private JTable providersTable;
+    private JLabel labelWindowTitle;
 
-//    private Color backgroundColor = new Color(60, 63, 65);
+    //    private Color backgroundColor = new Color(60, 63, 65);
     private Color textColor = new Color(187,187,187);
 //    private Color gridColor = new Color(60, 63, 65);
 
@@ -38,22 +35,18 @@ public class ManagePeopleView extends JFrame{
         setContentPane(rootPanel);
 
         labelClients.setForeground(textColor);
-        labelClients.setFont(new Font("Calibri", Font.PLAIN, 20));
+        labelClients.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelProveedors.setForeground(textColor);
-        labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 20));
+        labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
+        labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //TODO: override window closing method
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
 
-        AddPersonButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.addContactView();
-            }
-        });
+        AddPersonButton.addActionListener(e -> controller.addContactView());
 
         pack();
         setVisible(true);

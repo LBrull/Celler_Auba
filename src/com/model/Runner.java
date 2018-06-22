@@ -34,6 +34,10 @@ public class Runner {
             e.printStackTrace();
         }
 
+        UIManager.put("OptionPane.background", backgroundColor);
+        UIManager.put("OptionPane.foreground", textColor);
+        UIManager.put("OptionPane.messageForeground", textColor);
+
         UIManager.put("Button.background", backgroundColor);
         UIManager.put("Panel.background", backgroundColor);
         UIManager.put("Label.foreground", textColor);

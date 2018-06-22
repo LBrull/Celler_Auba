@@ -50,4 +50,8 @@ public class DBController {
     public void saveNewProvider(Provider provider) {
         dbContactsController.saveNewProvider(provider);
     }
+
+    public void disconnect() {
+        getMongoClient().close();
+    }
 }

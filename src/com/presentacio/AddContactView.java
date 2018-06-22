@@ -1,6 +1,7 @@
 package com.presentacio;
 
 import javax.swing.*;
+import javax.swing.plaf.IconUIResource;
 import java.awt.*;
 
 public class AddContactView extends JFrame {
@@ -8,6 +9,8 @@ public class AddContactView extends JFrame {
     private static final int SETUP_WIDTH = 550;
     private static final int SETUP_HEIGHT = 400;
     private static ContactsViewController controller = ContactsViewController.getInstance();
+
+    Icon popupSuccessIcon = new ImageIcon("/src/icons/ok_60x60");
 
     private JTextField nameTextField;
     private JTextField surnameTextField;
@@ -26,7 +29,7 @@ public class AddContactView extends JFrame {
 
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //TODO: override window closing method
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
         saveButton.addActionListener(e -> {
@@ -43,7 +46,7 @@ public class AddContactView extends JFrame {
             else {
                 System.out.println("must select 1 type at least");
             }
-            System.out.println("success when saving new contact");
+            JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
         });
 
         pack();
