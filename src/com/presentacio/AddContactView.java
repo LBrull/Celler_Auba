@@ -34,19 +34,34 @@ public class AddContactView extends JFrame {
 
         saveButton.addActionListener(e -> {
             if(checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                controller.saveNewClient();
+                if (controller.clientExists()) {}//TODO: show dialog client alredy exists
+                else {
+                    controller.saveNewClient();
+                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                controller.saveNewProvider();
+                if (controller.providerExists()) {}//TODO: show dialog provider alredy exists
+                else {
+                    controller.saveNewClient();
+                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             else if (checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                controller.saveNewClient();
-                controller.saveNewProvider();
+                if (controller.clientExists() && controller.providerExists()) {
+                }//TODO: show dialog client and provider alredy exist
+
+                else if (controller.clientExists()) {} //TODO: show dialog contact exists as client
+                else if (controller.providerExists()) {} //TODO: show dialog contact exists as provider
+                else {
+                    controller.saveNewClient();
+                    controller.saveNewProvider();
+                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             else {
                 System.out.println("must select 1 type at least");
             }
-            JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
         });
 
         pack();
