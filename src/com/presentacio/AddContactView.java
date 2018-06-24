@@ -34,25 +34,34 @@ public class AddContactView extends JFrame {
 
         saveButton.addActionListener(e -> {
             if(checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                if (controller.clientExists()) {}//TODO: show dialog client alredy exists
+                if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                }//TODO: show dialog client alredy exists
                 else {
                     controller.saveNewClient();
                     JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                if (controller.providerExists()) {}//TODO: show dialog provider alredy exists
+                if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                }//TODO: show dialog provider alredy exists
                 else {
                     controller.saveNewClient();
                     JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             else if (checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                if (controller.clientExists() && controller.providerExists()) {
+                if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                    JOptionPane.showMessageDialog (null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
                 }//TODO: show dialog client and provider alredy exist
 
-                else if (controller.clientExists()) {} //TODO: show dialog contact exists as client
-                else if (controller.providerExists()) {} //TODO: show dialog contact exists as provider
+                else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                } //TODO: show dialog contact exists as client
+                else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                } //TODO: show dialog contact exists as provider
                 else {
                     controller.saveNewClient();
                     controller.saveNewProvider();
@@ -60,7 +69,7 @@ public class AddContactView extends JFrame {
                 }
             }
             else {
-                System.out.println("must select 1 type at least");
+                JOptionPane.showMessageDialog (null, "Heu de seleccionar, almenys, un tipus de contacte", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

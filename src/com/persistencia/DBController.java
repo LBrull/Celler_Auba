@@ -54,4 +54,12 @@ public class DBController {
     public void disconnect() {
         getMongoClient().close();
     }
+
+    public boolean clientExists(String name, String surname) {
+        return dbContactsController.clientExists(name, surname);
+    }
+
+    public boolean providerExists(String name, String surname) {
+        return dbContactsController.providerExists(name, surname);
+    }
 }

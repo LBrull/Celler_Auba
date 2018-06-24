@@ -48,4 +48,12 @@ public class ContactsController {
         Provider provider = new Provider(name, surname, telephone, address, email);
         dbController.saveNewProvider(provider);
     }
+
+    public boolean clientExists(String name, String surname) {
+        return dbController.clientExists(name, surname);
+    }
+
+    public boolean providerExists(String name, String surname) {
+        return dbController.providerExists(name, surname);
+    }
 }

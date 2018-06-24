@@ -75,4 +75,26 @@ public class DBContactsController {
         newProvider.append("email", provider.getEmail());
         collection.insertOne(newProvider);
     }
+
+    public boolean clientExists(String name, String surname) {
+        List<Client> clients = getClients();
+        boolean found = false;
+        int i=0;
+        while (!found && i<clients.size()) {
+            if (clients.get(i).getName().equals(name) && clients.get(i).getSurname().equals(surname)) found = true;
+            ++i;
+        }
+        return found;
+    }
+
+    public boolean providerExists(String name, String surname) {
+        List<Provider> providers = getProviders();
+        boolean found = false;
+        int i=0;
+        while (!found && i<providers.size()) {
+            if (providers.get(i).getName().equals(name) && providers.get(i).getSurname().equals(surname)) found = true;
+            ++i;
+        }
+        return found;
+    }
 }

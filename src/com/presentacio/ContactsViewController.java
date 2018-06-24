@@ -90,6 +90,14 @@ public class ContactsViewController {
         contactsController.saveNewProvider(name, surname, telephone, address, email);
     }
 
+    public boolean clientExists(String name, String surname) {
+        return contactsController.clientExists(name, surname);
+    }
+
+    public boolean providerExists(String name, String surname) {
+        return contactsController.providerExists(name, surname);
+    }
+
 }
 
 
