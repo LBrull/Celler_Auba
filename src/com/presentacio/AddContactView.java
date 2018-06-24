@@ -1,7 +1,6 @@
 package com.presentacio;
 
 import javax.swing.*;
-import javax.swing.plaf.IconUIResource;
 import java.awt.*;
 
 public class AddContactView extends JFrame {
@@ -10,7 +9,7 @@ public class AddContactView extends JFrame {
     private static final int SETUP_HEIGHT = 400;
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
-    Icon popupSuccessIcon = new ImageIcon("/src/icons/ok_60x60");
+    //Icon popupSuccessIcon = new ImageIcon("/icons/ok_60x60");
 
     private JTextField nameTextField;
     private JTextField surnameTextField;
@@ -36,36 +35,43 @@ public class AddContactView extends JFrame {
             if(checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
                 if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
                     JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                }//TODO: show dialog client alredy exists
+                }
                 else {
                     controller.saveNewClient();
-                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    controller.repaintClientsTable();
+                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                 }
             }
             else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
                 if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
                     JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                }//TODO: show dialog provider alredy exists
+                }
                 else {
                     controller.saveNewClient();
-                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    controller.repaintProvidersTable();
+                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                 }
             }
             else if (checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
                 if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
                     JOptionPane.showMessageDialog (null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                }//TODO: show dialog client and provider alredy exist
+                }
 
                 else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
                     JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                } //TODO: show dialog contact exists as client
+                }
                 else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
                     JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                } //TODO: show dialog contact exists as provider
+                }
                 else {
                     controller.saveNewClient();
                     controller.saveNewProvider();
-                    JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    controller.repaintClientsTable();
+                    controller.repaintProvidersTable();
+                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                 }
             }
             else {

@@ -5,9 +5,9 @@ import com.model.ContactsController;
 import com.model.Provider;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ContactsViewController {
 
@@ -96,6 +96,25 @@ public class ContactsViewController {
 
     public boolean providerExists(String name, String surname) {
         return contactsController.providerExists(name, surname);
+    }
+
+    public void actualizeManagePeopleView() {
+
+    }
+
+    public void repaintClientsTable() {
+        Vector data = new Vector();
+        data.add(addContactView.getNameTextField().getText());
+        data.add(addContactView.getSurnameTextField().getText());
+        data.add(addContactView.getTelephoneTextField().getText());
+        data.add(addContactView.getAddressTextField().getText());
+        data.add(addContactView.getEmailTextField().getText());
+
+        managePeopleView.getClientsTableModel().addRow(data);
+    }
+
+    public void repaintProvidersTable() {
+
     }
 
 }

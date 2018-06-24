@@ -5,8 +5,6 @@ import com.model.Provider;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ManagePeopleView extends JFrame{
@@ -25,6 +23,18 @@ public class ManagePeopleView extends JFrame{
     private JTable clientsTable;
     private JTable providersTable;
     private JLabel labelWindowTitle;
+
+    public ContactsTableModel getClientsTableModel() {
+        return clientsTableModel;
+    }
+
+    private ContactsTableModel clientsTableModel;
+
+    public ContactsTableModel getProvidersTableModel() {
+        return providersTableModel;
+    }
+
+    private ContactsTableModel providersTableModel;
 
     //    private Color backgroundColor = new Color(60, 63, 65);
     private Color textColor = new Color(187,187,187);
@@ -52,7 +62,15 @@ public class ManagePeopleView extends JFrame{
         setVisible(true);
     }
 
-    private void loadClients() {
+    public JTable getProvidersTable() {
+        return providersTable;
+    }
+
+    public JTable getClientsTable() {
+        return clientsTable;
+    }
+
+    public void loadClients() {
         int numberOfClients = controller.getClientsCount();
         Object clientsData[][] = new Object[numberOfClients][5];
         Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
@@ -66,8 +84,8 @@ public class ManagePeopleView extends JFrame{
             clientsData[i][4] = clients.get(i).getEmail();
         }
 
-        ContactsTableModel contactsTableModel = new ContactsTableModel(clientsData, columnNames);
-        clientsTable = new JTable(contactsTableModel);
+        clientsTableModel = new ContactsTableModel(clientsData, columnNames);
+        clientsTable = new JTable(clientsTableModel);
         clientsTable.setCellSelectionEnabled(false);
         clientsTable.setRowSelectionAllowed(true);
         clientsTable.setFocusable(false);
@@ -89,7 +107,7 @@ public class ManagePeopleView extends JFrame{
         ));
     }
 
-    private void loadProviders() {
+    public void loadProviders() {
         int numberOfProviders = controller.getProvidersCount();
         Object providersData[][] = new Object[numberOfProviders][5];
         Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
@@ -103,8 +121,8 @@ public class ManagePeopleView extends JFrame{
             providersData[i][4] = providers.get(i).getEmail();
         }
 
-        ContactsTableModel contactsTableModel = new ContactsTableModel(providersData, columnNames);
-        providersTable = new JTable(contactsTableModel);
+        providersTableModel = new ContactsTableModel(providersData, columnNames);
+        providersTable = new JTable(providersTableModel);
         providersTable.setCellSelectionEnabled(false);
         providersTable.setRowSelectionAllowed(true);
         providersTable.setFocusable(false);
@@ -142,6 +160,5 @@ public class ManagePeopleView extends JFrame{
         loadClients();
         loadProviders();
     }
-
 
 }
