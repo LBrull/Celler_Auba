@@ -1,7 +1,13 @@
 package com.presentacio;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class AddContactView extends JFrame {
 
@@ -21,6 +27,11 @@ public class AddContactView extends JFrame {
     private JButton saveButton;
     private JPanel rootPanel;
     private JLabel labelTitle;
+    private JLabel emptyName;
+    private JLabel emptySurname;
+    private JLabel emptyType;
+    private JLabel emptyTelephone;
+
 
     public AddContactView() {
         super();
@@ -31,52 +42,139 @@ public class AddContactView extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //TODO: override window closing method
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
-        saveButton.addActionListener(e -> {
-            if(checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
-                    controller.saveNewClient();
-                    controller.repaintClientsTable();
-                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                }
-            }
-            else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
-                    controller.saveNewClient();
-                    controller.repaintProvidersTable();
-                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                }
-            }
-            else if (checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                    JOptionPane.showMessageDialog (null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                }
+/////////////////////////////////
+        emptyName.setVisible(true);
+        emptySurname.setVisible(true);
+        emptyTelephone.setVisible(true);
+        emptyType.setVisible(true);
 
-                else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                    JOptionPane.showMessageDialog (null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+        nameTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(nameTextField.getText().length()<=0 || nameTextField.getText().equals("")) {
+                    emptyName.setVisible(true);
                 }
                 else {
-                    controller.saveNewClient();
-                    controller.saveNewProvider();
-                    controller.repaintClientsTable();
-                    controller.repaintProvidersTable();
-                    //JOptionPane.showMessageDialog (null, "Contacte desat amb èxit", "", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
+                    emptyName.setVisible(false);
                 }
+            }
+        });
+
+        surnameTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(surnameTextField.getText().length()<=0 || surnameTextField.getText().equals("")) {
+                    emptySurname.setVisible(true);
+                }
+                else {
+                    emptySurname.setVisible(false);
+                }
+            }
+        });
+
+        telephoneTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(telephoneTextField.getText().length()<=0 || telephoneTextField.getText().equals("")) {
+                    emptyTelephone.setVisible(true);
+                }
+                else {
+                    emptyTelephone.setVisible(false);
+                }
+            }
+        });
+
+        checkBoxClient.addActionListener(e -> {
+            if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
+                emptyType.setVisible(true);
             }
             else {
-                JOptionPane.showMessageDialog (null, "Heu de seleccionar, almenys, un tipus de contacte", "", JOptionPane.INFORMATION_MESSAGE);
+                emptyType.setVisible(false);
             }
+        });
+
+        checkBoxProvider.addActionListener(e -> {
+            if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
+                emptyType.setVisible(true);
+            }
+            else {
+                emptyType.setVisible(false);
+            }
+        });
+
+/////////////////////////////////////////
+
+        saveButton.addActionListener(e -> {
+
+            if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyType.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
+
+                if (checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
+                    if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        controller.saveNewClient();
+                        controller.repaintClientsTable();
+                        dispose();
+                    }
+                } else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
+                    if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        controller.saveNewProvider();
+                        controller.repaintProvidersTable();
+                        dispose();
+                    }
+                } else {
+                    if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                        JOptionPane.showMessageDialog(null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        controller.saveNewClient();
+                        controller.saveNewProvider();
+                        controller.repaintClientsTable();
+                        controller.repaintProvidersTable();
+                        dispose();
+                    }
+                }
+            }
+
+            else {
+                JOptionPane.showMessageDialog(null, "Heu d'omplir els camps obligatoris", "", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         });
 
         pack();

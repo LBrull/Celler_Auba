@@ -98,10 +98,6 @@ public class ContactsViewController {
         return contactsController.providerExists(name, surname);
     }
 
-    public void actualizeManagePeopleView() {
-
-    }
-
     public void repaintClientsTable() {
         Vector data = new Vector();
         data.add(addContactView.getNameTextField().getText());
@@ -109,12 +105,17 @@ public class ContactsViewController {
         data.add(addContactView.getTelephoneTextField().getText());
         data.add(addContactView.getAddressTextField().getText());
         data.add(addContactView.getEmailTextField().getText());
-
         managePeopleView.getClientsTableModel().addRow(data);
     }
 
     public void repaintProvidersTable() {
-
+        Vector data = new Vector();
+        data.add(addContactView.getNameTextField().getText());
+        data.add(addContactView.getSurnameTextField().getText());
+        data.add(addContactView.getTelephoneTextField().getText());
+        data.add(addContactView.getAddressTextField().getText());
+        data.add(addContactView.getEmailTextField().getText());
+        managePeopleView.getProvidersTableModel().addRow(data);
     }
 
 }
