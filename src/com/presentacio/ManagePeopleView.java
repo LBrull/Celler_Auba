@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class ManagePeopleView extends JFrame{
 
-    private static final int SETUP_WIDTH = 800;
-    private static final int SETUP_HEIGHT = 500;
+    private static final int SETUP_WIDTH = 1200;
+    private static final int SETUP_HEIGHT = 700;
 
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
@@ -23,20 +23,9 @@ public class ManagePeopleView extends JFrame{
     private JTable clientsTable;
     private JTable providersTable;
     private JLabel labelWindowTitle;
-
-    public ContactsTableModel getClientsTableModel() {
-        return clientsTableModel;
-    }
-
     private ContactsTableModel clientsTableModel;
-
-    public ContactsTableModel getProvidersTableModel() {
-        return providersTableModel;
-    }
-
     private ContactsTableModel providersTableModel;
-
-    //    private Color backgroundColor = new Color(60, 63, 65);
+//    private Color backgroundColor = new Color(60, 63, 65);
     private Color textColor = new Color(187,187,187);
 //    private Color gridColor = new Color(60, 63, 65);
 
@@ -51,26 +40,24 @@ public class ManagePeopleView extends JFrame{
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //TODO: override window closing method
-        setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
-
         AddPersonButton.addActionListener(e -> controller.addContactView());
-
         pack();
+        setSize(SETUP_WIDTH, SETUP_HEIGHT);
         setVisible(true);
     }
 
-    public JTable getProvidersTable() {
-        return providersTable;
+    public ContactsTableModel getProvidersTableModel() {
+        return providersTableModel;
     }
 
-    public JTable getClientsTable() {
-        return clientsTable;
+    public ContactsTableModel getClientsTableModel() {
+        return clientsTableModel;
     }
 
-    public void loadClients() {
+    private void loadClients() {
         int numberOfClients = controller.getClientsCount();
         Object clientsData[][] = new Object[numberOfClients][5];
         Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
@@ -107,7 +94,7 @@ public class ManagePeopleView extends JFrame{
         ));
     }
 
-    public void loadProviders() {
+    private void loadProviders() {
         int numberOfProviders = controller.getProvidersCount();
         Object providersData[][] = new Object[numberOfProviders][5];
         Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};

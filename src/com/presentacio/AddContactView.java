@@ -170,14 +170,13 @@ public class AddContactView extends JFrame {
                     }
                 }
             }
-
             else {
                 JOptionPane.showMessageDialog(null, "Heu d'omplir els camps obligatoris", "", JOptionPane.INFORMATION_MESSAGE);
             }
-
         });
 
         pack();
+        setSize(700, 500);
         setVisible(true);
     }
 
