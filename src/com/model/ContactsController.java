@@ -2,8 +2,8 @@ package com.model;
 
 import com.persistencia.DBContactsController;
 import com.persistencia.DBController;
+
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class ContactsController {
 
@@ -66,7 +66,4 @@ public class ContactsController {
         dbController.deleteOneClient(name, surname);
     }
 
-    public int deleteProviders(Vector<String> names, Vector<String> surnames) {
-        return dbController.deleteProviders(names, surnames);
-    }
 }
