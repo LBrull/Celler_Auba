@@ -44,6 +44,63 @@ public class ManagePeopleView extends JFrame{
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
         AddPersonButton.addActionListener(e -> controller.addContactView());
+        DeleteButton.addActionListener(e -> {
+            if (providersTable.getSelectedRowCount()>=1) {
+                int[] rows = providersTable.getSelectedRows();
+                if (rows.length == 1) {
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest proveedor?","WARNING", JOptionPane.YES_NO_OPTION);
+                    String name = providersTableModel.getValueAt(rows[0], 0);
+                    String surname = providersTableModel.getValueAt(rows[0], 1);
+                    if (dialogButton == 0) {
+                        controller.deleteOneProvider(name, surname);
+                        controller.repaintProvidersOneRowDeleted(rows[0]);
+                    }
+                }
+                else {
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" proveedors?","WARNING", JOptionPane.YES_NO_OPTION);
+                    for (int row : rows) {
+                        String name = providersTableModel.getValueAt(row, 0);
+                        String surname = providersTableModel.getValueAt(rows[0], 1);
+                        if (dialogButton == 0) {
+                            System.out.println("name "+name + "surname "+surname+" deleted");
+                            controller.deleteOneProvider(name, surname);
+
+                        }
+                    }
+                    for ( int i = rows.length -1 ;  i >= 0; i-- ) {
+                        if ( providersTableModel.getValueAt(i,4) != null )
+                            controller.repaintProvidersOneRowDeleted(rows[i]);                    }
+                }
+            }
+            if (clientsTable.getSelectedRowCount()>=1) {
+                int[] rows = clientsTable.getSelectedRows();
+                if (rows.length == 1) { //només 1 eliminació
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest client?","WARNING", JOptionPane.YES_NO_OPTION);
+                    String name = clientsTableModel.getValueAt(rows[0], 0);
+                    String surname = clientsTableModel.getValueAt(rows[0], 1);
+                    if (dialogButton == 0) {
+                        controller.deleteOneClient(name, surname);
+                        controller.repaintClientsOneRowDeleted(rows[0]);
+                    }
+                }
+                else { //mes d'1 eliminació a la vegada
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" clients?","WARNING", JOptionPane.YES_NO_OPTION);
+                    for (int row : rows) {
+                        String name = clientsTableModel.getValueAt(row, 0);
+                        String surname = clientsTableModel.getValueAt(rows[0], 1);
+                        if (dialogButton == 0) {
+                            System.out.println("name "+name + "surname "+surname+" deleted");
+                            controller.deleteOneClient(name, surname);
+
+                        }
+                    }
+                    for ( int i = rows.length -1 ;  i >= 0; i-- ) {
+                        if ( clientsTableModel.getValueAt(i,4) != null )
+                            controller.repaintClientsOneRowDeleted(rows[i]);                    }
+                }
+            }
+        });
+
         pack();
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
         setVisible(true);

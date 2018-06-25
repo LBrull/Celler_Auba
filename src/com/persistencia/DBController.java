@@ -5,6 +5,8 @@ import com.model.Provider;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 
+import java.util.Vector;
+
 // MAIN DB controller
 public class DBController {
 
@@ -61,5 +63,17 @@ public class DBController {
 
     public boolean providerExists(String name, String surname) {
         return dbContactsController.providerExists(name, surname);
+    }
+
+    public void deleteOneProvider(String name, String surname) {
+        dbContactsController.deleteOneProvider(name, surname);
+    }
+
+    public void deleteOneClient(String name, String surname) {
+        dbContactsController.deleteOneClient(name, surname);
+    }
+
+    public int deleteProviders(Vector<String> names, Vector<String> surnames) {
+        return dbContactsController.deleteProviders(names, surnames);
     }
 }

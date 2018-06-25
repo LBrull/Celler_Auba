@@ -5,7 +5,6 @@ import com.model.ContactsController;
 import com.model.Provider;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -118,6 +117,22 @@ public class ContactsViewController {
         managePeopleView.getProvidersTableModel().addRow(data);
     }
 
+    public void deleteOneProvider(String name, String surname) {
+        contactsController.deleteOneProvider(name, surname);
+    }
+
+    public void deleteOneClient(String name, String surname) {
+        contactsController.deleteOneClient(name, surname);
+    }
+
+    public void repaintProvidersOneRowDeleted(int row) {
+        managePeopleView.getProvidersTableModel().removeRow(row);
+
+    }
+
+    public void repaintClientsOneRowDeleted(int row) {
+        managePeopleView.getClientsTableModel().removeRow(row);
+    }
 }
 
 

@@ -24,4 +24,9 @@ class ContactsTableModel extends DefaultTableModel{
     public boolean isCellEditable(int row, int col) {
         return false;
     }
+
+    @Override
+    public String getValueAt(int row, int column) {
+        return super.getValueAt(row, column).toString();
+    }
 }

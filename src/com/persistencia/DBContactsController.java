@@ -4,8 +4,10 @@ import com.model.Client;
 import com.model.Provider;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class DBContactsController {
 
@@ -96,5 +98,29 @@ public class DBContactsController {
             ++i;
         }
         return found;
+    }
+
+    public void deleteOneProvider(String name, String surname) {
+        Document providerToDelete = new Document();
+        providerToDelete.append("name", name);
+        providerToDelete.append("surname", surname);
+        DBController.getMongoDB().getCollection("providers").deleteOne(providerToDelete);
+    }
+
+    public void deleteOneClient(String name, String surname) {
+        Document clientToDelete = new Document();
+        clientToDelete.append("name", name);
+        clientToDelete.append("surname", surname);
+        DBController.getMongoDB().getCollection("clients").deleteOne(clientToDelete);
+    }
+
+    public int deleteProviders(Vector<String> names, Vector<String> surnames) {
+        for (int i=0; i<names.size(); ++i) {
+            Document providerToDelete = new Document();
+            providerToDelete.append("name", names.get(i));
+            providerToDelete.append("surname", surnames.get(i));
+            DBController.getMongoDB().getCollection("providers").deleteOne(providerToDelete);
+        }
+        return 0;
     }
 }

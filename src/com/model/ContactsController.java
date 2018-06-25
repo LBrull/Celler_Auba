@@ -3,6 +3,7 @@ package com.model;
 import com.persistencia.DBContactsController;
 import com.persistencia.DBController;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ContactsController {
 
@@ -55,5 +56,17 @@ public class ContactsController {
 
     public boolean providerExists(String name, String surname) {
         return dbController.providerExists(name, surname);
+    }
+
+    public void deleteOneProvider(String name, String surname) {
+        dbController.deleteOneProvider(name, surname);
+    }
+
+    public void deleteOneClient(String name, String surname) {
+        dbController.deleteOneClient(name, surname);
+    }
+
+    public int deleteProviders(Vector<String> names, Vector<String> surnames) {
+        return dbController.deleteProviders(names, surnames);
     }
 }
