@@ -43,6 +43,7 @@ public class ManagePeopleView extends JFrame{
 
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
+
         AddPersonButton.addActionListener(e -> controller.addContactView());
         DeleteButton.addActionListener(e -> {
             if (providersTable.getSelectedRowCount()>=1) {
@@ -60,16 +61,16 @@ public class ManagePeopleView extends JFrame{
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" proveedors?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int row : rows) {
                         String name = providersTableModel.getValueAt(row, 0);
-                        String surname = providersTableModel.getValueAt(rows[0], 1);
+                        String surname = providersTableModel.getValueAt(row, 1);
                         if (dialogButton == 0) {
                             System.out.println("name "+name + "surname "+surname+" deleted");
                             controller.deleteOneProvider(name, surname);
-
                         }
                     }
                     for ( int i = rows.length -1 ;  i >= 0; i-- ) {
                         if ( providersTableModel.getValueAt(i,4) != null )
-                            controller.repaintProvidersOneRowDeleted(rows[i]);                    }
+                            controller.repaintProvidersOneRowDeleted(rows[i]);
+                    }
                 }
             }
             if (clientsTable.getSelectedRowCount()>=1) {
@@ -98,6 +99,11 @@ public class ManagePeopleView extends JFrame{
                         if ( clientsTableModel.getValueAt(i,4) != null )
                             controller.repaintClientsOneRowDeleted(rows[i]);                    }
                 }
+            }
+        });
+        EditButton.addActionListener(e -> {
+            if (providersTable.getSelectedRowCount() == 1 || clientsTable.getSelectedRowCount() == 1) {
+                controller.ModifyContactView();
             }
         });
 

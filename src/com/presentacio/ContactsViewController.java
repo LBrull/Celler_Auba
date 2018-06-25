@@ -16,10 +16,12 @@ public class ContactsViewController {
     // TODO: vistes associades al controlador
     private ManagePeopleView managePeopleView;
     private AddContactView addContactView;
+    private ModifyContactView modifyContactView;
 
     private JButton AddButton;
     private JButton EditButton;
     private JButton DeleteButton;
+
 
     private ContactsViewController() {
         //TODO: get instance de tots els controladors de model associats
@@ -37,6 +39,7 @@ public class ContactsViewController {
         managePeopleView = new ManagePeopleView();
         initComponents();
         initListeners();
+
     }
 
 
@@ -132,6 +135,10 @@ public class ContactsViewController {
 
     public void repaintClientsOneRowDeleted(int row) {
         managePeopleView.getClientsTableModel().removeRow(row);
+    }
+
+    public void ModifyContactView() {
+        modifyContactView = new ModifyContactView();
     }
 }
 
