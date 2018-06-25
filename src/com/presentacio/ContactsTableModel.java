@@ -29,4 +29,18 @@ class ContactsTableModel extends DefaultTableModel{
     public String getValueAt(int row, int column) {
         return super.getValueAt(row, column).toString();
     }
+
+    public int getRow(String name, String surname) {
+        boolean found = false;
+        int i=0;
+        int res = 0;
+        while (!found && i<getRowCount()) {
+            if (getValueAt(i, 0).equals(name) && getValueAt(i, 1).equals(surname)) {
+                res = i;
+                found = true;
+            }
+            ++i;
+        }
+        return res;
+    }
 }

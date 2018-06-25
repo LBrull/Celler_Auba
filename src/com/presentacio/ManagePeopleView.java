@@ -47,8 +47,10 @@ public class ManagePeopleView extends JFrame{
         AddPersonButton.addActionListener(e -> controller.addContactView());
         DeleteButton.addActionListener(e -> {
             if (providersTable.getSelectedRowCount()>=1) {
+
                 int[] rows = providersTable.getSelectedRows();
                 if (rows.length == 1) {
+//                    providersTable.convertRowIndexToModel(providersTable);
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest proveedor?","WARNING", JOptionPane.YES_NO_OPTION);
                     String name = providersTableModel.getValueAt(rows[0], 0);
                     String surname = providersTableModel.getValueAt(rows[0], 1);
@@ -60,6 +62,7 @@ public class ManagePeopleView extends JFrame{
                 else {
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" proveedors?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int row : rows) {
+                        providersTable.convertRowIndexToModel(row);
                         String name = providersTableModel.getValueAt(row, 0);
                         String surname = providersTableModel.getValueAt(row, 1);
                         if (dialogButton == 0) {
@@ -74,8 +77,10 @@ public class ManagePeopleView extends JFrame{
                 }
             }
             if (clientsTable.getSelectedRowCount()>=1) {
+
                 int[] rows = clientsTable.getSelectedRows();
                 if (rows.length == 1) { //només 1 eliminació
+                    clientsTable.convertRowIndexToModel(clientsTable.getSelectedRow());
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest client?","WARNING", JOptionPane.YES_NO_OPTION);
                     String name = clientsTableModel.getValueAt(rows[0], 0);
                     String surname = clientsTableModel.getValueAt(rows[0], 1);
@@ -87,6 +92,7 @@ public class ManagePeopleView extends JFrame{
                 else { //mes d'1 eliminació a la vegada
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" clients?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int row : rows) {
+                        clientsTable.convertRowIndexToModel(row);
                         String name = clientsTableModel.getValueAt(row, 0);
                         String surname = clientsTableModel.getValueAt(rows[0], 1);
                         if (dialogButton == 0) {
@@ -211,4 +217,11 @@ public class ManagePeopleView extends JFrame{
         loadProviders();
     }
 
+    public JTable getProvidersTable() {
+        return providersTable;
+    }
+
+    public JTable getClientsTable() {
+        return clientsTable;
+    }
 }
