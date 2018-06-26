@@ -76,43 +76,33 @@ public class ModifyContactView extends JFrame{
             if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
                 if (oldProvider && !oldClient) { //modifiquem un proveedor
                     int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
-                    if (!controller.providerExists(newName.getText(), newSurname.getText())) {
-                        controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                        controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        controller.repaintProvidersOneRowDeleted(rowTable);
-                        controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El nou proveedor que intenteu desar ja existeix", "", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowDeleted(rowTable);
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    dispose();
+
                 }
                 else if (oldClient && !oldProvider) { //modifiquem un client
                     int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
-                    if (!controller.clientExists(newName.getText(), newSurname.getText())) {
-                        controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                        controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        controller.repaintClientsOneRowDeleted(rowTable);
-                        controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El nou client que intenteu desar ja existeix", "", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowDeleted(rowTable);
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    dispose();
+
                 }
                 else { //modifiquem client + proveedor
-                    if (!controller.clientExists(newName.getText(), newSurname.getText()) && !controller.providerExists(newName.getText(), newSurname.getText())) {
-                        controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                        controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                        controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
 
-                        controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                        controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                        controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El nou contacte que intenteu desar ja existeix com a client i/o proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    dispose();
                 }
             }
             else {
