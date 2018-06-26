@@ -145,7 +145,7 @@ public class ManagePeopleView extends JFrame{
         RowFilter<ContactsTableModel, Object> rf = null;
         //If current expression doesn't parse, don't update.
         try {
-            rf = RowFilter.regexFilter("(?i)" + filterTextField.getText(), 0);
+            rf = RowFilter.regexFilter("(?i)" + filterTextField.getText(), 0, 1);
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
