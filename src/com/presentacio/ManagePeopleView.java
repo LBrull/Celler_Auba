@@ -46,8 +46,7 @@ public class ManagePeopleView extends JFrame{
         labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //TODO: override window closing method
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
@@ -69,8 +68,7 @@ public class ManagePeopleView extends JFrame{
                 }
                 else {
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" proveedors?","WARNING", JOptionPane.YES_NO_OPTION);
-                    for (int row : rows) {
-                        int rowView = row;
+                    for (int rowView : rows) {
                         int rowTable = providersTable.convertRowIndexToModel(rowView);
                         String name = providersTableModel.getValueAt(rowTable, 0);
                         String surname = providersTableModel.getValueAt(rowTable, 1);
@@ -100,8 +98,7 @@ public class ManagePeopleView extends JFrame{
                 }
                 else {
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" clients?","WARNING", JOptionPane.YES_NO_OPTION);
-                    for (int row : rows) {
-                        int rowView = row;
+                    for (int rowView : rows) {
                         int rowTable = clientsTable.convertRowIndexToModel(rowView);
                         String name = clientsTableModel.getValueAt(rowTable, 0);
                         String surname = clientsTableModel.getValueAt(rowTable, 1);
@@ -142,7 +139,7 @@ public class ManagePeopleView extends JFrame{
     }
 
     private void newFilter() {
-        RowFilter<ContactsTableModel, Object> rf = null;
+        RowFilter<ContactsTableModel, Object> rf;
         //If current expression doesn't parse, don't update.
         try {
             rf = RowFilter.regexFilter("(?i)" + filterTextField.getText(), 0, 1);
