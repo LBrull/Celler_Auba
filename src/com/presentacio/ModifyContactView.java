@@ -75,16 +75,18 @@ public class ModifyContactView extends JFrame{
         saveButton.addActionListener(e -> {
             if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
                 if (oldProvider && !oldClient) { //modifiquem un proveedor
+                    int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
                     controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                    controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
+                    controller.repaintProvidersOneRowDeleted(rowTable);
                     controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
                 }
                 else if (oldClient && !oldProvider) { //modifiquem un client
+                    int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
                     controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().getClientsTable().getSelectedRow());
+                    controller.repaintClientsOneRowDeleted(rowTable);
                     controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
 
@@ -97,7 +99,7 @@ public class ModifyContactView extends JFrame{
 
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
                     controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
-                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
+                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
                     controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
                 }

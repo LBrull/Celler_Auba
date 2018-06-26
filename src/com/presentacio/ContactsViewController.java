@@ -22,6 +22,7 @@ public class ContactsViewController {
     private JButton AddButton;
     private JButton EditButton;
     private JButton DeleteButton;
+
     private JTable providersTable;
     private JTable clientsTable;
 
@@ -51,6 +52,14 @@ public class ContactsViewController {
 
     public void addContactView() {
         addContactView = new AddContactView();
+    }
+
+    public JTable getProvidersTable() {
+        return providersTable;
+    }
+
+    public JTable getClientsTable() {
+        return clientsTable;
     }
 
     public ArrayList<Client> getClients() {
@@ -175,23 +184,24 @@ public class ContactsViewController {
 
     public void ModifyContactView() {
         if (1 == providersTable.getSelectedRowCount()) {
-//            providersTable.convertRowIndexToModel()
-            String oldName = providersTable.getModel().getValueAt(providersTable.getSelectedRow(), 0).toString();
-            String oldSurname = providersTable.getModel().getValueAt(providersTable.getSelectedRow(), 1).toString();
-            String oldTelephone = providersTable.getModel().getValueAt(providersTable.getSelectedRow(), 2).toString();
-            String oldAddress = providersTable.getModel().getValueAt(providersTable.getSelectedRow(), 3).toString();
-            String oldEmail = providersTable.getModel().getValueAt(providersTable.getSelectedRow(), 4).toString();
+            int rowTable = providersTable.convertRowIndexToModel(providersTable.getSelectedRow());
+            String oldName = providersTable.getModel().getValueAt(rowTable, 0).toString();
+            String oldSurname = providersTable.getModel().getValueAt(rowTable, 1).toString();
+            String oldTelephone = providersTable.getModel().getValueAt(rowTable, 2).toString();
+            String oldAddress = providersTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldEmail = providersTable.getModel().getValueAt(rowTable, 4).toString();
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
             modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone, oldAddress, oldEmail);
         }
 
         else if (1 == clientsTable.getSelectedRowCount()) {
-            String oldName = clientsTable.getModel().getValueAt(clientsTable.getSelectedRow(), 0).toString();
-            String oldSurname = clientsTable.getModel().getValueAt(clientsTable.getSelectedRow(), 1).toString();
-            String oldTelephone = clientsTable.getModel().getValueAt(clientsTable.getSelectedRow(), 2).toString();
-            String oldAddress = clientsTable.getModel().getValueAt(clientsTable.getSelectedRow(), 3).toString();
-            String oldEmail = clientsTable.getModel().getValueAt(clientsTable.getSelectedRow(), 4).toString();
+            int rowTable = clientsTable.convertRowIndexToModel(clientsTable.getSelectedRow());
+            String oldName = clientsTable.getModel().getValueAt(rowTable, 0).toString();
+            String oldSurname = clientsTable.getModel().getValueAt(rowTable, 1).toString();
+            String oldTelephone = clientsTable.getModel().getValueAt(rowTable, 2).toString();
+            String oldAddress = clientsTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldEmail = clientsTable.getModel().getValueAt(rowTable, 4).toString();
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
             modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone, oldAddress, oldEmail);
