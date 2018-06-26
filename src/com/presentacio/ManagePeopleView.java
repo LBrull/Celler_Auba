@@ -4,6 +4,9 @@ import com.model.Client;
 import com.model.Provider;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -23,21 +26,26 @@ public class ManagePeopleView extends JFrame{
     private JTable clientsTable;
     private JTable providersTable;
     private JLabel labelWindowTitle;
+    private JTextField filterTextField;
     private ContactsTableModel clientsTableModel;
     private ContactsTableModel providersTableModel;
-//    private Color backgroundColor = new Color(60, 63, 65);
-    private Color textColor = new Color(187,187,187);
-//    private Color gridColor = new Color(60, 63, 65);
+
+    private TableRowSorter<ContactsTableModel> sorter;
+    private TableRowSorter<ContactsTableModel> sorter2;
+
 
     ManagePeopleView() {
         super();
         setContentPane(rootPanel);
+
+        Color textColor = new Color(187, 187, 187);
 
         labelClients.setForeground(textColor);
         labelClients.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelProveedors.setForeground(textColor);
         labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
+
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //TODO: override window closing method
 
@@ -116,9 +124,33 @@ public class ManagePeopleView extends JFrame{
             }
         });
 
+        filterTextField.getDocument().addDocumentListener(new DocumentListener() {
+               public void changedUpdate(DocumentEvent e) {
+                   newFilter();
+               }
+               public void insertUpdate(DocumentEvent e) {
+                   newFilter();
+               }
+               public void removeUpdate(DocumentEvent e) {
+                   newFilter();
+               }
+           });
+
         pack();
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
         setVisible(true);
+    }
+
+    private void newFilter() {
+        RowFilter<ContactsTableModel, Object> rf = null;
+        //If current expression doesn't parse, don't update.
+        try {
+            rf = RowFilter.regexFilter("(?i)" + filterTextField.getText(), 0);
+        } catch (java.util.regex.PatternSyntaxException e) {
+            return;
+        }
+        sorter.setRowFilter(rf);
+        sorter2.setRowFilter(rf);
     }
 
     public ContactsTableModel getProvidersTableModel() {
@@ -142,13 +174,15 @@ public class ManagePeopleView extends JFrame{
             clientsData[i][3] = clients.get(i).getAddress();
             clientsData[i][4] = clients.get(i).getEmail();
         }
-
         clientsTableModel = new ContactsTableModel(clientsData, columnNames);
         clientsTable = new JTable(clientsTableModel);
+        sorter = new TableRowSorter<>(clientsTableModel);
+        clientsTable.setRowSorter(sorter);
+        sorter.setRowFilter(null);
+
         clientsTable.setCellSelectionEnabled(false);
         clientsTable.setRowSelectionAllowed(true);
         clientsTable.setFocusable(false);
-        clientsTable.setAutoCreateRowSorter(true);
         clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
                 if(!EditButton.isVisible()) {
@@ -182,10 +216,13 @@ public class ManagePeopleView extends JFrame{
 
         providersTableModel = new ContactsTableModel(providersData, columnNames);
         providersTable = new JTable(providersTableModel);
+        sorter2 = new TableRowSorter<>(providersTableModel);
+        providersTable.setRowSorter(sorter2);
+        sorter2.setRowFilter(null);
+
         providersTable.setCellSelectionEnabled(false);
         providersTable.setRowSelectionAllowed(true);
         providersTable.setFocusable(false);
-        providersTable.setAutoCreateRowSorter(true);
         providersTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
                 if(!EditButton.isVisible()) {

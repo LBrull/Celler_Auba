@@ -3,7 +3,7 @@ package com.presentacio;
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
-class ContactsTableModel extends DefaultTableModel{
+class ContactsTableModel extends DefaultTableModel {
 
     ContactsTableModel(Object rowData[][], Object columnNames[]) {
         super(rowData, columnNames);
