@@ -10,19 +10,19 @@ public class ModifyContactView extends JFrame{
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
     private JButton saveButton;
-    private JCheckBox oldProviderCheckBox;
-    private JCheckBox oldClientCheckBox;
-    private JCheckBox newProviderCheck;
-    private JCheckBox newClientCheck;
     private JTextField oldName;
     private JTextField oldTelephone;
     private JTextField oldAddress;
+    private JTextField oldSurname;
+    private JTextField oldEmail;
+    private JTextField oldCp;
+    private boolean oldProvider;
+    private boolean oldClient;
     private JTextField newName;
     private JTextField newSurname;
     private JTextField newTelephone;
     private JTextField newAddress;
-    private JTextField oldSurname;
-    private JTextField oldEmail;
+    private JTextField newCp;
     private JTextField newEmail;
     private JLabel labelTitle;
     private JLabel labelSubtitleOld;
@@ -30,22 +30,14 @@ public class ModifyContactView extends JFrame{
     private JPanel rootPanel;
     private JLabel emptyName;
     private JLabel emptySurname;
-    private JLabel emptyType;
     private JLabel emptyTelephone;
+    private JLabel emptyCp;
     private JButton nameButton;
     private JButton surnameButton;
-    private JButton typeButton;
     private JButton telephoneButton;
     private JButton addressButton;
     private JButton emailButton;
-    private JButton button1;
-    private JTextField oldCp;
-    private JTextField newCp;
-    private JLabel emptyCp;
     private JButton cpButton;
-
-    private boolean oldProvider;
-    private boolean oldClient;
 
     ModifyContactView (String oldName, String oldSurname, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldAddress, String oldEmail) {
         setContentPane(rootPanel);
@@ -54,7 +46,7 @@ public class ModifyContactView extends JFrame{
         labelSubtitleNew.setFont(new Font("Calibri", Font.PLAIN, 16));
         labelSubtitleOld.setFont(new Font("Calibri", Font.PLAIN, 16));
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //TODO: override window closing method
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         emptyName.setVisible(true);
         emptySurname.setVisible(true);
