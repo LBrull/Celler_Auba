@@ -171,11 +171,7 @@ public class ManagePeopleView extends JFrame{
         //load clients data
         ArrayList<Client> clients = controller.getClients();
         int numberOfClients = controller.getClientsCount();
-        Object clientsData[][];
-        if (!(numberOfClients == 0)) {
-            clientsData = new Object[numberOfClients][6];
-        }
-        else {clientsData = new Object[0][0];}
+        Object clientsData[][] = new Object[numberOfClients][6];
         for(int i=0; i<numberOfClients; ++i) {
             clientsData[i][0] = clients.get(i).getName();
             clientsData[i][1] = clients.get(i).getSurname();
@@ -211,12 +207,7 @@ public class ManagePeopleView extends JFrame{
 
     private void loadProviders() {
         int numberOfProviders = controller.getProvidersCount();
-        Object providersData[][];
-        if (!(numberOfProviders == 0)) {
-            providersData = new Object[numberOfProviders][6];
-        }
-        else {providersData = new Object[0][0];}
-
+        Object providersData[][] = new Object[numberOfProviders][6];
         Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "CP", "Adreça", "e-mail"};
         ArrayList<Provider> providers = controller.getProviders();
         for(int i=0; i<numberOfProviders; ++i) {

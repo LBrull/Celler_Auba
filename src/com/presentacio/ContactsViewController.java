@@ -124,6 +124,7 @@ public class ContactsViewController {
         data.add(addContactView.getNameTextField().getText());
         data.add(addContactView.getSurnameTextField().getText());
         data.add(addContactView.getTelephoneTextField().getText());
+        data.add(addContactView.getCpTextField().getText());
         data.add(addContactView.getAddressTextField().getText());
         data.add(addContactView.getEmailTextField().getText());
         managePeopleView.getClientsTableModel().addRow(data);
@@ -134,6 +135,7 @@ public class ContactsViewController {
         data.add(addContactView.getNameTextField().getText());
         data.add(addContactView.getSurnameTextField().getText());
         data.add(addContactView.getTelephoneTextField().getText());
+        data.add(addContactView.getCpTextField().getText());
         data.add(addContactView.getAddressTextField().getText());
         data.add(addContactView.getEmailTextField().getText());
         managePeopleView.getProvidersTableModel().addRow(data);
@@ -164,21 +166,23 @@ public class ContactsViewController {
         managePeopleView.getClientsTableModel().removeRow(row);
     }
 
-    public void repaintProvidersOneRowAdded(String name, String surname, String telephone, String address, String email) {
+    public void repaintProvidersOneRowAdded(String name, String surname, String telephone, String cp, String address, String email) {
         Vector<String> data = new Vector<>();
         data.add(name);
         data.add(surname);
         data.add(telephone);
+        data.add(cp);
         data.add(address);
         data.add(email);
         managePeopleView.getProvidersTableModel().addRow(data);
     }
 
-    public void repaintClientsOneRowAdded(String name, String surname, String telephone, String address, String email) {
+    public void repaintClientsOneRowAdded(String name, String surname, String telephone, String cp, String address, String email) {
         Vector<String> data = new Vector<>();
         data.add(name);
         data.add(surname);
         data.add(telephone);
+        data.add(cp);
         data.add(address);
         data.add(email);
         managePeopleView.getClientsTableModel().addRow(data);
@@ -190,11 +194,12 @@ public class ContactsViewController {
             String oldName = providersTable.getModel().getValueAt(rowTable, 0).toString();
             String oldSurname = providersTable.getModel().getValueAt(rowTable, 1).toString();
             String oldTelephone = providersTable.getModel().getValueAt(rowTable, 2).toString();
-            String oldAddress = providersTable.getModel().getValueAt(rowTable, 3).toString();
-            String oldEmail = providersTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldCp = providersTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldAddress = providersTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldEmail = providersTable.getModel().getValueAt(rowTable, 5).toString();
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone, oldAddress, oldEmail);
+            modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone, oldCp ,oldAddress, oldEmail);
         }
 
         else if (1 == clientsTable.getSelectedRowCount()) {
@@ -202,11 +207,12 @@ public class ContactsViewController {
             String oldName = clientsTable.getModel().getValueAt(rowTable, 0).toString();
             String oldSurname = clientsTable.getModel().getValueAt(rowTable, 1).toString();
             String oldTelephone = clientsTable.getModel().getValueAt(rowTable, 2).toString();
-            String oldAddress = clientsTable.getModel().getValueAt(rowTable, 3).toString();
-            String oldEmail = clientsTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldCp = clientsTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldAddress = clientsTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldEmail = clientsTable.getModel().getValueAt(rowTable, 5).toString();
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone, oldAddress, oldEmail);
+            modifyContactView = new ModifyContactView(oldName, oldSurname, oldProvider, oldClient, oldTelephone,oldCp, oldAddress, oldEmail);
         }
     }
 

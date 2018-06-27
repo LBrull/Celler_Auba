@@ -136,8 +136,13 @@
             <properties>
               <autoCreateRowSorter value="false"/>
               <fillsViewportHeight value="true"/>
+              <foreground color="-13948117"/>
+              <inheritsPopupMenu value="false"/>
+              <rowHeight value="18"/>
               <selectionBackground color="-1597843"/>
               <selectionForeground color="-13948117"/>
+              <showHorizontalLines value="false"/>
+              <showVerticalLines value="false"/>
             </properties>
           </component>
         </children>
@@ -157,9 +162,12 @@
               <autoCreateRowSorter value="false"/>
               <fillsViewportHeight value="true"/>
               <foreground color="-13948117"/>
+              <inheritsPopupMenu value="false"/>
               <intercellSpacing width="0" height="0"/>
+              <rowHeight value="18"/>
               <selectionBackground color="-1597843"/>
               <selectionForeground color="-13948117"/>
+              <showHorizontalLines value="false"/>
               <showVerticalLines value="false"/>
             </properties>
           </component>

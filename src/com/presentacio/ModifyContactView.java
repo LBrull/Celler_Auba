@@ -42,11 +42,12 @@ public class ModifyContactView extends JFrame{
     private JTextField oldCp;
     private JTextField newCp;
     private JLabel emptyCp;
+    private JButton cpButton;
 
     private boolean oldProvider;
     private boolean oldClient;
 
-    ModifyContactView (String oldName, String oldSurname, boolean oldProvider, boolean oldClient, String oldTelephone, String oldAddress, String oldEmail) {
+    ModifyContactView (String oldName, String oldSurname, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldAddress, String oldEmail) {
         setContentPane(rootPanel);
 
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
@@ -62,6 +63,7 @@ public class ModifyContactView extends JFrame{
         this.oldName.setText(oldName);
         this.oldSurname.setText(oldSurname);
         this.oldTelephone.setText(oldTelephone);
+        this.oldCp.setText(oldCp);
         this.oldAddress.setText(oldAddress);
         this.oldEmail.setText(oldEmail);
         this.oldClient = oldClient;
@@ -82,7 +84,7 @@ public class ModifyContactView extends JFrame{
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
                     controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintProvidersOneRowDeleted(rowTable);
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
 
                 }
@@ -91,7 +93,7 @@ public class ModifyContactView extends JFrame{
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
                     controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintClientsOneRowDeleted(rowTable);
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
 
                 }
@@ -99,12 +101,12 @@ public class ModifyContactView extends JFrame{
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
                     controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
 
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
                     controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
                 }
             }
@@ -179,6 +181,28 @@ public class ModifyContactView extends JFrame{
             }
         });
 
+        newCp.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(newCp.getText().length()<=0 || newCp.getText().equals("")) {
+                    emptyCp.setVisible(true);
+                }
+                else {
+                    emptyCp.setVisible(false);
+                }
+            }
+        });
+
         nameButton.addActionListener(e-> {
             newName.setText(oldName.getText());
             emptyName.setVisible(false);
@@ -192,6 +216,11 @@ public class ModifyContactView extends JFrame{
         telephoneButton.addActionListener(e-> {
             newTelephone.setText(oldTelephone.getText());
             emptyTelephone.setVisible(false);
+        });
+
+        cpButton.addActionListener(e-> {
+            newCp.setText(oldCp.getText());
+            emptyCp.setVisible(false);
         });
 
         addressButton.addActionListener(e-> {

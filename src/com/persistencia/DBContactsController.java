@@ -64,6 +64,7 @@ public class DBContactsController {
         newClient.append("name", client.getName());
         newClient.append("surname", client.getSurname());
         newClient.append("telephone", client.getTelephone());
+        newClient.append("cp", client.getCp());
         newClient.append("address", client.getAddress());
         newClient.append("email", client.getEmail());
         collection.insertOne(newClient);
@@ -75,6 +76,7 @@ public class DBContactsController {
         newProvider.append("name", provider.getName());
         newProvider.append("surname", provider.getSurname());
         newProvider.append("telephone", provider.getTelephone());
+        newProvider.append("cp", provider.getCp());
         newProvider.append("address", provider.getAddress());
         newProvider.append("email", provider.getEmail());
         collection.insertOne(newProvider);
