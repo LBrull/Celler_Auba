@@ -27,6 +27,8 @@ public class AddContactView extends JFrame {
     private JLabel emptySurname;
     private JLabel emptyType;
     private JLabel emptyTelephone;
+    private JTextField cpTextField;
+    private JLabel emptyCp;
 
 
     public AddContactView() {
@@ -110,6 +112,28 @@ public class AddContactView extends JFrame {
             }
         });
 
+        cpTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(cpTextField.getText().length()<=0 || cpTextField.getText().equals("")) {
+                    emptyCp.setVisible(true);
+                }
+                else {
+                    emptyCp.setVisible(false);
+                }
+            }
+        });
+
         checkBoxClient.addActionListener(e -> {
             if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
                 emptyType.setVisible(true);
@@ -182,6 +206,10 @@ public class AddContactView extends JFrame {
 
     public JCheckBox getCheckBoxProvider() {
         return checkBoxProvider;
+    }
+
+    public JTextField getCpTextField() {
+        return cpTextField;
     }
 
     public JTextField getNameTextField() {

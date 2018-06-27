@@ -8,6 +8,7 @@ class ContactsTableModel extends DefaultTableModel {
     ContactsTableModel(Object rowData[][], Object columnNames[]) {
         super(rowData, columnNames);
     }
+    ContactsTableModel() {}
 
     @Override
     public void addRow(Vector rowData) {
@@ -16,8 +17,9 @@ class ContactsTableModel extends DefaultTableModel {
 
     @Override
     public Class getColumnClass(int col) {
-        Vector v = (Vector) dataVector.elementAt(0);
-        return v.elementAt(col).getClass();
+//        Vector v = (Vector) dataVector.elementAt(0);
+////        return v.elementAt(col).getClass();
+        return String.class;
     }
 
     @Override
@@ -26,8 +28,8 @@ class ContactsTableModel extends DefaultTableModel {
     }
 
     @Override
-    public String getValueAt(int row, int column) {
-        return super.getValueAt(row, column).toString();
+    public Object getValueAt(int row, int column) {
+        return super.getValueAt(row, column);
     }
 
     public int getRow(String name, String surname) {

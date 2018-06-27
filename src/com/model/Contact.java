@@ -5,15 +5,17 @@ public abstract class Contact {
     private String name;
     private String surname;
     private String telephone;
+    private String cp;
     private String email;
     private String address;
 
     public Contact(){}
 
-    public Contact(String name, String surname, String telephone, String address, String email) {
+    public Contact(String name, String surname, String telephone, String cp, String address, String email) {
         this.name = name;
         this.surname = surname;
         this.telephone = telephone;
+        this.cp = cp;
         this.address = address;
         this.email = email;
     }
@@ -56,5 +58,13 @@ public abstract class Contact {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setCP(String cp) {
+        this.cp = cp;
+    }
+
+    public String getCp() {
+        return cp;
     }
 }

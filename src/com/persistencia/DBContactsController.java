@@ -24,6 +24,7 @@ public class DBContactsController {
             client.setName(document.getString("name"));
             client.setSurname(document.getString("surname"));
             client.setTelephone(document.getString("telephone"));
+            client.setCP(document.getString("cp"));
             client.setAddress(document.getString("address"));
             client.setEmail(document.getString("email"));
             list.add(client);
@@ -41,6 +42,7 @@ public class DBContactsController {
             provider.setName(document.getString("name"));
             provider.setSurname(document.getString("surname"));
             provider.setTelephone(document.getString("telephone"));
+            provider.setCP(document.getString("cp"));
             provider.setAddress(document.getString("address"));
             provider.setEmail(document.getString("email"));
             list.add(provider);

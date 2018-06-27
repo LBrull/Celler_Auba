@@ -40,13 +40,13 @@ public class ContactsController {
         return dbController.getDBContactsController().getProvidersCount();
     }
 
-    public void saveNewClient(String name, String surname, String telephone, String address, String email) {
-        Client client = new Client(name, surname, telephone, address, email);
+    public void saveNewClient(String name, String surname, String telephone, String cp, String address, String email) {
+        Client client = new Client(name, surname, telephone, cp, address, email);
         dbController.saveNewClient(client);
     }
 
-    public void saveNewProvider(String name, String surname, String telephone, String address, String email) {
-        Provider provider = new Provider(name, surname, telephone, address, email);
+    public void saveNewProvider(String name, String surname, String telephone, String cp, String address, String email) {
+        Provider provider = new Provider(name, surname, telephone, cp, address, email);
         dbController.saveNewProvider(provider);
     }
 

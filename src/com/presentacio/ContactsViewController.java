@@ -95,18 +95,20 @@ public class ContactsViewController {
         String name = addContactView.getNameTextField().getText();
         String surname = addContactView.getSurnameTextField().getText();
         String telephone = addContactView.getTelephoneTextField().getText();
+        String cp = addContactView.getCpTextField().getText();
         String address = addContactView.getAddressTextField().getText();
         String email = addContactView.getEmailTextField().getText();
-        contactsController.saveNewClient(name, surname, telephone, address, email);
+        contactsController.saveNewClient(name, surname, telephone, cp, address, email);
     }
 
     public void saveNewProvider() {
         String name = addContactView.getNameTextField().getText();
         String surname = addContactView.getSurnameTextField().getText();
         String telephone = addContactView.getTelephoneTextField().getText();
+        String cp = addContactView.getCpTextField().getText();
         String address = addContactView.getAddressTextField().getText();
         String email = addContactView.getEmailTextField().getText();
-        contactsController.saveNewProvider(name, surname, telephone, address, email);
+        contactsController.saveNewProvider(name, surname, telephone, cp, address, email);
     }
 
     public boolean clientExists(String name, String surname) {
@@ -145,12 +147,12 @@ public class ContactsViewController {
         contactsController.deleteOneClient(name, surname);
     }
 
-    public void saveOneClient(String name, String surname, String telephone, String address, String email) {
-        contactsController.saveNewClient(name, surname, telephone, address, email);
+    public void saveOneClient(String name, String surname, String telephone, String cp, String address, String email) {
+        contactsController.saveNewClient(name, surname, telephone, cp, address, email);
     }
 
-    public void saveOneProvider(String name, String surname, String telephone, String address, String email) {
-        contactsController.saveNewProvider(name, surname, telephone, address, email);
+    public void saveOneProvider(String name, String surname, String telephone, String cp, String address, String email) {
+        contactsController.saveNewProvider(name, surname, telephone, cp, address, email);
     }
 
     public void repaintProvidersOneRowDeleted(int row) {
@@ -208,12 +210,12 @@ public class ContactsViewController {
         }
     }
 
-    public void saveNewClient(String name, String surname, String telephone, String address, String email) {
-        contactsController.saveNewClient(name, surname, telephone, address, email);
+    public void saveNewClient(String name, String surname, String telephone, String cp, String address, String email) {
+        contactsController.saveNewClient(name, surname, telephone, cp, address, email);
     }
 
-    public void saveNewProvider(String name, String surname, String telephone, String address, String email) {
-        contactsController.saveNewProvider(name, surname, telephone, address, email);
+    public void saveNewProvider(String name, String surname, String telephone, String cp, String address, String email) {
+        contactsController.saveNewProvider(name, surname, telephone, cp, address, email);
     }
 
     public ModifyContactView getModifyContactView() {

@@ -6,8 +6,8 @@ public class Client extends Contact {
         super();
     }
 
-    public Client(String name, String surname, String telephone, String email, String address){
-        super (name, surname, telephone, email, address);
+    public Client(String name, String surname, String telephone, String cp, String email, String address){
+        super (name, surname, telephone, cp, email, address);
 
     }
 }

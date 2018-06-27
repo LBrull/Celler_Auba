@@ -59,8 +59,8 @@ public class ManagePeopleView extends JFrame{
                     int rowView = rows[0];
                     int rowTable = providersTable.convertRowIndexToModel(rowView);
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest proveedor?","WARNING", JOptionPane.YES_NO_OPTION);
-                    String name = providersTableModel.getValueAt(rowTable, 0);
-                    String surname = providersTableModel.getValueAt(rowTable, 1);
+                    String name = providersTableModel.getValueAt(rowTable, 0).toString();
+                    String surname = providersTableModel.getValueAt(rowTable, 1).toString();
                     if (dialogButton == 0) {
                         controller.deleteOneProvider(name, surname);
                         controller.repaintProvidersOneRowDeleted(rowTable);
@@ -70,8 +70,8 @@ public class ManagePeopleView extends JFrame{
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" proveedors?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int rowView : rows) {
                         int rowTable = providersTable.convertRowIndexToModel(rowView);
-                        String name = providersTableModel.getValueAt(rowTable, 0);
-                        String surname = providersTableModel.getValueAt(rowTable, 1);
+                        String name = providersTableModel.getValueAt(rowTable, 0).toString();
+                        String surname = providersTableModel.getValueAt(rowTable, 1).toString();
                         if (dialogButton == 0) {
                             System.out.println("name "+name + "surname "+surname+" deleted");
                             controller.deleteOneProvider(name, surname);
@@ -89,8 +89,8 @@ public class ManagePeopleView extends JFrame{
                     int rowView = rows[0];
                     int rowTable = clientsTable.convertRowIndexToModel(rowView);
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest client?","WARNING", JOptionPane.YES_NO_OPTION);
-                    String name = clientsTableModel.getValueAt(rowTable, 0);
-                    String surname = clientsTableModel.getValueAt(rowTable, 1);
+                    String name = clientsTableModel.getValueAt(rowTable, 0).toString();
+                    String surname = clientsTableModel.getValueAt(rowTable, 1).toString();
                     if (dialogButton == 0) {
                         controller.deleteOneClient(name, surname);
                         controller.repaintClientsOneRowDeleted(rowTable);
@@ -100,8 +100,8 @@ public class ManagePeopleView extends JFrame{
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" clients?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int rowView : rows) {
                         int rowTable = clientsTable.convertRowIndexToModel(rowView);
-                        String name = clientsTableModel.getValueAt(rowTable, 0);
-                        String surname = clientsTableModel.getValueAt(rowTable, 1);
+                        String name = clientsTableModel.getValueAt(rowTable, 0).toString();
+                        String surname = clientsTableModel.getValueAt(rowTable, 1).toString();
                         if (dialogButton == 0) {
                             System.out.println("name "+name + "surname "+surname+" deleted");
                             controller.deleteOneClient(name, surname);
@@ -159,23 +159,35 @@ public class ManagePeopleView extends JFrame{
     }
 
     private void loadClients() {
-        int numberOfClients = controller.getClientsCount();
-        Object clientsData[][] = new Object[numberOfClients][5];
-        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
-        ArrayList<Client> clients = controller.getClients();
 
-        for(int i=0; i<numberOfClients; ++i) {
-            clientsData[i][0] = clients.get(i).getName();
-            clientsData[i][1] = clients.get(i).getSurname();
-            clientsData[i][2] = clients.get(i).getTelephone();
-            clientsData[i][3] = clients.get(i).getAddress();
-            clientsData[i][4] = clients.get(i).getEmail();
-        }
-        clientsTableModel = new ContactsTableModel(clientsData, columnNames);
+        clientsTableModel = new ContactsTableModel();
+        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "CP", "Adreça", "e-mail"};
+        clientsTableModel.setColumnIdentifiers(columnNames);
         clientsTable = new JTable(clientsTableModel);
         sorter = new TableRowSorter<>(clientsTableModel);
         clientsTable.setRowSorter(sorter);
         sorter.setRowFilter(null);
+
+        //load clients data
+        ArrayList<Client> clients = controller.getClients();
+        int numberOfClients = controller.getClientsCount();
+        Object clientsData[][];
+        if (!(numberOfClients == 0)) {
+            clientsData = new Object[numberOfClients][6];
+        }
+        else {clientsData = new Object[0][0];}
+        for(int i=0; i<numberOfClients; ++i) {
+            clientsData[i][0] = clients.get(i).getName();
+            clientsData[i][1] = clients.get(i).getSurname();
+            clientsData[i][2] = clients.get(i).getTelephone();
+            clientsData[i][3] = clients.get(i).getCp();
+            clientsData[i][4] = clients.get(i).getAddress();
+            clientsData[i][5] = clients.get(i).getEmail();
+        }
+
+        for (int j=0; j<clientsData.length; ++j) {
+            clientsTableModel.addRow(clientsData[j]);
+        }
 
         clientsTable.setCellSelectionEnabled(false);
         clientsTable.setRowSelectionAllowed(true);
@@ -199,16 +211,21 @@ public class ManagePeopleView extends JFrame{
 
     private void loadProviders() {
         int numberOfProviders = controller.getProvidersCount();
-        Object providersData[][] = new Object[numberOfProviders][5];
-        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "Adreça", "e-mail"};
-        ArrayList<Provider> providers = controller.getProviders();
+        Object providersData[][];
+        if (!(numberOfProviders == 0)) {
+            providersData = new Object[numberOfProviders][6];
+        }
+        else {providersData = new Object[0][0];}
 
+        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "CP", "Adreça", "e-mail"};
+        ArrayList<Provider> providers = controller.getProviders();
         for(int i=0; i<numberOfProviders; ++i) {
             providersData[i][0] = providers.get(i).getName();
             providersData[i][1] = providers.get(i).getSurname();
             providersData[i][2] = providers.get(i).getTelephone();
-            providersData[i][3] = providers.get(i).getAddress();
-            providersData[i][4] = providers.get(i).getEmail();
+            providersData[i][3] = providers.get(i).getCp();
+            providersData[i][4] = providers.get(i).getAddress();
+            providersData[i][5] = providers.get(i).getEmail();
         }
 
         providersTableModel = new ContactsTableModel(providersData, columnNames);

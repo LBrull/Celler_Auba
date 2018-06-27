@@ -39,6 +39,9 @@ public class ModifyContactView extends JFrame{
     private JButton addressButton;
     private JButton emailButton;
     private JButton button1;
+    private JTextField oldCp;
+    private JTextField newCp;
+    private JLabel emptyCp;
 
     private boolean oldProvider;
     private boolean oldClient;
@@ -77,7 +80,7 @@ public class ModifyContactView extends JFrame{
                 if (oldProvider && !oldClient) { //modifiquem un proveedor
                     int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintProvidersOneRowDeleted(rowTable);
                     controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
@@ -86,7 +89,7 @@ public class ModifyContactView extends JFrame{
                 else if (oldClient && !oldProvider) { //modifiquem un client
                     int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintClientsOneRowDeleted(rowTable);
                     controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
@@ -94,12 +97,12 @@ public class ModifyContactView extends JFrame{
                 }
                 else { //modifiquem client + proveedor
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
                     controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
 
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
                     controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
                     controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newAddress.getText(), newEmail.getText());
                     dispose();
