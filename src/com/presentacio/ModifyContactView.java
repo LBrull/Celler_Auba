@@ -10,20 +10,26 @@ public class ModifyContactView extends JFrame{
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
     private JButton saveButton;
+
     private JTextField oldName;
     private JTextField oldTelephone;
-    private JTextField oldAddress;
+    private JTextField oldDomicili;
     private JTextField oldSurname;
     private JTextField oldEmail;
     private JTextField oldCp;
+    private JTextField oldTown;
+
     private boolean oldProvider;
     private boolean oldClient;
+
     private JTextField newName;
     private JTextField newSurname;
     private JTextField newTelephone;
-    private JTextField newAddress;
+    private JTextField newDomicili;
     private JTextField newCp;
     private JTextField newEmail;
+    private JTextField newTown;
+
     private JLabel labelTitle;
     private JLabel labelSubtitleOld;
     private JLabel labelSubtitleNew;
@@ -31,15 +37,23 @@ public class ModifyContactView extends JFrame{
     private JLabel emptyName;
     private JLabel emptySurname;
     private JLabel emptyTelephone;
-    private JLabel emptyCp;
+
     private JButton nameButton;
     private JButton surnameButton;
     private JButton telephoneButton;
-    private JButton addressButton;
+    private JButton domiciliButton;
     private JButton emailButton;
     private JButton cpButton;
+    private JButton poblacioButton;
+    private JTextField oldDni;
+    private JTextField oldAccountNumber;
+    private JTextField newDni;
+    private JTextField newAccountNumber;
+    private JButton dniButton;
+    private JButton accountNumberButton;
 
-    ModifyContactView (String oldName, String oldSurname, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldAddress, String oldEmail) {
+
+    ModifyContactView (String oldName, String oldSurname, String oldDni, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldTown, String oldDomicili, String oldEmail, String oldAccountNumber) {
         setContentPane(rootPanel);
 
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
@@ -54,9 +68,12 @@ public class ModifyContactView extends JFrame{
 
         this.oldName.setText(oldName);
         this.oldSurname.setText(oldSurname);
+        this.oldDni.setText(oldDni);
+        this.oldAccountNumber.setText(oldAccountNumber);
         this.oldTelephone.setText(oldTelephone);
         this.oldCp.setText(oldCp);
-        this.oldAddress.setText(oldAddress);
+        this.oldTown.setText(oldTown);
+        this.oldDomicili.setText(oldDomicili);
         this.oldEmail.setText(oldEmail);
         this.oldClient = oldClient;
         this.oldProvider = oldProvider;
@@ -74,31 +91,31 @@ public class ModifyContactView extends JFrame{
                 if (oldProvider && !oldClient) { //modifiquem un proveedor
                     int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     controller.repaintProvidersOneRowDeleted(rowTable);
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     dispose();
 
                 }
                 else if (oldClient && !oldProvider) { //modifiquem un client
                     int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     controller.repaintClientsOneRowDeleted(rowTable);
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     dispose();
 
                 }
                 else { //modifiquem client + proveedor
                     controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
 
                     controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newTelephone.getText(), newCp.getText(), newAddress.getText(), newEmail.getText());
+                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
                     dispose();
                 }
             }
@@ -173,28 +190,6 @@ public class ModifyContactView extends JFrame{
             }
         });
 
-        newCp.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(newCp.getText().length()<=0 || newCp.getText().equals("")) {
-                    emptyCp.setVisible(true);
-                }
-                else {
-                    emptyCp.setVisible(false);
-                }
-            }
-        });
-
         nameButton.addActionListener(e-> {
             newName.setText(oldName.getText());
             emptyName.setVisible(false);
@@ -212,15 +207,31 @@ public class ModifyContactView extends JFrame{
 
         cpButton.addActionListener(e-> {
             newCp.setText(oldCp.getText());
-            emptyCp.setVisible(false);
         });
 
-        addressButton.addActionListener(e-> {
-            newAddress.setText(oldAddress.getText());
+        domiciliButton.addActionListener(e-> {
+            newDomicili.setText(oldDomicili.getText());
         });
 
         emailButton.addActionListener(e-> {
             newEmail.setText(oldEmail.getText());
         });
+
+        domiciliButton.addActionListener(e-> {
+            newDomicili.setText(oldDomicili.getText());
+        });
+
+        poblacioButton.addActionListener(e-> {
+            newTown.setText(oldTown.getText());
+        });
+
+        dniButton.addActionListener(e-> {
+            newDni.setText(oldDni.getText());
+        });
+
+        accountNumberButton.addActionListener(e-> {
+            newAccountNumber.setText(oldAccountNumber.getText());
+        });
+
     }
 }

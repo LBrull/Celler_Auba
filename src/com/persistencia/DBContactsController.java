@@ -23,10 +23,13 @@ public class DBContactsController {
 
             client.setName(document.getString("name"));
             client.setSurname(document.getString("surname"));
+            client.setDni_nif(document.getString("dni_nif"));
+            client.setAccountNumber(document.getString("accountNumber"));
             client.setTelephone(document.getString("telephone"));
-            client.setCP(document.getString("cp"));
-            client.setAddress(document.getString("address"));
             client.setEmail(document.getString("email"));
+            client.setCP(document.getString("cp"));
+            client.setTown(document.getString("town"));
+            client.setAddress(document.getString("address"));
             list.add(client);
         }
         return list;
@@ -41,10 +44,13 @@ public class DBContactsController {
 
             provider.setName(document.getString("name"));
             provider.setSurname(document.getString("surname"));
+            provider.setDni_nif(document.getString("dni_nif"));
+            provider.setAccountNumber(document.getString("accountNumber"));
             provider.setTelephone(document.getString("telephone"));
-            provider.setCP(document.getString("cp"));
-            provider.setAddress(document.getString("address"));
             provider.setEmail(document.getString("email"));
+            provider.setCP(document.getString("cp"));
+            provider.setTown(document.getString("town"));
+            provider.setAddress(document.getString("address"));
             list.add(provider);
         }
         return list;
@@ -63,10 +69,15 @@ public class DBContactsController {
         Document newClient = new Document();
         newClient.append("name", client.getName());
         newClient.append("surname", client.getSurname());
+
         newClient.append("telephone", client.getTelephone());
-        newClient.append("cp", client.getCp());
-        newClient.append("address", client.getAddress());
         newClient.append("email", client.getEmail());
+        newClient.append("cp", client.getCp());
+        newClient.append("town", client.getTown());
+        newClient.append("address", client.getAddress());
+        newClient.append("dni_nif", client.getDni_nif());
+        newClient.append("accountNumber", client.getAccountNumber());
+
         collection.insertOne(newClient);
     }
 
@@ -75,10 +86,14 @@ public class DBContactsController {
         Document newProvider = new Document();
         newProvider.append("name", provider.getName());
         newProvider.append("surname", provider.getSurname());
+
         newProvider.append("telephone", provider.getTelephone());
-        newProvider.append("cp", provider.getCp());
-        newProvider.append("address", provider.getAddress());
         newProvider.append("email", provider.getEmail());
+        newProvider.append("cp", provider.getCp());
+        newProvider.append("town", provider.getTown());
+        newProvider.append("address", provider.getAddress());
+        newProvider.append("dni_nif", provider.getDni_nif());
+        newProvider.append("accountNumber", provider.getAccountNumber());
         collection.insertOne(newProvider);
     }
 

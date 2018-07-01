@@ -6,7 +6,7 @@ public class Provider extends Contact {
         super();
     }
 
-    public Provider (String name, String surname, String telephone, String cp, String email, String address) {
-        super(name, surname, telephone, cp, email, address);
+    public Provider (String name, String surname, String dni_nif, String telephone, String cp, String town, String email, String address, String accountNumber) {
+        super (name, surname, dni_nif, telephone, cp, town, email, address, accountNumber);
     }
 }

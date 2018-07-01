@@ -161,7 +161,7 @@ public class ManagePeopleView extends JFrame{
     private void loadClients() {
 
         clientsTableModel = new ContactsTableModel();
-        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "CP", "Adreça", "e-mail"};
+        Object columnNames[] = {"Nom", "Cognoms", "DNI", "Núm. Compte", "Telèfon", "E-mail", "CP", "Població", "Domicili"};
         clientsTableModel.setColumnIdentifiers(columnNames);
         clientsTable = new JTable(clientsTableModel);
         sorter = new TableRowSorter<>(clientsTableModel);
@@ -171,14 +171,18 @@ public class ManagePeopleView extends JFrame{
         //load clients data
         ArrayList<Client> clients = controller.getClients();
         int numberOfClients = controller.getClientsCount();
-        Object clientsData[][] = new Object[numberOfClients][6];
+        Object clientsData[][] = new Object[numberOfClients][9];
         for(int i=0; i<numberOfClients; ++i) {
             clientsData[i][0] = clients.get(i).getName();
             clientsData[i][1] = clients.get(i).getSurname();
-            clientsData[i][2] = clients.get(i).getTelephone();
-            clientsData[i][3] = clients.get(i).getCp();
-            clientsData[i][4] = clients.get(i).getAddress();
+            clientsData[i][2] = clients.get(i).getDni_nif();
+            clientsData[i][3] = clients.get(i).getAccountNumber();
+            clientsData[i][4] = clients.get(i).getTelephone();
             clientsData[i][5] = clients.get(i).getEmail();
+
+            clientsData[i][6] = clients.get(i).getCp();
+            clientsData[i][7] = clients.get(i).getTown();
+            clientsData[i][8] = clients.get(i).getAddress();
         }
 
         for (int j=0; j<clientsData.length; ++j) {
@@ -207,16 +211,20 @@ public class ManagePeopleView extends JFrame{
 
     private void loadProviders() {
         int numberOfProviders = controller.getProvidersCount();
-        Object providersData[][] = new Object[numberOfProviders][6];
-        Object columnNames[] = {"Nom", "Cognoms", "Telèfon", "CP", "Adreça", "e-mail"};
+        Object providersData[][] = new Object[numberOfProviders][9];
+        Object columnNames[] = {"Nom", "Cognoms", "NIF", "Núm. Compte",  "Telèfon", "E-mail", "CP", "Població", "Domicili"};
         ArrayList<Provider> providers = controller.getProviders();
         for(int i=0; i<numberOfProviders; ++i) {
             providersData[i][0] = providers.get(i).getName();
             providersData[i][1] = providers.get(i).getSurname();
-            providersData[i][2] = providers.get(i).getTelephone();
-            providersData[i][3] = providers.get(i).getCp();
-            providersData[i][4] = providers.get(i).getAddress();
+            providersData[i][2] = providers.get(i).getDni_nif();
+            providersData[i][3] = providers.get(i).getAccountNumber();
+            providersData[i][4] = providers.get(i).getTelephone();
             providersData[i][5] = providers.get(i).getEmail();
+
+            providersData[i][6] = providers.get(i).getCp();
+            providersData[i][7] = providers.get(i).getTown();
+            providersData[i][8] = providers.get(i).getAddress();
         }
 
         providersTableModel = new ContactsTableModel(providersData, columnNames);

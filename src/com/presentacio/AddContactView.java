@@ -12,7 +12,6 @@ public class AddContactView extends JFrame {
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
     //Icon popupSuccessIcon = new ImageIcon("/icons/ok_60x60");
-
     private JTextField nameTextField;
     private JTextField surnameTextField;
     private JCheckBox checkBoxProvider;
@@ -29,6 +28,9 @@ public class AddContactView extends JFrame {
     private JLabel emptyTelephone;
     private JTextField cpTextField;
     private JLabel emptyCp;
+    private JTextField townTextField;
+    private JTextField dniNifTextField;
+    private JTextField accountNumberTextField;
 
 
     public AddContactView() {
@@ -108,28 +110,6 @@ public class AddContactView extends JFrame {
                 }
                 else {
                     emptyTelephone.setVisible(false);
-                }
-            }
-        });
-
-        cpTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(cpTextField.getText().length()<=0 || cpTextField.getText().equals("")) {
-                    emptyCp.setVisible(true);
-                }
-                else {
-                    emptyCp.setVisible(false);
                 }
             }
         });
@@ -230,5 +210,17 @@ public class AddContactView extends JFrame {
 
     public JTextField getEmailTextField() {
         return emailTextField;
+    }
+
+    public JTextField getTownTextField() {
+        return townTextField;
+    }
+
+    public JTextField getDniNifTextField() {
+        return dniNifTextField;
+    }
+
+    public JTextField getAccountNumberTextField() {
+        return accountNumberTextField;
     }
 }

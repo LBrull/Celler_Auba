@@ -29,7 +29,9 @@ class ContactsTableModel extends DefaultTableModel {
 
     @Override
     public Object getValueAt(int row, int column) {
-        return super.getValueAt(row, column);
+        Object object = super.getValueAt(row, column);
+        if (object == null) return "";
+        else return object;
     }
 
     public int getRow(String name, String surname) {

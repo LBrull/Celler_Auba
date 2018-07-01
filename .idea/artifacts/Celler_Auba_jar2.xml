@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Celler_Auba:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/Celler_Auba_jar2</output-path>
+    <root id="archive" name="Celler_Auba.jar">
+      <element id="module-output" name="Celler_Auba" />
+      <element id="extracted-dir" path="C:/Program Files/MongoDB/Drivers/mongodb-driver-core-3.7.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/MongoDB/Drivers/mongo-java-driver-3.7.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
