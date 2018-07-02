@@ -39,7 +39,7 @@ public class ContactsViewController {
         return instance;
     }
 
-    public void contactsView(){
+    public void showContactsView(){
         managePeopleView = new ManagePeopleView();
         initComponents();
         initListeners();

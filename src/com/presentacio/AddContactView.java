@@ -40,7 +40,6 @@ public class AddContactView extends JFrame {
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //TODO: override window closing method
-        setSize(SETUP_WIDTH, SETUP_HEIGHT);
 
 /////////////////////////////////
         emptyName.setVisible(true);
@@ -176,7 +175,7 @@ public class AddContactView extends JFrame {
         });
 
         pack();
-        setSize(700, 500);
+        setSize(700, 550);
         setVisible(true);
     }
 

@@ -46,7 +46,7 @@ public class ManagePeopleView extends JFrame{
         labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);

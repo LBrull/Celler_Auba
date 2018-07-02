@@ -81,7 +81,7 @@ public class ModifyContactView extends JFrame{
         loadListeners();
 
         pack();
-        setSize(900, 500);
+        setSize(900, 550);
         setVisible(true);
     }
 
