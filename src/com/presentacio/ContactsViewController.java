@@ -42,8 +42,6 @@ public class ContactsViewController {
     public void showContactsView(){
         managePeopleView = new ManagePeopleView();
         initComponents();
-        initListeners();
-
     }
 
     public ManagePeopleView getManagePeopleView() {
@@ -79,9 +77,6 @@ public class ContactsViewController {
     }
 
     private void initListeners() {
-        AddButton.setContentAreaFilled(false);
-        EditButton.setContentAreaFilled(false);
-        DeleteButton.setContentAreaFilled(false);
     }
 
     public int getClientsCount() {

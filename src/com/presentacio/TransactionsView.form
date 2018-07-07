@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="513" height="581"/>
+      <xy x="20" y="20" width="513" height="364"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -38,7 +38,7 @@
             </constraints>
             <properties>
               <borderPainted value="false"/>
-              <contentAreaFilled value="false"/>
+              <contentAreaFilled value="true"/>
               <focusPainted value="false"/>
               <horizontalTextPosition value="0"/>
               <icon value="icons/novaVenta_60x60.png"/>
@@ -53,8 +53,9 @@
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-12828863"/>
               <borderPainted value="false"/>
-              <contentAreaFilled value="false"/>
+              <contentAreaFilled value="true"/>
               <focusPainted value="false"/>
               <horizontalTextPosition value="0"/>
               <icon value="icons/novaCompra_60x60.png"/>
@@ -69,7 +70,7 @@
             </constraints>
             <properties>
               <borderPainted value="false"/>
-              <contentAreaFilled value="false"/>
+              <contentAreaFilled value="true"/>
               <focusPainted value="false"/>
               <horizontalTextPosition value="0"/>
               <icon value="icons/list_60x60.png"/>
@@ -85,7 +86,7 @@
             </constraints>
             <properties>
               <borderPainted value="false"/>
-              <contentAreaFilled value="false"/>
+              <contentAreaFilled value="true"/>
               <focusPainted value="false"/>
               <horizontalTextPosition value="0"/>
               <icon value="icons/list_60x60.png"/>

@@ -38,11 +38,9 @@ public class ManagePeopleView extends JFrame{
         super();
         setContentPane(rootPanel);
 
-        Color textColor = new Color(187, 187, 187);
-
-        labelClients.setForeground(textColor);
+        //labelClients.setForeground(textColor);
         labelClients.setFont(new Font("Calibri", Font.PLAIN, 18));
-        labelProveedors.setForeground(textColor);
+        //labelProveedors.setForeground(textColor);
         labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 

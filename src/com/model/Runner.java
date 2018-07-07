@@ -34,18 +34,18 @@ public class Runner {
 
     private static void configureLookAndFeel() {
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); //Windows Look and feel
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); //Windows Look and feel
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
 
-        UIManager.put("OptionPane.background", backgroundColor);
-        UIManager.put("OptionPane.foreground", textColor);
-        UIManager.put("OptionPane.messageForeground", textColor);
+        //UIManager.put("OptionPane.background", backgroundColor);
+        //UIManager.put("OptionPane.foreground", textColor);
+        //UIManager.put("OptionPane.messageForeground", textColor);
 
         UIManager.put("Button.background", backgroundColor);
         UIManager.put("Button.foreground", textColor);
-        UIManager.put("Panel.background", backgroundColor);
+        //UIManager.put("Panel.background", backgroundColor);
         UIManager.put("Label.foreground", textColor);
         UIManager.put("List.background", backgroundColor);
         UIManager.put("CheckBox.background",backgroundColor);

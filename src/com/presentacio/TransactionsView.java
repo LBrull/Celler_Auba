@@ -20,9 +20,17 @@ public class TransactionsView extends JFrame{
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
+        initListeners();
+
         pack();
         setSize(400, 400);
         setVisible(true);
+    }
+
+    private void initListeners() {
+        novaVendaButton.addActionListener(e -> {
+
+        });
     }
 
 }
