@@ -4,6 +4,7 @@ import com.model.Product;
 import com.model.ProductsController;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ProductsViewController {
     private static ProductsViewController instance = null;
@@ -38,5 +39,25 @@ public class ProductsViewController {
 
     public void showNewProductView() {
         newProductView = new NewProductView();
+    }
+
+    public boolean usedCode(String text) {
+       return productsController.usedCode(text);
+    }
+
+    public void saveNewProduct(String code, String desc, String price) {
+        double priceD = Double.parseDouble(price);
+        Product product = new Product(code, desc, priceD);
+        productsController.saveNewProduct(product);
+
+    }
+
+    public void repaintProductsTable() {
+        Vector<String> data = new Vector<>();
+        data.add(newProductView.getCodiTextField().getText());
+        data.add(newProductView.getDescripcioTextField().getText());
+        data.add(newProductView.getPreuTextField().getText());
+
+        productsView.getProductsTableModel().addRow(data);
     }
 }

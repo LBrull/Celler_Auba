@@ -28,4 +28,8 @@ public class ProductsController {
     public ArrayList<Product> getProducts() {
         return dbController.getDBProductsController().getProducts();
     }
+
+    public boolean usedCode(String text) {
+        return dbController.usedCode(text);
+    }
 }

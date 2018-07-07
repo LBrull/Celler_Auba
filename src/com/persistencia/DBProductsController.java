@@ -32,11 +32,23 @@ public class DBProductsController {
 
             product.setCode(document.getString("code"));
             product.setDescription(document.getString("description"));
-            double price = Double.parseDouble(document.getString("price"));
+            double price = (document.getDouble("price"));
             product.setPrice(price);
 
             list.add(product);
         }
         return list;
+    }
+
+    public boolean usedCode(String text) {
+        ArrayList<Product> list = new ArrayList<>();
+        List<Document> products = DBController.getMongoDB().getCollection("products").find().into(new ArrayList<>());
+        int i=0;
+        boolean trobat = false;
+        while(!trobat && i<products.size()) {
+            if (products.get(i).getString("code").equals(text)) trobat = true;
+            ++i;
+        }
+        return trobat;
     }
 }

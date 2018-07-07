@@ -87,4 +87,8 @@ public class DBController {
     public DBProductsController getDBProductsController() {
         return dbProductsController;
     }
+
+    public boolean usedCode(String text) {
+        return dbProductsController.usedCode(text);
+    }
 }

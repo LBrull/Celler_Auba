@@ -85,4 +85,9 @@ public class ProductsView extends JFrame{
         controller = ProductsViewController.getInstance();
         loadProducts();
     }
+
+    public ProductsTableModel getProductsTableModel() {
+        return productsTableModel;
+    }
+
 }

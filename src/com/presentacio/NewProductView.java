@@ -96,12 +96,33 @@ public class NewProductView extends JFrame{
 
         saveButton.addActionListener(e -> {
             if (!emptyCode.isVisible() && !emptyDescription.isVisible() && !emptyPrice.isVisible()) {
-                //controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), preuTextField.getText());
+                if(controller.usedCode(codiTextField.getText())) {
+                    JOptionPane.showMessageDialog(null, "Aquest codi ja està en ús", "", JOptionPane.INFORMATION_MESSAGE);
+                }
+                controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), preuTextField.getText());
+                controller.repaintProductsTable();
+                dispose();
+
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Completeu correctament tots els camps", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
         pack();
         setVisible(true);
+    }
+
+    public JTextField getPreuTextField() {
+        return preuTextField;
+    }
+
+    public JTextField getDescripcioTextField() {
+        return descripcioTextField;
+    }
+
+    public JTextField getCodiTextField() {
+        return codiTextField;
     }
 
 }
