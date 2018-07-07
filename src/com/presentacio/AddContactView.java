@@ -7,8 +7,6 @@ import java.awt.event.KeyListener;
 
 public class AddContactView extends JFrame {
 
-    private static final int SETUP_WIDTH = 550;
-    private static final int SETUP_HEIGHT = 400;
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
     //Icon popupSuccessIcon = new ImageIcon("/icons/ok_60x60");
@@ -39,13 +37,19 @@ public class AddContactView extends JFrame {
 
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //TODO: override window closing method
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 /////////////////////////////////
         emptyName.setVisible(true);
         emptySurname.setVisible(true);
         emptyTelephone.setVisible(true);
         emptyType.setVisible(true);
+
+        emptyName.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptySurname.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptyType.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptyTelephone.setFont(new Font("Calibri", Font.PLAIN, 20));
+        //emptyCp.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         nameTextField.addKeyListener(new KeyListener() {
             @Override

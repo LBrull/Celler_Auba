@@ -32,7 +32,7 @@ public class Menu extends JFrame{
         });
 
         pack();
-        setSize(700, 300);
+        setSize(700, 600);
         setVisible(true);
     }
 

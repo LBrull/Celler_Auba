@@ -28,8 +28,16 @@ public class ProductsView extends JFrame{
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
 
+        loadListeners();
+
         pack();
         setVisible(true);
+    }
+
+    private void loadListeners() {
+        nouProducteButton.addActionListener(e -> {
+            controller.showNewProductView();
+        });
     }
 
     private void loadProducts() {

@@ -66,6 +66,10 @@ public class ModifyContactView extends JFrame{
         emptySurname.setVisible(true);
         emptyTelephone.setVisible(true);
 
+        emptyName.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptySurname.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptyTelephone.setFont(new Font("Calibri", Font.PLAIN, 20));
+
         this.oldName.setText(oldName);
         this.oldSurname.setText(oldSurname);
         this.oldDni.setText(oldDni);

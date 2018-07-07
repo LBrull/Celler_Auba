@@ -11,6 +11,7 @@ public class ProductsViewController {
 
     // TODO: vistes associades al controlador
     private ProductsView productsView;
+    private NewProductView newProductView;
 
     private ProductsViewController() {
 
@@ -33,5 +34,9 @@ public class ProductsViewController {
 
     public ArrayList<Product> getProducts() {
         return productsController.getProducts();
+    }
+
+    public void showNewProductView() {
+        newProductView = new NewProductView();
     }
 }
