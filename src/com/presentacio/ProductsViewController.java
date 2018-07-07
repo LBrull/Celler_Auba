@@ -60,4 +60,12 @@ public class ProductsViewController {
 
         productsView.getProductsTableModel().addRow(data);
     }
+
+    public void deleteOneProduct(String code) {
+        productsController.deleteOneProduct(code);
+    }
+
+    public void repaintProductsTableWhenDeletion(int rowTable) {
+        productsView.getProductsTableModel().removeRow(rowTable);
+    }
 }

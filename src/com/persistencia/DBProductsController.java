@@ -51,4 +51,10 @@ public class DBProductsController {
         }
         return trobat;
     }
+
+    public void deleteOneProduct(String code) {
+        Document productToDelete = new Document();
+        productToDelete.append("code", code);
+        DBController.getMongoDB().getCollection("products").deleteOne(productToDelete);
+    }
 }

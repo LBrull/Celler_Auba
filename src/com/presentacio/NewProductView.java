@@ -99,9 +99,11 @@ public class NewProductView extends JFrame{
                 if(controller.usedCode(codiTextField.getText())) {
                     JOptionPane.showMessageDialog(null, "Aquest codi ja està en ús", "", JOptionPane.INFORMATION_MESSAGE);
                 }
-                controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), preuTextField.getText());
-                controller.repaintProductsTable();
-                dispose();
+                else {
+                    controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), preuTextField.getText());
+                    controller.repaintProductsTable();
+                    dispose();
+                }
 
             }
             else {

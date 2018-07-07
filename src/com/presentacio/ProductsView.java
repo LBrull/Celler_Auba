@@ -55,6 +55,39 @@ public class ProductsView extends JFrame{
             controller.showNewProductView();
         });
 
+        DeleteButton.addActionListener(e -> {
+            if (table.getSelectedRowCount()>=1) {
+                int[] rows = table.getSelectedRows();
+                if (rows.length == 1) {
+                    int rowView = rows[0];
+                    int rowTable = table.convertRowIndexToModel(rowView);
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest producte?","WARNING", JOptionPane.YES_NO_OPTION);
+                    String code = productsTableModel.getValueAt(rowTable, 0).toString();
+                    if (dialogButton == 0) {
+                        controller.deleteOneProduct(code);
+                        controller.repaintProductsTableWhenDeletion(rowTable);
+                    }
+                }
+                else {
+                    int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" productes?","WARNING", JOptionPane.YES_NO_OPTION);
+                    for (int rowView : rows) {
+                        int rowTable = table.convertRowIndexToModel(rowView);
+                        String code = productsTableModel.getValueAt(rowTable, 0).toString();
+                        if (dialogButton == 0) {
+                            System.out.println("code "+code +" deleted");
+                            controller.deleteOneProduct(code);
+                        }
+                    }
+                    for ( int i = rows.length -1 ;  i >= 0; i-- ) {
+                        if ( productsTableModel.getValueAt(i,0) != null ) {
+                            controller.repaintProductsTableWhenDeletion(table.convertRowIndexToModel(rows[i]));
+                        }
+                    }
+                }
+            }
+
+        });
+
 
     }
 

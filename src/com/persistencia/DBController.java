@@ -91,4 +91,8 @@ public class DBController {
     public boolean usedCode(String text) {
         return dbProductsController.usedCode(text);
     }
+
+    public void deleteOneProduct(String code) {
+        dbProductsController.deleteOneProduct(code);
+    }
 }

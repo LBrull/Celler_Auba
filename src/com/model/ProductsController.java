@@ -32,4 +32,8 @@ public class ProductsController {
     public boolean usedCode(String text) {
         return dbController.usedCode(text);
     }
+
+    public void deleteOneProduct(String code) {
+        dbController.deleteOneProduct(code);
+    }
 }
