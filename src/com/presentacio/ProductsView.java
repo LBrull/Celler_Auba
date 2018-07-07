@@ -3,6 +3,8 @@ package com.presentacio;
 import com.model.Product;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class ProductsView extends JFrame{
     private JButton nouProducteButton;
     private JButton EditButton;
     private JButton DeleteButton;
+    private JTextField filterTextField;
     private ProductsTableModel productsTableModel;
     private TableRowSorter<ProductsTableModel> sorter;
 
@@ -35,9 +38,24 @@ public class ProductsView extends JFrame{
     }
 
     private void loadListeners() {
+
+        filterTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                newFilter();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                newFilter();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                newFilter();
+            }
+        });
+
         nouProducteButton.addActionListener(e -> {
             controller.showNewProductView();
         });
+
+
     }
 
     private void loadProducts() {
@@ -90,4 +108,14 @@ public class ProductsView extends JFrame{
         return productsTableModel;
     }
 
+    private void newFilter() {
+        RowFilter<ProductsTableModel, Object> rf;
+        //If current expression doesn't parse, don't update.
+        try {
+            rf = RowFilter.regexFilter("(?i)" + filterTextField.getText(), 0, 1);
+        } catch (java.util.regex.PatternSyntaxException e) {
+            return;
+        }
+        sorter.setRowFilter(rf);
+    }
 }
