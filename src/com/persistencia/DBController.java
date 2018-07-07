@@ -1,6 +1,7 @@
 package com.persistencia;
 
 import com.model.Client;
+import com.model.Product;
 import com.model.Provider;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -14,8 +15,10 @@ public class DBController {
     private static MongoDatabase mongoDB = null;
     //TODO: add all the DB controllers
     private DBContactsController dbContactsController;
+    private DBProductsController dbProductsController;
 
     private DBController() {
+        dbProductsController = new DBProductsController();
         dbContactsController = new DBContactsController();
     }
 
@@ -75,5 +78,13 @@ public class DBController {
 
     public int deleteProviders(Vector<String> names, Vector<String> surnames) {
         return dbContactsController.deleteProviders(names, surnames);
+    }
+
+    public void saveNewProduct(Product product) {
+        dbProductsController.saveNewProduct(product);
+    }
+
+    public DBProductsController getDBProductsController() {
+        return dbProductsController;
     }
 }
