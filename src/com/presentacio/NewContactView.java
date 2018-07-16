@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class AddContactView extends JFrame {
+public class NewContactView extends JFrame {
 
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
@@ -31,7 +31,7 @@ public class AddContactView extends JFrame {
     private JTextField accountNumberTextField;
 
 
-    public AddContactView() {
+    public NewContactView() {
         super();
         setContentPane(rootPanel);
 

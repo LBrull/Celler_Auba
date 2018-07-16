@@ -16,7 +16,7 @@ public class ContactsViewController {
 
     // TODO: vistes associades al controlador
     private ManagePeopleView managePeopleView;
-    private AddContactView addContactView;
+    private NewContactView newContactView;
     private ModifyContactView modifyContactView;
 
     private JButton AddButton;
@@ -49,7 +49,7 @@ public class ContactsViewController {
     }
 
     public void addContactView() {
-        addContactView = new AddContactView();
+        newContactView = new NewContactView();
     }
 
     public JTable getProvidersTable() {
@@ -87,28 +87,28 @@ public class ContactsViewController {
     }
 
     public void saveNewClient() {
-        String name = addContactView.getNameTextField().getText();
-        String surname = addContactView.getSurnameTextField().getText();
-        String dniNif = addContactView.getDniNifTextField().getText();
-        String accountNumber = addContactView.getAccountNumberTextField().getText();
-        String telephone = addContactView.getTelephoneTextField().getText();
-        String cp = addContactView.getCpTextField().getText();
-        String town = addContactView.getTownTextField().getText();
-        String address = addContactView.getAddressTextField().getText();
-        String email = addContactView.getEmailTextField().getText();
+        String name = newContactView.getNameTextField().getText();
+        String surname = newContactView.getSurnameTextField().getText();
+        String dniNif = newContactView.getDniNifTextField().getText();
+        String accountNumber = newContactView.getAccountNumberTextField().getText();
+        String telephone = newContactView.getTelephoneTextField().getText();
+        String cp = newContactView.getCpTextField().getText();
+        String town = newContactView.getTownTextField().getText();
+        String address = newContactView.getAddressTextField().getText();
+        String email = newContactView.getEmailTextField().getText();
         contactsController.saveNewClient(name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
     }
 
     public void saveNewProvider() {
-        String name = addContactView.getNameTextField().getText();
-        String surname = addContactView.getSurnameTextField().getText();
-        String dniNif = addContactView.getDniNifTextField().getText();
-        String accountNumber = addContactView.getAccountNumberTextField().getText();
-        String telephone = addContactView.getTelephoneTextField().getText();
-        String cp = addContactView.getCpTextField().getText();
-        String town = addContactView.getTownTextField().getText();
-        String address = addContactView.getAddressTextField().getText();
-        String email = addContactView.getEmailTextField().getText();
+        String name = newContactView.getNameTextField().getText();
+        String surname = newContactView.getSurnameTextField().getText();
+        String dniNif = newContactView.getDniNifTextField().getText();
+        String accountNumber = newContactView.getAccountNumberTextField().getText();
+        String telephone = newContactView.getTelephoneTextField().getText();
+        String cp = newContactView.getCpTextField().getText();
+        String town = newContactView.getTownTextField().getText();
+        String address = newContactView.getAddressTextField().getText();
+        String email = newContactView.getEmailTextField().getText();
         contactsController.saveNewProvider(name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
     }
 
@@ -122,29 +122,29 @@ public class ContactsViewController {
 
     public void repaintClientsTable() {
         Vector<String> data = new Vector<>();
-        data.add(addContactView.getNameTextField().getText());
-        data.add(addContactView.getSurnameTextField().getText());
-        data.add(addContactView.getDniNifTextField().getText());
-        data.add(addContactView.getAccountNumberTextField().getText());
-        data.add(addContactView.getTelephoneTextField().getText());
-        data.add(addContactView.getEmailTextField().getText());
-        data.add(addContactView.getCpTextField().getText());
-        data.add(addContactView.getTownTextField().getText());
-        data.add(addContactView.getAddressTextField().getText());
+        data.add(newContactView.getNameTextField().getText());
+        data.add(newContactView.getSurnameTextField().getText());
+        data.add(newContactView.getDniNifTextField().getText());
+        data.add(newContactView.getAccountNumberTextField().getText());
+        data.add(newContactView.getTelephoneTextField().getText());
+        data.add(newContactView.getEmailTextField().getText());
+        data.add(newContactView.getCpTextField().getText());
+        data.add(newContactView.getTownTextField().getText());
+        data.add(newContactView.getAddressTextField().getText());
         managePeopleView.getClientsTableModel().addRow(data);
     }
 
     public void repaintProvidersTable() {
         Vector<String> data = new Vector<>();
-        data.add(addContactView.getNameTextField().getText());
-        data.add(addContactView.getSurnameTextField().getText());
-        data.add(addContactView.getDniNifTextField().getText());
-        data.add(addContactView.getAccountNumberTextField().getText());
-        data.add(addContactView.getTelephoneTextField().getText());
-        data.add(addContactView.getEmailTextField().getText());
-        data.add(addContactView.getCpTextField().getText());
-        data.add(addContactView.getTownTextField().getText());
-        data.add(addContactView.getAddressTextField().getText());
+        data.add(newContactView.getNameTextField().getText());
+        data.add(newContactView.getSurnameTextField().getText());
+        data.add(newContactView.getDniNifTextField().getText());
+        data.add(newContactView.getAccountNumberTextField().getText());
+        data.add(newContactView.getTelephoneTextField().getText());
+        data.add(newContactView.getEmailTextField().getText());
+        data.add(newContactView.getCpTextField().getText());
+        data.add(newContactView.getTownTextField().getText());
+        data.add(newContactView.getAddressTextField().getText());
         managePeopleView.getProvidersTableModel().addRow(data);
     }
 

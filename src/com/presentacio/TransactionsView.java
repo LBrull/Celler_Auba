@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TransactionsView extends JFrame{
+
     private JPanel rootPanel;
     private JLabel labelTitle;
     private JButton novaVendaButton;
@@ -29,7 +30,7 @@ public class TransactionsView extends JFrame{
 
     private void initListeners() {
         novaVendaButton.addActionListener(e -> {
-
+            new NewVendaAlbaraView();
         });
     }
 

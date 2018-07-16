@@ -38,9 +38,7 @@ public class ManagePeopleView extends JFrame{
         super();
         setContentPane(rootPanel);
 
-        //labelClients.setForeground(textColor);
         labelClients.setFont(new Font("Calibri", Font.PLAIN, 18));
-        //labelProveedors.setForeground(textColor);
         labelProveedors.setFont(new Font("Calibri", Font.PLAIN, 18));
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
@@ -133,15 +131,13 @@ public class ManagePeopleView extends JFrame{
 
     private void actualizeClientsTable(int[] rows) {
         for ( int i = (rows.length) -1 ;  i >= 0; i-- ) {
-            //if ( clientsTableModel.getValueAt(i,4) != null )
-                controller.repaintClientsOneRowDeleted(clientsTable.convertRowIndexToModel(rows[i]));
+            controller.repaintClientsOneRowDeleted(clientsTable.convertRowIndexToModel(rows[i]));
         }
     }
 
     private void actualizeProvidersTable(int[] rows) {
         for ( int i = rows.length -1 ;  i >= 0; i-- ) {
-            if ( providersTableModel.getValueAt(i,4) != null )
-                controller.repaintProvidersOneRowDeleted(providersTable.convertRowIndexToModel(rows[i]));
+            controller.repaintProvidersOneRowDeleted(providersTable.convertRowIndexToModel(rows[i]));
         }
     }
 
@@ -192,8 +188,8 @@ public class ManagePeopleView extends JFrame{
             clientsData[i][8] = clients.get(i).getAddress();
         }
 
-        for (int j=0; j<clientsData.length; ++j) {
-            clientsTableModel.addRow(clientsData[j]);
+        for (Object[] aClientsData : clientsData) {
+            clientsTableModel.addRow(aClientsData);
         }
 
         clientsTable.setCellSelectionEnabled(false);
