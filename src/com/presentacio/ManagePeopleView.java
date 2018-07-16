@@ -71,14 +71,11 @@ public class ManagePeopleView extends JFrame{
                         String name = providersTableModel.getValueAt(rowTable, 0).toString();
                         String surname = providersTableModel.getValueAt(rowTable, 1).toString();
                         if (dialogButton == 0) {
-                            System.out.println("name "+name + "surname "+surname+" deleted");
+                            System.out.println("name "+name + " surname "+surname+" deleted");
                             controller.deleteOneProvider(name, surname);
                         }
                     }
-                    for ( int i = rows.length -1 ;  i >= 0; i-- ) {
-                        if ( providersTableModel.getValueAt(i,4) != null )
-                            controller.repaintProvidersOneRowDeleted(providersTable.convertRowIndexToModel(rows[i]));
-                    }
+                    actualizeProvidersTable(rows);
                 }
             }
             if (clientsTable.getSelectedRowCount()>=1) {
@@ -101,14 +98,12 @@ public class ManagePeopleView extends JFrame{
                         String name = clientsTableModel.getValueAt(rowTable, 0).toString();
                         String surname = clientsTableModel.getValueAt(rowTable, 1).toString();
                         if (dialogButton == 0) {
-                            System.out.println("name "+name + "surname "+surname+" deleted");
+                            System.out.println("name "+name + " surname "+surname+" deleted");
                             controller.deleteOneClient(name, surname);
+
                         }
                     }
-                    for ( int i = rows.length -1 ;  i >= 0; i-- ) {
-                        if ( clientsTableModel.getValueAt(i,4) != null )
-                            controller.repaintClientsOneRowDeleted(clientsTable.convertRowIndexToModel(rows[i]));
-                    }
+                    actualizeClientsTable(rows);
                 }
             }
         });
@@ -134,6 +129,20 @@ public class ManagePeopleView extends JFrame{
         pack();
         setSize(SETUP_WIDTH, SETUP_HEIGHT);
         setVisible(true);
+    }
+
+    private void actualizeClientsTable(int[] rows) {
+        for ( int i = (rows.length) -1 ;  i >= 0; i-- ) {
+            //if ( clientsTableModel.getValueAt(i,4) != null )
+                controller.repaintClientsOneRowDeleted(clientsTable.convertRowIndexToModel(rows[i]));
+        }
+    }
+
+    private void actualizeProvidersTable(int[] rows) {
+        for ( int i = rows.length -1 ;  i >= 0; i-- ) {
+            if ( providersTableModel.getValueAt(i,4) != null )
+                controller.repaintProvidersOneRowDeleted(providersTable.convertRowIndexToModel(rows[i]));
+        }
     }
 
     private void newFilter() {

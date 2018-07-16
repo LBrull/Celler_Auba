@@ -87,8 +87,6 @@ public class ProductsView extends JFrame{
             }
 
         });
-
-
     }
 
     private void loadProducts() {
