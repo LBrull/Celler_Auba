@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class UtilsController {
 
-    public static UtilsController instance = null;
+    private static UtilsController instance = null;
 
     private UtilsController() {}
 
