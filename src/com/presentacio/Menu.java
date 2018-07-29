@@ -28,7 +28,7 @@ public class Menu extends JFrame{
 
         //TODO
         temporadesButton.addActionListener(e -> {
-            temporadesController.showTemporadesView();
+            //temporadesController.showTemporadesView();
         });
 
         clientsProvidersButton.addActionListener(e -> {

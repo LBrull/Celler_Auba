@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="httpComponents-client">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/fluent-hc/src/examples" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/fluent-hc/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/fluent-hc/src/test/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-cache/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-cache/src/main/java-deprecated" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-cache/src/test/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-osgi/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-osgi/src/test/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-win/src/examples" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-win/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient-win/src/test/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient/src/examples" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient/src/main/java-deprecated" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpclient/src/test/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpmime/src/examples" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpmime/src/main/java" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpmime/src/main/java-deprecated" />
+      <root url="file://$USER_HOME$/Desktop/httpcomponents-client-4.5.6/httpmime/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

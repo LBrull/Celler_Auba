@@ -5,6 +5,13 @@ import com.model.Product;
 import com.model.Provider;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.json.JSONObject;
 
 import java.util.Vector;
 
@@ -34,9 +41,9 @@ public class DBController {
     }
 
     public void DBconnect() {
-        MongoClient mongo = getMongoClient();
-        mongoDB = mongo.getDatabase("celler_aubarcaDB");
-        System.out.println("Success: Conexión estabecida");
+//        MongoClient mongo = getMongoClient();
+//        mongoDB = mongo.getDatabase("celler_aubarcaDB");
+//        System.out.println("Success: Conexión estabecida");
     }
 
     private MongoClient getMongoClient(){
@@ -94,5 +101,31 @@ public class DBController {
 
     public void deleteOneProduct(String code) {
         dbProductsController.deleteOneProduct(code);
+    }
+
+    public String login(String username, String password) throws Exception{
+
+        String url = "http://localhost:3000/api/signin";
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", username);
+        jsonObject.put("password", password);
+        String json = jsonObject.toString(1);
+
+        StringEntity entity = new StringEntity(json);
+        post.setEntity(entity);
+        post.setHeader("Content-Type", "application/json");
+        CloseableHttpResponse response = client.execute(post);
+        String responseString = new BasicResponseHandler().handleResponse(response);
+        client.close();
+
+        JSONObject jsonResponse = new JSONObject(responseString);
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            return jsonResponse.getString("token");
+        }
+        else return null;
     }
 }

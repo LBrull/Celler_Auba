@@ -1,7 +1,7 @@
 package com.model;
 
 import com.persistencia.DBController;
-import com.presentacio.MenuController;
+import com.presentacio.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +16,13 @@ public class Runner {
     public static void main(String[] args) {
 
         configureLookAndFeel();
-        configureDB();
+        //configureDB();
 
-//        ContactsViewController presentationController = ContactsViewController.getInstance();
-//        presentationController.showContactsView();
+        LoginController loginController = LoginController.getInstance();
+        loginController.showLoginView();
 
-        MenuController menuController = MenuController.getInstance();
-        menuController.showMenuView();
+//        MenuController menuController = MenuController.getInstance();
+//        menuController.showMenuView();
 
 
     }
