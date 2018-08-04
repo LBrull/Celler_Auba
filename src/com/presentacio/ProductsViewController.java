@@ -2,7 +2,9 @@ package com.presentacio;
 
 import com.model.Product;
 import com.model.ProductsController;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -29,11 +31,7 @@ public class ProductsViewController {
         productsView = new ProductsView();
     }
 
-    public int getProductsCount() {
-        return productsController.getProductsCount();
-    }
-
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts() throws IOException, JSONException {
         return productsController.getProducts();
     }
 
@@ -45,9 +43,8 @@ public class ProductsViewController {
        return productsController.usedCode(text);
     }
 
-    public void saveNewProduct(String code, String desc, String price) {
-        double priceD = Double.parseDouble(price);
-        Product product = new Product(code, desc, priceD);
+    public void saveNewProduct(String code, String desc, String type, String price) throws IOException, JSONException {
+        Product product = new Product(code, desc, type, price);
         productsController.saveNewProduct(product);
 
     }
@@ -56,6 +53,7 @@ public class ProductsViewController {
         Vector<String> data = new Vector<>();
         data.add(newProductView.getCodiTextField().getText());
         data.add(newProductView.getDescripcioTextField().getText());
+        data.add(newProductView.getProductType());
         data.add(newProductView.getPreuTextField().getText());
 
         productsView.getProductsTableModel().addRow(data);

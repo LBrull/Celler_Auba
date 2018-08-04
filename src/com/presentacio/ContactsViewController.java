@@ -3,8 +3,10 @@ package com.presentacio;
 import com.model.Client;
 import com.model.ContactsController;
 import com.model.Provider;
+import org.json.JSONException;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -60,11 +62,11 @@ public class ContactsViewController {
         return clientsTable;
     }
 
-    public ArrayList<Client> getClients() {
+    public ArrayList<Client> getClients() throws IOException, JSONException {
         return contactsController.getClients();
     }
 
-    public ArrayList<Provider> getProviders() {
+    public ArrayList<Provider> getProviders() throws IOException, JSONException {
         return contactsController.getProviders();
     }
 
@@ -77,13 +79,6 @@ public class ContactsViewController {
     }
 
     private void initListeners() {
-    }
-
-    public int getClientsCount() {
-        return contactsController.getClientsCount();
-    }
-    public int getProvidersCount() {
-        return contactsController.getProvidersCount();
     }
 
     public void saveNewClient() {
@@ -112,11 +107,11 @@ public class ContactsViewController {
         contactsController.saveNewProvider(name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
     }
 
-    public boolean clientExists(String name, String surname) {
+    public boolean clientExists(String name, String surname) throws IOException, JSONException {
         return contactsController.clientExists(name, surname);
     }
 
-    public boolean providerExists(String name, String surname) {
+    public boolean providerExists(String name, String surname) throws IOException, JSONException {
         return contactsController.providerExists(name, surname);
     }
 
@@ -203,7 +198,7 @@ public class ContactsViewController {
         managePeopleView.getClientsTableModel().addRow(data);
     }
 
-    public void ModifyContactView() {
+    public void ModifyContactView() throws IOException, JSONException {
         if (1 == providersTable.getSelectedRowCount()) {
             int rowTable = providersTable.convertRowIndexToModel(providersTable.getSelectedRow());
             String oldName = providersTable.getModel().getValueAt(rowTable, 0).toString();

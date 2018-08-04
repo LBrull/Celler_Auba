@@ -3,65 +3,110 @@ package com.persistencia;
 import com.model.Client;
 import com.model.Provider;
 import com.mongodb.client.MongoCollection;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.prefs.Preferences;
 
 public class DBContactsController {
 
     DBContactsController() {
     }
 
-    public ArrayList<Client> getClients () {
+    public ArrayList<Client> getClients () throws IOException, JSONException {
         ArrayList<Client> list = new ArrayList<>();
-        List<Document> documents = DBController.getMongoDB().getCollection("clients").find().into(new ArrayList<>());
 
-        for(Document document : documents){
-            Client client = new Client();
+        String url = "https://cellerauba.herokuapp.com/api/clients";
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(url);
 
-            client.setName(document.getString("name"));
-            client.setSurname(document.getString("surname"));
-            client.setDni_nif(document.getString("dni_nif"));
-            client.setAccountNumber(document.getString("accountNumber"));
-            client.setTelephone(document.getString("telephone"));
-            client.setEmail(document.getString("email"));
-            client.setCP(document.getString("cp"));
-            client.setTown(document.getString("town"));
-            client.setAddress(document.getString("address"));
-            list.add(client);
+        get.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        get.setHeader("authorization", token);
+        CloseableHttpResponse response = client.execute(get);
+        String responseString = new BasicResponseHandler().handleResponse(response);
+        System.out.println(responseString);
+        client.close();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            JSONObject jsonResponse = new JSONObject(responseString);
+            System.out.println("Response: "+jsonResponse);
+            if (jsonResponse.has("message")) {
+                return list;
+            }
+            else {
+                JSONArray clients = new JSONArray(responseString);
+                for (int i = 0; i < clients.length(); ++i) {
+                    Client c = new Client();
+                    JSONObject jsonClient = clients.getJSONObject(i);
+                    c.setName(jsonClient.getString("name"));
+                    c.setSurname(jsonClient.getString("surname"));
+                    c.setDni_nif(jsonClient.getString("dni_nif"));
+                    c.setAccountNumber(jsonClient.getString("accountNumber"));
+                    c.setTelephone(jsonClient.getString("telephone"));
+                    c.setEmail(jsonClient.getString("email"));
+                    c.setCP(jsonClient.getString("cp"));
+                    c.setTown(jsonClient.getString("town"));
+                    c.setAddress(jsonClient.getString("address"));
+                    list.add(c);
+                }
+                return list;
+            }
         }
-        return list;
+        else return null;
     }
 
-    public ArrayList<Provider> getProviders() {
+    public ArrayList<Provider> getProviders() throws IOException, JSONException {
         ArrayList<Provider> list = new ArrayList<>();
-        List<Document> documents = DBController.getMongoDB().getCollection("providers").find().into(new ArrayList<>());
 
-        for(Document document : documents){
-            Provider provider = new Provider();
+        String url = "https://cellerauba.herokuapp.com/api/providers";
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(url);
 
-            provider.setName(document.getString("name"));
-            provider.setSurname(document.getString("surname"));
-            provider.setDni_nif(document.getString("dni_nif"));
-            provider.setAccountNumber(document.getString("accountNumber"));
-            provider.setTelephone(document.getString("telephone"));
-            provider.setEmail(document.getString("email"));
-            provider.setCP(document.getString("cp"));
-            provider.setTown(document.getString("town"));
-            provider.setAddress(document.getString("address"));
-            list.add(provider);
+        get.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        get.setHeader("authorization", token);
+        CloseableHttpResponse response = client.execute(get);
+        String responseString = new BasicResponseHandler().handleResponse(response);
+        client.close();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            JSONObject jsonResponse = new JSONObject(responseString);
+            System.out.println("Response: "+jsonResponse);
+            if (jsonResponse.has("message")) {
+                return list;
+            }
+            else {
+                JSONArray clients = new JSONArray(responseString);
+                for (int i = 0; i < clients.length(); ++i) {
+                    Provider c = new Provider();
+                    JSONObject jsonClient = clients.getJSONObject(i);
+                    c.setName(jsonClient.getString("name"));
+                    c.setSurname(jsonClient.getString("surname"));
+                    c.setDni_nif(jsonClient.getString("dni_nif"));
+                    c.setAccountNumber(jsonClient.getString("accountNumber"));
+                    c.setTelephone(jsonClient.getString("telephone"));
+                    c.setEmail(jsonClient.getString("email"));
+                    c.setCP(jsonClient.getString("cp"));
+                    c.setTown(jsonClient.getString("town"));
+                    c.setAddress(jsonClient.getString("address"));
+                    list.add(c);
+                }
+                return list;
+            }
         }
-        return list;
-    }
-
-    public int getClientsCount() {
-        return (int) DBController.getMongoDB().getCollection("clients").count();
-    }
-
-    public int getProvidersCount() {
-        return (int) DBController.getMongoDB().getCollection("providers").count();
+        else return null;
     }
 
     public void saveNewClient(Client client) {
@@ -97,7 +142,7 @@ public class DBContactsController {
         collection.insertOne(newProvider);
     }
 
-    public boolean clientExists(String name, String surname) {
+    public boolean clientExists(String name, String surname) throws IOException, JSONException {
         List<Client> clients = getClients();
         boolean found = false;
         int i=0;
@@ -108,7 +153,7 @@ public class DBContactsController {
         return found;
     }
 
-    public boolean providerExists(String name, String surname) {
+    public boolean providerExists(String name, String surname) throws IOException, JSONException {
         List<Provider> providers = getProviders();
         boolean found = false;
         int i=0;

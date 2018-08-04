@@ -18,13 +18,9 @@ public class Runner {
         configureLookAndFeel();
         //configureDB();
 
+        //String token = Preferences.userRoot().get("token", null);
         LoginController loginController = LoginController.getInstance();
         loginController.showLoginView();
-
-//        MenuController menuController = MenuController.getInstance();
-//        menuController.showMenuView();
-
-
     }
 
     private static void configureDB() {

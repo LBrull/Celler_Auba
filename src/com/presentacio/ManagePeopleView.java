@@ -2,12 +2,14 @@ package com.presentacio;
 
 import com.model.Client;
 import com.model.Provider;
+import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManagePeopleView extends JFrame{
@@ -108,7 +110,13 @@ public class ManagePeopleView extends JFrame{
 
         EditButton.addActionListener(e -> {
             if (providersTable.getSelectedRowCount() == 1 || clientsTable.getSelectedRowCount() == 1) {
-                controller.ModifyContactView();
+                try {
+                    controller.ModifyContactView();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -161,7 +169,7 @@ public class ManagePeopleView extends JFrame{
         return clientsTableModel;
     }
 
-    private void loadClients() {
+    private void loadClients() throws IOException, JSONException {
 
         clientsTableModel = new ContactsTableModel();
         Object columnNames[] = {"Nom", "Cognoms", "DNI", "Núm. Compte", "Telèfon", "E-mail", "CP", "Població", "Domicili"};
@@ -173,9 +181,11 @@ public class ManagePeopleView extends JFrame{
 
         //load clients data
         ArrayList<Client> clients = controller.getClients();
-        int numberOfClients = controller.getClientsCount();
-        Object clientsData[][] = new Object[numberOfClients][9];
-        for(int i=0; i<numberOfClients; ++i) {
+        if (clients == null) {
+            new Login();
+        }
+        Object clientsData[][] = new Object[clients.size()][9];
+        for(int i=0; i<clients.size(); ++i) {
             clientsData[i][0] = clients.get(i).getName();
             clientsData[i][1] = clients.get(i).getSurname();
             clientsData[i][2] = clients.get(i).getDni_nif();
@@ -212,12 +222,11 @@ public class ManagePeopleView extends JFrame{
         ));
     }
 
-    private void loadProviders() {
-        int numberOfProviders = controller.getProvidersCount();
-        Object providersData[][] = new Object[numberOfProviders][9];
-        Object columnNames[] = {"Nom", "Cognoms", "NIF", "Núm. Compte",  "Telèfon", "E-mail", "CP", "Població", "Domicili"};
+    private void loadProviders() throws IOException, JSONException {
         ArrayList<Provider> providers = controller.getProviders();
-        for(int i=0; i<numberOfProviders; ++i) {
+        Object providersData[][] = new Object[providers.size()][9];
+        Object columnNames[] = {"Nom", "Cognoms", "NIF", "Núm. Compte",  "Telèfon", "E-mail", "CP", "Població", "Domicili"};
+        for(int i=0; i<providers.size(); ++i) {
             providersData[i][0] = providers.get(i).getName();
             providersData[i][1] = providers.get(i).getSurname();
             providersData[i][2] = providers.get(i).getDni_nif();
@@ -268,7 +277,7 @@ public class ManagePeopleView extends JFrame{
         return DeleteButton;
     }
 
-    private void createUIComponents() {
+    private void createUIComponents() throws IOException, JSONException {
         loadClients();
         loadProviders();
     }

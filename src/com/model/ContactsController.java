@@ -2,7 +2,9 @@ package com.model;
 
 import com.persistencia.DBContactsController;
 import com.persistencia.DBController;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ContactsController {
@@ -10,6 +12,8 @@ public class ContactsController {
 
     private static DBController dbController;
     private static ContactsController contactsController = null;
+    private ArrayList<Client> clients = null;
+    private ArrayList<Provider> providers = null;
 
     private ContactsController() {
         dbController = DBController.getInstance();
@@ -22,22 +26,16 @@ public class ContactsController {
         return contactsController;
     }
 
-    public ArrayList<Client> getClients() {
+    public ArrayList<Client> getClients() throws IOException, JSONException {
         DBContactsController dbContactsController = DBController.getInstance().getDBContactsController();
-        return dbContactsController.getClients();
+        clients = dbContactsController.getClients();
+        return clients;
     }
 
-    public ArrayList<Provider> getProviders() {
+    public ArrayList<Provider> getProviders() throws IOException, JSONException {
         DBContactsController dbContactsController = DBController.getInstance().getDBContactsController();
-        return dbContactsController.getProviders();
-    }
-
-    public int getClientsCount() {
-        return dbController.getDBContactsController().getClientsCount();
-    }
-
-    public int getProvidersCount() {
-        return dbController.getDBContactsController().getProvidersCount();
+        providers = dbContactsController.getProviders();
+        return providers;
     }
 
     public void saveNewClient(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) {
@@ -50,11 +48,11 @@ public class ContactsController {
         dbController.saveNewProvider(provider);
     }
 
-    public boolean clientExists(String name, String surname) {
+    public boolean clientExists(String name, String surname) throws IOException, JSONException {
         return dbController.clientExists(name, surname);
     }
 
-    public boolean providerExists(String name, String surname) {
+    public boolean providerExists(String name, String surname) throws IOException, JSONException {
         return dbController.providerExists(name, surname);
     }
 

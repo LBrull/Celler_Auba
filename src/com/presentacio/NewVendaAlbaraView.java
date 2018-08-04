@@ -1,8 +1,11 @@
 package com.presentacio;
 
+import org.json.JSONException;
+
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 
@@ -81,7 +84,7 @@ public class NewVendaAlbaraView extends JFrame{
         setVisible(true);
     }
 
-    private void createUIComponents() {
+    private void createUIComponents() throws IOException, JSONException {
         controller = NewVendaAlbaraViewController.getInstance();
         fromSelector = new FilterComboBox(controller.getProviders());
         toSelector = new FilterComboBox(controller.getClients());

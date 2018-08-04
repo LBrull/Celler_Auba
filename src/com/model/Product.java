@@ -4,15 +4,17 @@ public class Product {
 
     private String code;
     private String description;
-    private double price;
+    private String type;
+    private String price;
 
     public Product() {
 
     }
 
-    public Product(String code, String description, double price) {
+    public Product(String code, String description, String type, String price) {
         this.code = code;
         this.description = description;
+        this.type = type;
         this.price = price;
     }
 
@@ -32,11 +34,19 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

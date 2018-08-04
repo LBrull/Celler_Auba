@@ -4,7 +4,9 @@ import com.model.Client;
 import com.model.ContactsController;
 import com.model.Provider;
 import com.persistencia.UtilsController;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class NewVendaAlbaraViewController {
         return instance;
     }
 
-    public List<String> getProviders() {
+    public List<String> getProviders() throws IOException, JSONException {
         ArrayList<Provider> data = contactsController.getProviders();
         List<String> result = new ArrayList<>();
         for (Provider aData : data) {
@@ -37,7 +39,7 @@ public class NewVendaAlbaraViewController {
 
     }
 
-    public List<String> getClients() {
+    public List<String> getClients() throws IOException, JSONException {
         ArrayList<Client> data = contactsController.getClients();
         List<String> result = new ArrayList<>();
         for (Client aData : data) {

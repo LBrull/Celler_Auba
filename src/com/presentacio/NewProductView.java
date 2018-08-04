@@ -1,9 +1,12 @@
 package com.presentacio;
 
+import org.json.JSONException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class NewProductView extends JFrame{
 
@@ -18,6 +21,9 @@ public class NewProductView extends JFrame{
     private JLabel emptyPrice;
     private JButton saveButton;
     private JPanel rootPanel;
+    private JLabel emptyType;
+    private JComboBox typeComboBox;
+    private Object[] tipus = {"AM", "RA", "OL"};
 
     NewProductView() {
         super();
@@ -27,6 +33,9 @@ public class NewProductView extends JFrame{
         emptyPrice.setFont(new Font("Calibri", Font.PLAIN, 20));
         emptyDescription.setFont(new Font("Calibri", Font.PLAIN, 20));
         emptyCode.setFont(new Font("Calibri", Font.PLAIN, 20));
+        emptyType.setFont(new Font("Calibri", Font.PLAIN, 20));
+
+
 
         codiTextField.addKeyListener(new KeyListener() {
             @Override
@@ -94,17 +103,21 @@ public class NewProductView extends JFrame{
             }
         });
 
-        saveButton.addActionListener(e -> {
-            if (!emptyCode.isVisible() && !emptyDescription.isVisible() && !emptyPrice.isVisible()) {
-                if(controller.usedCode(codiTextField.getText())) {
-                    JOptionPane.showMessageDialog(null, "Aquest codi ja està en ús", "", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
-                    controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), preuTextField.getText());
-                    controller.repaintProductsTable();
-                    dispose();
-                }
+        typeComboBox.addActionListener(e -> {
+            if (!(typeComboBox.getSelectedIndex() == -1)) {
+                emptyType.setVisible(false);
+            }
+        });
 
+        saveButton.addActionListener(e -> {
+            if (!emptyCode.isVisible() && !emptyDescription.isVisible() && !emptyPrice.isVisible() && !emptyType.isVisible()) {
+                try {
+                    controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
+                }
+                controller.repaintProductsTable();
+                dispose();
             }
             else {
                 JOptionPane.showMessageDialog(null, "Completeu correctament tots els camps", "", JOptionPane.INFORMATION_MESSAGE);
@@ -127,4 +140,11 @@ public class NewProductView extends JFrame{
         return codiTextField;
     }
 
+    public String getProductType() {
+        return typeComboBox.getSelectedItem().toString();
+    }
+
+    private void createUIComponents() {
+        typeComboBox = new JComboBox(tipus);
+    }
 }

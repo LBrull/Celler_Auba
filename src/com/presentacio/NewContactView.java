@@ -1,9 +1,12 @@
 package com.presentacio;
 
+import org.json.JSONException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class NewContactView extends JFrame {
 
@@ -25,13 +28,12 @@ public class NewContactView extends JFrame {
     private JLabel emptyType;
     private JLabel emptyTelephone;
     private JTextField cpTextField;
-    private JLabel emptyCp;
     private JTextField townTextField;
     private JTextField dniNifTextField;
     private JTextField accountNumberTextField;
 
 
-    public NewContactView() {
+    NewContactView() {
         super();
         setContentPane(rootPanel);
 
@@ -142,34 +144,46 @@ public class NewContactView extends JFrame {
             if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyType.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
 
                 if (checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                    if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        controller.saveNewClient();
-                        controller.repaintClientsTable();
-                        dispose();
+                    try {
+                        if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            controller.saveNewClient();
+                            controller.repaintClientsTable();
+                            dispose();
+                        }
+                    } catch (IOException | JSONException e1) {
+                        e1.printStackTrace();
                     }
                 } else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                    if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        controller.saveNewProvider();
-                        controller.repaintProvidersTable();
-                        dispose();
+                    try {
+                        if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            controller.saveNewProvider();
+                            controller.repaintProvidersTable();
+                            dispose();
+                        }
+                    } catch (IOException | JSONException e1) {
+                        e1.printStackTrace();
                     }
                 } else {
-                    if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                        JOptionPane.showMessageDialog(null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                    } else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                    } else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                        JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        controller.saveNewClient();
-                        controller.saveNewProvider();
-                        controller.repaintClientsTable();
-                        controller.repaintProvidersTable();
-                        dispose();
+                    try {
+                        if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                            JOptionPane.showMessageDialog(null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
+                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
+                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            controller.saveNewClient();
+                            controller.saveNewProvider();
+                            controller.repaintClientsTable();
+                            controller.repaintProvidersTable();
+                            dispose();
+                        }
+                    } catch (IOException | JSONException e1) {
+                        e1.printStackTrace();
                     }
                 }
             }
@@ -183,13 +197,13 @@ public class NewContactView extends JFrame {
         setVisible(true);
     }
 
-    public JCheckBox getCheckBoxClient() {
-        return checkBoxClient;
-    }
-
-    public JCheckBox getCheckBoxProvider() {
-        return checkBoxProvider;
-    }
+//    public JCheckBox getCheckBoxClient() {
+//        return checkBoxClient;
+//    }
+//
+//    public JCheckBox getCheckBoxProvider() {
+//        return checkBoxProvider;
+//    }
 
     public JTextField getCpTextField() {
         return cpTextField;

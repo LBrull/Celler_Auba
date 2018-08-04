@@ -11,12 +11,16 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Vector;
 
 // MAIN DB controller
 public class DBController {
+
+    private static String DatabaseUrl = "https://cellerauba.herokuapp.com";
 
     private static DBController dbController = null;
     private static MongoDatabase mongoDB = null;
@@ -55,6 +59,10 @@ public class DBController {
         return dbContactsController;
     }
 
+    public static String getDatabaseUrl() {
+        return DatabaseUrl;
+    }
+
     public void saveNewClient(Client client) {
         dbContactsController.saveNewClient(client);
     }
@@ -67,11 +75,11 @@ public class DBController {
         getMongoClient().close();
     }
 
-    public boolean clientExists(String name, String surname) {
+    public boolean clientExists(String name, String surname) throws IOException, JSONException {
         return dbContactsController.clientExists(name, surname);
     }
 
-    public boolean providerExists(String name, String surname) {
+    public boolean providerExists(String name, String surname) throws IOException, JSONException {
         return dbContactsController.providerExists(name, surname);
     }
 
@@ -87,7 +95,7 @@ public class DBController {
         return dbContactsController.deleteProviders(names, surnames);
     }
 
-    public void saveNewProduct(Product product) {
+    public void saveNewProduct(Product product) throws IOException, JSONException {
         dbProductsController.saveNewProduct(product);
     }
 
@@ -105,7 +113,7 @@ public class DBController {
 
     public String login(String username, String password) throws Exception{
 
-        String url = "http://localhost:3000/api/signin";
+        String url = DatabaseUrl + "/api/signin";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
 

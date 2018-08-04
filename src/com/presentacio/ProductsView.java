@@ -1,12 +1,14 @@
 package com.presentacio;
 
 import com.model.Product;
+import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductsView extends JFrame{
@@ -89,10 +91,10 @@ public class ProductsView extends JFrame{
         });
     }
 
-    private void loadProducts() {
+    private void loadProducts() throws IOException, JSONException {
 
         productsTableModel = new ProductsTableModel();
-        Object columnNames[] = {"Codi", "Descripció", "Preu per unitat"};
+        Object columnNames[] = {"Codi", "Descripció", "Tipus", "Preu per unitat"};
         productsTableModel.setColumnIdentifiers(columnNames);
         table = new JTable(productsTableModel);
         sorter = new TableRowSorter<>(productsTableModel);
@@ -100,13 +102,13 @@ public class ProductsView extends JFrame{
         sorter.setRowFilter(null);
 
         //load products data
-        int numberOfProducts = controller.getProductsCount();
         ArrayList<Product> products = controller.getProducts();
-        Object productsData[][] = new Object[numberOfProducts][3];
-        for(int i=0; i<numberOfProducts; ++i) {
+        Object productsData[][] = new Object[products.size()][3];
+        for(int i=0; i<products.size(); ++i) {
             productsData[i][0] = products.get(i).getCode();
             productsData[i][1] = products.get(i).getDescription();
-            productsData[i][2] = products.get(i).getPrice();
+            productsData[i][2] = products.get(i).getType();
+            productsData[i][3] = products.get(i).getPrice();
         }
 
         for (int j=0; j<productsData.length; ++j) {
@@ -130,7 +132,7 @@ public class ProductsView extends JFrame{
         ));
     }
 
-    private void createUIComponents() {
+    private void createUIComponents() throws IOException, JSONException {
         controller = ProductsViewController.getInstance();
         loadProducts();
     }
