@@ -12,7 +12,6 @@ public class NewContactView extends JFrame {
 
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
-    //Icon popupSuccessIcon = new ImageIcon("/icons/ok_60x60");
     private JTextField nameTextField;
     private JTextField surnameTextField;
     private JCheckBox checkBoxProvider;
@@ -36,12 +35,9 @@ public class NewContactView extends JFrame {
     NewContactView() {
         super();
         setContentPane(rootPanel);
-
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
-
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-/////////////////////////////////
         emptyName.setVisible(true);
         emptySurname.setVisible(true);
         emptyTelephone.setVisible(true);

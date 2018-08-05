@@ -21,13 +21,15 @@ import java.util.prefs.Preferences;
 
 public class DBContactsController {
 
+    private String DBUrl = "https://cellerauba.herokuapp.com";
+
     DBContactsController() {
     }
 
     public ArrayList<Client> getClients () throws IOException, JSONException {
         ArrayList<Client> list = new ArrayList<>();
 
-        String url = "https://cellerauba.herokuapp.com/api/clients";
+        String url =DBUrl + "/api/clients";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
 
@@ -40,31 +42,23 @@ public class DBContactsController {
         client.close();
 
         if (response.getStatusLine().getStatusCode() == 200) {
-            JSONObject jsonResponse = new JSONObject(responseString);
-            System.out.println("Response: "+jsonResponse);
-            if (jsonResponse.has("message")) {
-                return list;
-            }
-            else {
-                JSONArray clients = new JSONArray(responseString);
-                for (int i = 0; i < clients.length(); ++i) {
-                    Client c = new Client();
-                    JSONObject jsonClient = clients.getJSONObject(i);
-                    c.setName(jsonClient.getString("name"));
-                    c.setSurname(jsonClient.getString("surname"));
-                    c.setDni_nif(jsonClient.getString("dni_nif"));
-                    c.setAccountNumber(jsonClient.getString("accountNumber"));
-                    c.setTelephone(jsonClient.getString("telephone"));
-                    c.setEmail(jsonClient.getString("email"));
-                    c.setCP(jsonClient.getString("cp"));
-                    c.setTown(jsonClient.getString("town"));
-                    c.setAddress(jsonClient.getString("address"));
-                    list.add(c);
-                }
-                return list;
+            JSONArray clients = new JSONArray(responseString);
+            for (int i = 0; i < clients.length(); ++i) {
+                Client c = new Client();
+                JSONObject jsonClient = clients.getJSONObject(i);
+                c.setName(jsonClient.getString("name"));
+                c.setSurname(jsonClient.getString("surname"));
+                c.setDni_nif(jsonClient.getString("dni_nif"));
+                c.setAccountNumber(jsonClient.getString("accountNumber"));
+                c.setTelephone(jsonClient.getString("telephone"));
+                c.setEmail(jsonClient.getString("email"));
+                c.setCP(jsonClient.getString("cp"));
+                c.setTown(jsonClient.getString("town"));
+                c.setAddress(jsonClient.getString("address"));
+                list.add(c);
             }
         }
-        else return null;
+        return list;
     }
 
     public ArrayList<Provider> getProviders() throws IOException, JSONException {
@@ -82,31 +76,23 @@ public class DBContactsController {
         client.close();
 
         if (response.getStatusLine().getStatusCode() == 200) {
-            JSONObject jsonResponse = new JSONObject(responseString);
-            System.out.println("Response: "+jsonResponse);
-            if (jsonResponse.has("message")) {
-                return list;
-            }
-            else {
-                JSONArray clients = new JSONArray(responseString);
-                for (int i = 0; i < clients.length(); ++i) {
-                    Provider c = new Provider();
-                    JSONObject jsonClient = clients.getJSONObject(i);
-                    c.setName(jsonClient.getString("name"));
-                    c.setSurname(jsonClient.getString("surname"));
-                    c.setDni_nif(jsonClient.getString("dni_nif"));
-                    c.setAccountNumber(jsonClient.getString("accountNumber"));
-                    c.setTelephone(jsonClient.getString("telephone"));
-                    c.setEmail(jsonClient.getString("email"));
-                    c.setCP(jsonClient.getString("cp"));
-                    c.setTown(jsonClient.getString("town"));
-                    c.setAddress(jsonClient.getString("address"));
-                    list.add(c);
-                }
-                return list;
+            JSONArray clients = new JSONArray(responseString);
+            for (int i = 0; i < clients.length(); ++i) {
+                Provider c = new Provider();
+                JSONObject jsonClient = clients.getJSONObject(i);
+                c.setName(jsonClient.getString("name"));
+                c.setSurname(jsonClient.getString("surname"));
+                c.setDni_nif(jsonClient.getString("dni_nif"));
+                c.setAccountNumber(jsonClient.getString("accountNumber"));
+                c.setTelephone(jsonClient.getString("telephone"));
+                c.setEmail(jsonClient.getString("email"));
+                c.setCP(jsonClient.getString("cp"));
+                c.setTown(jsonClient.getString("town"));
+                c.setAddress(jsonClient.getString("address"));
+                list.add(c);
             }
         }
-        else return null;
+        return list;
     }
 
     public void saveNewClient(Client client) {
@@ -122,7 +108,6 @@ public class DBContactsController {
         newClient.append("address", client.getAddress());
         newClient.append("dni_nif", client.getDni_nif());
         newClient.append("accountNumber", client.getAccountNumber());
-
         collection.insertOne(newClient);
     }
 

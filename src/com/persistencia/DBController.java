@@ -3,9 +3,11 @@ package com.persistencia;
 import com.model.Client;
 import com.model.Product;
 import com.model.Provider;
+import com.model.ServerResponse;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -15,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 // MAIN DB controller
@@ -95,8 +99,8 @@ public class DBController {
         return dbContactsController.deleteProviders(names, surnames);
     }
 
-    public void saveNewProduct(Product product) throws IOException, JSONException {
-        dbProductsController.saveNewProduct(product);
+    public ServerResponse saveNewProduct(Product product) throws IOException, JSONException {
+        return dbProductsController.saveNewProduct(product);
     }
 
     public DBProductsController getDBProductsController() {
@@ -111,7 +115,7 @@ public class DBController {
         dbProductsController.deleteOneProduct(code);
     }
 
-    public String login(String username, String password) throws Exception{
+    public ServerResponse login(String username, String password) throws Exception{
 
         String url = DatabaseUrl + "/api/signin";
         CloseableHttpClient client = HttpClients.createDefault();
@@ -125,15 +129,49 @@ public class DBController {
         StringEntity entity = new StringEntity(json);
         post.setEntity(entity);
         post.setHeader("Content-Type", "application/json");
-        CloseableHttpResponse response = client.execute(post);
-        String responseString = new BasicResponseHandler().handleResponse(response);
-        client.close();
 
-        JSONObject jsonResponse = new JSONObject(responseString);
+        ////////////////////////////////////////
+        HttpResponse response = client.execute( post );
+        InputStream body = response.getEntity().getContent();
+        /////////////////////////////////
+
+        ServerResponse res = new ServerResponse();
+        if (response.getStatusLine().getStatusCode() == 404) {
+
+            res.setStatus(404);
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
+
+        if (response.getStatusLine().getStatusCode() == 400) {
+            res.setStatus(400);
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
 
         if (response.getStatusLine().getStatusCode() == 200) {
-            return jsonResponse.getString("token");
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            JSONObject jsonResponse = new JSONObject(responseString);
+            System.out.println(jsonResponse.toString(1));
+            res.setStatus(200);
+            res.setMessage(responseString);
+            res.setToken(jsonResponse.getString("token"));
+            client.close();
+            return res;
         }
-        else return null;
+        else {
+            res.setStatus(500);
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
+    }
+
+    private String readStream(InputStream body) throws IOException {
+        String result = IOUtils.toString(body, StandardCharsets.UTF_8);
+        System.out.println(result);
+        return result;
     }
 }

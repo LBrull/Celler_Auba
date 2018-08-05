@@ -1,6 +1,7 @@
 package com.persistencia;
 
 import com.model.Product;
+import com.model.ServerResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -20,7 +21,7 @@ import java.util.prefs.Preferences;
 
 public class DBProductsController {
 
-    public void saveNewProduct(Product product) throws IOException, JSONException {
+    public ServerResponse saveNewProduct(Product product) throws IOException, JSONException {
         String url = DBController.getDatabaseUrl() +"/api/product";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
@@ -41,8 +42,28 @@ public class DBProductsController {
 
         CloseableHttpResponse response = client.execute(post);
         String responseString = new BasicResponseHandler().handleResponse(response);
-        System.out.println(responseString);
-        client.close();
+        if (response.getStatusLine().getStatusCode() == 200) {
+            System.out.println(responseString);
+            client.close();
+            ServerResponse res = new ServerResponse();
+            res.setStatus(200);
+            res.setMessage(responseString);
+            return res;
+        }
+        else if (response.getStatusLine().getStatusCode() == 500) {
+            client.close();
+            ServerResponse res = new ServerResponse();
+            res.setStatus(500);
+            res.setMessage(responseString);
+            return res;
+        }
+        else {
+            client.close();
+            ServerResponse res = new ServerResponse();
+            res.setStatus(500);
+            res.setMessage(responseString);
+            return res;
+        }
     }
 
     public ArrayList<Product> getProducts() throws IOException, JSONException {
@@ -56,24 +77,28 @@ public class DBProductsController {
         String token = "Bearer "+ Preferences.userRoot().get("token", null);
         get.setHeader("authorization", token);
         CloseableHttpResponse response = client.execute(get);
-        String responseString = new BasicResponseHandler().handleResponse(response);
-        System.out.println(responseString);
-        client.close();
+        System.out.println("response: " + response);
 
         if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
             JSONArray products = new JSONArray(responseString);
             for (int i = 0; i < products.length(); ++i) {
                 Product p = new Product();
                 JSONObject jsonClient = products.getJSONObject(i);
                 p.setCode(jsonClient.getString("code"));
                 p.setDescription(jsonClient.getString("description"));
+                p.setType(jsonClient.getString("type"));
                 p.setPrice(jsonClient.getString("price"));
 
                 list.add(p);
             }
+            client.close();
             return list;
         }
-        else return list;
+        else {
+            client.close();
+            return list;
+        }
     }
 
     public boolean usedCode(String text) {
@@ -89,8 +114,6 @@ public class DBProductsController {
     }
 
     public void deleteOneProduct(String code) {
-        Document productToDelete = new Document();
-        productToDelete.append("code", code);
-        DBController.getMongoDB().getCollection("products").deleteOne(productToDelete);
+
     }
 }

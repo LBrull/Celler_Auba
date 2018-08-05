@@ -1,5 +1,6 @@
 package com.presentacio;
 
+import com.model.ServerResponse;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -112,12 +113,21 @@ public class NewProductView extends JFrame{
         saveButton.addActionListener(e -> {
             if (!emptyCode.isVisible() && !emptyDescription.isVisible() && !emptyPrice.isVisible() && !emptyType.isVisible()) {
                 try {
-                    controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
+                    ServerResponse res = controller.saveNewProduct(codiTextField.getText(), descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
+                    if (res.getStatus() == 500 && !res.getMessage().contains("token") && !res.getMessage().contains("authoriz")) {
+                        JOptionPane.showMessageDialog(null, "Aquest codi de producte ja esxisteix", "", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else if (res.getStatus() == 500 && res.getMessage().contains("token") || !res.getMessage().contains("authoriz")) {
+                        JOptionPane.showMessageDialog(null, "La sessió ha caducat, torneu a iniciar sessió", "", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    else if (res.getStatus() == 200) {
+                        controller.repaintProductsTable();
+                        dispose();
+                    }
                 } catch (IOException | JSONException e1) {
                     e1.printStackTrace();
                 }
-                controller.repaintProductsTable();
-                dispose();
             }
             else {
                 JOptionPane.showMessageDialog(null, "Completeu correctament tots els camps", "", JOptionPane.INFORMATION_MESSAGE);

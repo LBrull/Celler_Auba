@@ -1,5 +1,6 @@
 package com.presentacio;
 
+import com.model.ServerResponse;
 import com.persistencia.DBController;
 
 public class LoginController {
@@ -23,7 +24,7 @@ public class LoginController {
 
     }
 
-    public String login(String username, String password) throws Exception {
+    public ServerResponse login(String username, String password) throws Exception {
         return dbController.login(username, password);
     }
 

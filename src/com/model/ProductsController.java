@@ -21,8 +21,8 @@ public class ProductsController {
         return instance;
     }
 
-    public void saveNewProduct(Product product) throws IOException, JSONException {
-        dbController.saveNewProduct(product);
+    public ServerResponse saveNewProduct(Product product) throws IOException, JSONException {
+        return dbController.saveNewProduct(product);
     }
 
     public ArrayList<Product> getProducts() throws IOException, JSONException {

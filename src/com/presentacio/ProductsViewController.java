@@ -2,6 +2,7 @@ package com.presentacio;
 
 import com.model.Product;
 import com.model.ProductsController;
+import com.model.ServerResponse;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -43,9 +44,9 @@ public class ProductsViewController {
        return productsController.usedCode(text);
     }
 
-    public void saveNewProduct(String code, String desc, String type, String price) throws IOException, JSONException {
+    public ServerResponse saveNewProduct(String code, String desc, String type, String price) throws IOException, JSONException {
         Product product = new Product(code, desc, type, price);
-        productsController.saveNewProduct(product);
+        return productsController.saveNewProduct(product);
 
     }
 

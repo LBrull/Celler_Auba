@@ -112,9 +112,7 @@ public class ManagePeopleView extends JFrame{
             if (providersTable.getSelectedRowCount() == 1 || clientsTable.getSelectedRowCount() == 1) {
                 try {
                     controller.ModifyContactView();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (JSONException e1) {
+                } catch (IOException | JSONException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -181,9 +179,6 @@ public class ManagePeopleView extends JFrame{
 
         //load clients data
         ArrayList<Client> clients = controller.getClients();
-        if (clients == null) {
-            new Login();
-        }
         Object clientsData[][] = new Object[clients.size()][9];
         for(int i=0; i<clients.size(); ++i) {
             clientsData[i][0] = clients.get(i).getName();

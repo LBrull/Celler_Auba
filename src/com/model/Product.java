@@ -49,4 +49,5 @@ public class Product {
     public void setType(String type) {
         this.type = type;
     }
+
 }

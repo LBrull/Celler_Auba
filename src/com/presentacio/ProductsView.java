@@ -103,7 +103,7 @@ public class ProductsView extends JFrame{
 
         //load products data
         ArrayList<Product> products = controller.getProducts();
-        Object productsData[][] = new Object[products.size()][3];
+        Object productsData[][] = new Object[products.size()][4];
         for(int i=0; i<products.size(); ++i) {
             productsData[i][0] = products.get(i).getCode();
             productsData[i][1] = products.get(i).getDescription();
@@ -111,8 +111,8 @@ public class ProductsView extends JFrame{
             productsData[i][3] = products.get(i).getPrice();
         }
 
-        for (int j=0; j<productsData.length; ++j) {
-            productsTableModel.addRow(productsData[j]);
+        for (Object[] aProductsData : productsData) {
+            productsTableModel.addRow(aProductsData);
         }
 
         table.setCellSelectionEnabled(false);
