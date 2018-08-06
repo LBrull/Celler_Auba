@@ -5,6 +5,7 @@ public class Product {
     private String description;
     private String type;
     private String price;
+    private String objectId;
 
     public Product() {
 
@@ -40,4 +41,11 @@ public class Product {
         this.type = type;
     }
 
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
 }

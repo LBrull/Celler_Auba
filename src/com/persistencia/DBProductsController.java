@@ -11,7 +11,6 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.bson.Document;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,8 +66,7 @@ public class DBProductsController {
 
     }
 
-    public ArrayList<Product> getProducts() throws IOException, JSONException {
-        ArrayList<Product> list = new ArrayList<>();
+    public ServerResponse getProducts() throws IOException {
 
         String url = DatabaseUrl +"/api/products";
         CloseableHttpClient client = HttpClients.createDefault();
@@ -78,25 +76,29 @@ public class DBProductsController {
         String token = "Bearer "+ Preferences.userRoot().get("token", "");
         get.setHeader("authorization", token);
         CloseableHttpResponse response = client.execute(get);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse serverResponse = new ServerResponse();
 
         if (response.getStatusLine().getStatusCode() == 200) {
             String responseString = new BasicResponseHandler().handleResponse(response);
-            JSONArray products = new JSONArray(responseString);
-            for (int i = 0; i < products.length(); ++i) {
-                Product p = new Product();
-                JSONObject jsonClient = products.getJSONObject(i);
-                p.setDescription(jsonClient.getString("description"));
-                p.setType(jsonClient.getString("type"));
-                p.setPrice(jsonClient.getString("price"));
-                list.add(p);
-            }
-            client.close();
-            return list;
+            serverResponse.setStatus(200);
+            serverResponse.setMessage(responseString);
+//            JSONArray products = new JSONArray(responseString);
+//            for (int i = 0; i < products.length(); ++i) {
+//                Product p = new Product();
+//                JSONObject jsonClient = products.getJSONObject(i);
+//                p.setDescription(jsonClient.getString("description"));
+//                p.setType(jsonClient.getString("type"));
+//                p.setPrice(jsonClient.getString("price"));
+//                list.add(p);
+//            }
         }
         else {
-            client.close();
-            return list;
+            serverResponse.setStatus(response.getStatusLine().getStatusCode());
+            serverResponse.setMessage(readStream(body));
         }
+        client.close();
+        return serverResponse;
     }
 
     public boolean usedCode(String text) {
@@ -111,7 +113,7 @@ public class DBProductsController {
         return trobat;
     }
 
-    public void deleteOneProduct(String code) {
+    public void deleteOneProduct(Product prod) {
 
     }
 

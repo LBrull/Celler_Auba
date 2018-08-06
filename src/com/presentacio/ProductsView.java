@@ -1,7 +1,10 @@
 package com.presentacio;
 
 import com.model.Product;
+import com.model.ServerResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -64,9 +67,12 @@ public class ProductsView extends JFrame{
                     int rowView = rows[0];
                     int rowTable = table.convertRowIndexToModel(rowView);
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest producte?","WARNING", JOptionPane.YES_NO_OPTION);
-                    String code = productsTableModel.getValueAt(rowTable, 0).toString();
+                    Product prod = new Product();
+                    prod.setDescription(productsTableModel.getValueAt(rowTable, 0).toString());
+                    prod.setType(productsTableModel.getValueAt(rowTable, 1).toString());
+                    prod.setPrice(productsTableModel.getValueAt(rowTable, 2).toString());
                     if (dialogButton == 0) {
-                        controller.deleteOneProduct(code);
+                        controller.deleteOneProduct(prod);
                         controller.repaintProductsTableWhenDeletion(rowTable);
                     }
                 }
@@ -77,7 +83,7 @@ public class ProductsView extends JFrame{
                         String code = productsTableModel.getValueAt(rowTable, 0).toString();
                         if (dialogButton == 0) {
                             System.out.println("code "+code +" deleted");
-                            controller.deleteOneProduct(code);
+                            //controller.deleteOneProduct(code);
                         }
                     }
                     for ( int i = rows.length -1 ;  i >= 0; i-- ) {
@@ -94,7 +100,7 @@ public class ProductsView extends JFrame{
     private void loadProducts() throws IOException, JSONException {
 
         productsTableModel = new ProductsTableModel();
-        Object columnNames[] = {"Producte", "Tipus", "Preu per unitat"};
+        Object columnNames[] = {"Codi", "Producte", "Tipus", "Preu per unitat"};
         productsTableModel.setColumnIdentifiers(columnNames);
         table = new JTable(productsTableModel);
         sorter = new TableRowSorter<>(productsTableModel);
@@ -102,33 +108,57 @@ public class ProductsView extends JFrame{
         sorter.setRowFilter(null);
 
         //load products data
-        ArrayList<Product> products = controller.getProducts();
-        Object productsData[][] = new Object[products.size()][3];
-        for(int i=0; i<products.size(); ++i) {
-            productsData[i][0] = products.get(i).getDescription();
-            productsData[i][1] = products.get(i).getType();
-            productsData[i][2] = products.get(i).getPrice();
-        }
+        ServerResponse serverResponse = controller.getProducts();
+        if (serverResponse.getStatus() == 200) {
+            ArrayList<Product> products = parseJSON(serverResponse.getMessage());
+            Object productsData[][] = new Object[products.size()][4];
+            for (int i = 0; i < products.size(); ++i) {
+                productsData[i][0] = products.get(i).getObjectId();
+                productsData[i][1] = products.get(i).getDescription();
+                productsData[i][2] = products.get(i).getType();
+                productsData[i][3] = products.get(i).getPrice();
+            }
 
-        for (Object[] aProductsData : productsData) {
-            productsTableModel.addRow(aProductsData);
-        }
+            for (Object[] aProductsData : productsData) {
+                productsTableModel.addRow(aProductsData);
+            }
 
-        table.setCellSelectionEnabled(false);
-        table.setRowSelectionAllowed(true);
-        table.setFocusable(false);
-        table.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
-                () -> {
-                    if(!EditButton.isVisible()) {
-                        EditButton.setVisible(true);
-                        DeleteButton.setVisible(true);
+            table.setCellSelectionEnabled(false);
+            table.setRowSelectionAllowed(true);
+            table.setFocusable(false);
+            table.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
+                    () -> {
+                        if (!EditButton.isVisible()) {
+                            EditButton.setVisible(true);
+                            DeleteButton.setVisible(true);
+                        }
+                        if (table.getSelectionModel().isSelectionEmpty()) {
+                            EditButton.setVisible(false);
+                            DeleteButton.setVisible(false);
+                        }
                     }
-                    if (table.getSelectionModel().isSelectionEmpty()) {
-                        EditButton.setVisible(false);
-                        DeleteButton.setVisible(false);
-                    }
-                }
-        ));
+            ));
+        }
+        else if (serverResponse.getStatus() != 500) {
+            new Login();
+            this.dispose();
+        }
+    }
+
+    private ArrayList<Product> parseJSON(String products) throws JSONException {
+        ArrayList<Product> list = new ArrayList<>();
+        JSONArray arrayProds = new JSONArray(products);
+        for (int i = 0; i < arrayProds.length(); ++i) {
+            Product p = new Product();
+            JSONObject jsonClient = arrayProds.getJSONObject(i);
+            p.setObjectId(jsonClient.getString("_id"));
+            p.setDescription(jsonClient.getString("description"));
+            p.setType(jsonClient.getString("type"));
+            p.setPrice(jsonClient.getString("price"));
+            list.add(p);
+        }
+        return list;
+
     }
 
     private void createUIComponents() throws IOException, JSONException {

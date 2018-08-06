@@ -1,9 +1,12 @@
 package com.model;
 
+import org.json.JSONArray;
+
 public class ServerResponse {
     private int status;
     private String message;
     private String token;
+    private JSONArray returnedObjects;
 
     public ServerResponse () {
 
@@ -31,5 +34,13 @@ public class ServerResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public JSONArray getReturnedObjects() {
+        return returnedObjects;
+    }
+
+    public void setReturnedObjects(JSONArray returnedObjects) {
+        this.returnedObjects = returnedObjects;
     }
 }

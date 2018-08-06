@@ -25,7 +25,7 @@ public class ProductsController {
         return dbController.saveNewProduct(product);
     }
 
-    public ArrayList<Product> getProducts() throws IOException, JSONException {
+    public ServerResponse getProducts() throws IOException, JSONException {
         return dbController.getDBProductsController().getProducts();
     }
 
@@ -33,7 +33,7 @@ public class ProductsController {
         return dbController.usedCode(text);
     }
 
-    public void deleteOneProduct(String code) {
-        dbController.deleteOneProduct(code);
+    public void deleteOneProduct(Product prod) {
+        dbController.deleteOneProduct(prod);
     }
 }

@@ -111,8 +111,8 @@ public class DBController {
         return dbProductsController.usedCode(text);
     }
 
-    public void deleteOneProduct(String code) {
-        dbProductsController.deleteOneProduct(code);
+    public void deleteOneProduct(Product prod) {
+        dbProductsController.deleteOneProduct(prod);
     }
 
     public ServerResponse login(String username, String password) throws Exception{

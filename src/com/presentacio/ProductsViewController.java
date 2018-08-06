@@ -6,7 +6,6 @@ import com.model.ServerResponse;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ProductsViewController {
@@ -32,7 +31,7 @@ public class ProductsViewController {
         productsView = new ProductsView();
     }
 
-    public ArrayList<Product> getProducts() throws IOException, JSONException {
+    public ServerResponse getProducts() throws IOException, JSONException {
         return productsController.getProducts();
     }
 
@@ -50,17 +49,18 @@ public class ProductsViewController {
 
     }
 
-    public void repaintProductsTable() {
+    public void repaintProductsTable(Product newProduct) {
         Vector<String> data = new Vector<>();
-        data.add(newProductView.getDescripcioTextField().getText());
-        data.add(newProductView.getProductType());
-        data.add(newProductView.getPreuTextField().getText());
+        data.add(newProduct.getObjectId());
+        data.add(newProduct.getDescription());
+        data.add(newProduct.getType());
+        data.add(newProduct.getPrice());
 
         productsView.getProductsTableModel().addRow(data);
     }
 
-    public void deleteOneProduct(String code) {
-        productsController.deleteOneProduct(code);
+    public void deleteOneProduct(Product prod) {
+        productsController.deleteOneProduct(prod);
     }
 
     public void repaintProductsTableWhenDeletion(int rowTable) {

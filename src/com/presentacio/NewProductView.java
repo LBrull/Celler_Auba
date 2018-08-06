@@ -1,7 +1,9 @@
 package com.presentacio;
 
+import com.model.Product;
 import com.model.ServerResponse;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,8 +81,9 @@ public class NewProductView extends JFrame{
             if (!emptyDescription.isVisible() && !emptyPrice.isVisible()) {
                 try {
                     ServerResponse res = controller.saveNewProduct(descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
+                    Product newProduct = parseJSON(res);
                     if (res.getStatus() == 200) {
-                        controller.repaintProductsTable();
+                        controller.repaintProductsTable(newProduct);
                         dispose();
                     }
 
@@ -113,6 +116,17 @@ public class NewProductView extends JFrame{
 
         pack();
         setVisible(true);
+    }
+
+    private Product parseJSON(ServerResponse res) throws JSONException {
+        JSONObject jsonObject = new JSONObject(res.getMessage());
+        JSONObject jsonProduct = new JSONObject(jsonObject.getString("product"));
+        Product newProd = new Product();
+        newProd.setObjectId(jsonProduct.getString("_id"));
+        newProd.setDescription(jsonProduct.getString("description"));
+        newProd.setType(jsonProduct.getString("type"));
+        newProd.setPrice(jsonProduct.getString("price"));
+        return newProd;
     }
 
     public JTextField getPreuTextField() {
