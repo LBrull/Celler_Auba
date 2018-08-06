@@ -67,23 +67,38 @@ public class ProductsView extends JFrame{
                     int rowView = rows[0];
                     int rowTable = table.convertRowIndexToModel(rowView);
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar aquest producte?","WARNING", JOptionPane.YES_NO_OPTION);
-                    Product prod = new Product();
-                    prod.setDescription(productsTableModel.getValueAt(rowTable, 0).toString());
-                    prod.setType(productsTableModel.getValueAt(rowTable, 1).toString());
-                    prod.setPrice(productsTableModel.getValueAt(rowTable, 2).toString());
+                    String objectId = productsTableModel.getValueAt(rowTable, 0).toString();
                     if (dialogButton == 0) {
-                        controller.deleteOneProduct(prod);
-                        controller.repaintProductsTableWhenDeletion(rowTable);
+                        try {
+                            ServerResponse res = controller.deleteOneProduct(objectId);
+                            controller.repaintProductsTableWhenDeletion(rowTable);
+
+                            if (res.getStatus() !=  200) {
+                                JOptionPane.showConfirmDialog (null, "La sessió ha caducat, torneu a iniciar-la","WARNING", JOptionPane.YES_NO_OPTION);
+                            }
+
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
                 else {
                     int dialogButton = JOptionPane.showConfirmDialog (null, "Segur que voleu eliminar "+rows.length+" productes?","WARNING", JOptionPane.YES_NO_OPTION);
                     for (int rowView : rows) {
                         int rowTable = table.convertRowIndexToModel(rowView);
-                        String code = productsTableModel.getValueAt(rowTable, 0).toString();
+                        String objectId = productsTableModel.getValueAt(rowTable, 0).toString();
                         if (dialogButton == 0) {
-                            System.out.println("code "+code +" deleted");
-                            //controller.deleteOneProduct(code);
+                            try {
+                                ServerResponse res = controller.deleteOneProduct(objectId);
+                                System.out.println("code "+objectId +" deleted");
+
+                                if (res.getStatus() != 200) {
+                                    JOptionPane.showConfirmDialog (null, "La sessió ha caducat, torneu a iniciar-la","WARNING", JOptionPane.YES_NO_OPTION);
+                                }
+
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
                         }
                     }
                     for ( int i = rows.length -1 ;  i >= 0; i-- ) {

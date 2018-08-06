@@ -33,7 +33,7 @@ public class ProductsController {
         return dbController.usedCode(text);
     }
 
-    public void deleteOneProduct(Product prod) {
-        dbController.deleteOneProduct(prod);
+    public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
+        return dbController.deleteOneProduct(ObjectId);
     }
 }

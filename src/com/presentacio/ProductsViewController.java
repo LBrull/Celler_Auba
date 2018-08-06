@@ -59,8 +59,8 @@ public class ProductsViewController {
         productsView.getProductsTableModel().addRow(data);
     }
 
-    public void deleteOneProduct(Product prod) {
-        productsController.deleteOneProduct(prod);
+    public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
+        return productsController.deleteOneProduct(ObjectId);
     }
 
     public void repaintProductsTableWhenDeletion(int rowTable) {

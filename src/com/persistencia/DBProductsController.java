@@ -4,6 +4,7 @@ import com.model.Product;
 import com.model.ServerResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -83,15 +84,6 @@ public class DBProductsController {
             String responseString = new BasicResponseHandler().handleResponse(response);
             serverResponse.setStatus(200);
             serverResponse.setMessage(responseString);
-//            JSONArray products = new JSONArray(responseString);
-//            for (int i = 0; i < products.length(); ++i) {
-//                Product p = new Product();
-//                JSONObject jsonClient = products.getJSONObject(i);
-//                p.setDescription(jsonClient.getString("description"));
-//                p.setType(jsonClient.getString("type"));
-//                p.setPrice(jsonClient.getString("price"));
-//                list.add(p);
-//            }
         }
         else {
             serverResponse.setStatus(response.getStatusLine().getStatusCode());
@@ -113,7 +105,35 @@ public class DBProductsController {
         return trobat;
     }
 
-    public void deleteOneProduct(Product prod) {
+    public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
+
+        String url = DatabaseUrl +"/api/product/" + ObjectId;
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpDelete delete = new HttpDelete(url);
+
+        delete.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        delete.setHeader("authorization", token);
+
+
+        CloseableHttpResponse response = client.execute(delete);
+        InputStream body = response.getEntity().getContent();
+
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            client.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
 
     }
 
