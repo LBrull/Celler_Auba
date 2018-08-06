@@ -94,7 +94,7 @@ public class ProductsView extends JFrame{
     private void loadProducts() throws IOException, JSONException {
 
         productsTableModel = new ProductsTableModel();
-        Object columnNames[] = {"Codi", "Descripció", "Tipus", "Preu per unitat"};
+        Object columnNames[] = {"Producte", "Tipus", "Preu per unitat"};
         productsTableModel.setColumnIdentifiers(columnNames);
         table = new JTable(productsTableModel);
         sorter = new TableRowSorter<>(productsTableModel);
@@ -103,12 +103,11 @@ public class ProductsView extends JFrame{
 
         //load products data
         ArrayList<Product> products = controller.getProducts();
-        Object productsData[][] = new Object[products.size()][4];
+        Object productsData[][] = new Object[products.size()][3];
         for(int i=0; i<products.size(); ++i) {
-            productsData[i][0] = products.get(i).getCode();
-            productsData[i][1] = products.get(i).getDescription();
-            productsData[i][2] = products.get(i).getType();
-            productsData[i][3] = products.get(i).getPrice();
+            productsData[i][0] = products.get(i).getDescription();
+            productsData[i][1] = products.get(i).getType();
+            productsData[i][2] = products.get(i).getPrice();
         }
 
         for (Object[] aProductsData : productsData) {

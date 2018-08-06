@@ -2,7 +2,6 @@ package com.model;
 
 public class Product {
 
-    private String code;
     private String description;
     private String type;
     private String price;
@@ -11,19 +10,10 @@ public class Product {
 
     }
 
-    public Product(String code, String description, String type, String price) {
-        this.code = code;
+    public Product(String description, String type, String price) {
         this.description = description;
         this.type = type;
         this.price = price;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getDescription() {

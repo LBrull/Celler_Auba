@@ -44,15 +44,14 @@ public class ProductsViewController {
        return productsController.usedCode(text);
     }
 
-    public ServerResponse saveNewProduct(String code, String desc, String type, String price) throws IOException, JSONException {
-        Product product = new Product(code, desc, type, price);
+    public ServerResponse saveNewProduct(String desc, String type, String price) throws IOException, JSONException {
+        Product product = new Product(desc, type, price);
         return productsController.saveNewProduct(product);
 
     }
 
     public void repaintProductsTable() {
         Vector<String> data = new Vector<>();
-        data.add(newProductView.getCodiTextField().getText());
         data.add(newProductView.getDescripcioTextField().getText());
         data.add(newProductView.getProductType());
         data.add(newProductView.getPreuTextField().getText());

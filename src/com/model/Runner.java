@@ -1,7 +1,7 @@
 package com.model;
 
 import com.persistencia.DBController;
-import com.presentacio.LoginController;
+import com.presentacio.MenuController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +17,10 @@ public class Runner {
 
         configureLookAndFeel();
         //configureDB();
-
-        //String token = Preferences.userRoot().get("token", null);
-        LoginController loginController = LoginController.getInstance();
-        loginController.showLoginView();
+        MenuController menuController = MenuController.getInstance();
+        menuController.showMenuView();
+//        LoginController loginController = LoginController.getInstance();
+//        loginController.showLoginView();
     }
 
     private static void configureDB() {

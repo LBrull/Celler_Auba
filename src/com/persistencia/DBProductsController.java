@@ -2,6 +2,7 @@ package com.persistencia;
 
 import com.model.Product;
 import com.model.ServerResponse;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -15,14 +16,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
 public class DBProductsController {
 
+    private static String DatabaseUrl = "https://cellerauba.herokuapp.com";
+
     public ServerResponse saveNewProduct(Product product) throws IOException, JSONException {
-        String url = DBController.getDatabaseUrl() +"/api/product";
+        String url = DatabaseUrl +"/api/product";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
 
@@ -31,7 +36,6 @@ public class DBProductsController {
         post.setHeader("authorization", token);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", product.getCode());
         jsonObject.put("description", product.getDescription());
         jsonObject.put("type", product.getType());
         jsonObject.put("price", product.getPrice());
@@ -41,43 +45,39 @@ public class DBProductsController {
         post.setEntity(entity);
 
         CloseableHttpResponse response = client.execute(post);
-        String responseString = new BasicResponseHandler().handleResponse(response);
+        InputStream body = response.getEntity().getContent();
+
+        ServerResponse res = new ServerResponse();
+
         if (response.getStatusLine().getStatusCode() == 200) {
-            System.out.println(responseString);
-            client.close();
-            ServerResponse res = new ServerResponse();
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            JSONObject jsonResponse = new JSONObject(responseString);
+            System.out.println(jsonResponse.toString(1));
             res.setStatus(200);
             res.setMessage(responseString);
-            return res;
-        }
-        else if (response.getStatusLine().getStatusCode() == 500) {
             client.close();
-            ServerResponse res = new ServerResponse();
-            res.setStatus(500);
-            res.setMessage(responseString);
             return res;
         }
         else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
             client.close();
-            ServerResponse res = new ServerResponse();
-            res.setStatus(500);
-            res.setMessage(responseString);
             return res;
         }
+
     }
 
     public ArrayList<Product> getProducts() throws IOException, JSONException {
         ArrayList<Product> list = new ArrayList<>();
 
-        String url = DBController.getDatabaseUrl() +"/api/products";
+        String url = DatabaseUrl +"/api/products";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
 
         get.setHeader("Content-Type", "application/json");
-        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        String token = "Bearer "+ Preferences.userRoot().get("token", "");
         get.setHeader("authorization", token);
         CloseableHttpResponse response = client.execute(get);
-        System.out.println("response: " + response);
 
         if (response.getStatusLine().getStatusCode() == 200) {
             String responseString = new BasicResponseHandler().handleResponse(response);
@@ -85,11 +85,9 @@ public class DBProductsController {
             for (int i = 0; i < products.length(); ++i) {
                 Product p = new Product();
                 JSONObject jsonClient = products.getJSONObject(i);
-                p.setCode(jsonClient.getString("code"));
                 p.setDescription(jsonClient.getString("description"));
                 p.setType(jsonClient.getString("type"));
                 p.setPrice(jsonClient.getString("price"));
-
                 list.add(p);
             }
             client.close();
@@ -115,5 +113,11 @@ public class DBProductsController {
 
     public void deleteOneProduct(String code) {
 
+    }
+
+    private String readStream(InputStream body) throws IOException {
+        String result = IOUtils.toString(body, StandardCharsets.UTF_8);
+        System.out.println(result);
+        return result;
     }
 }
