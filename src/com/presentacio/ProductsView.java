@@ -60,6 +60,16 @@ public class ProductsView extends JFrame{
             controller.showNewProductView();
         });
 
+        EditButton.addActionListener(e -> {
+            int rowView = table.getSelectedRow();
+            int rowTable = table.convertRowIndexToModel(rowView);
+            String objectId = productsTableModel.getValueAt(rowTable, 0).toString();
+            String desc = productsTableModel.getValueAt(rowTable, 1).toString();
+            String type = productsTableModel.getValueAt(rowTable, 2).toString();
+            String price = productsTableModel.getValueAt(rowTable, 3).toString();
+            new EditProductView(objectId, desc, type, price);
+        });
+
         DeleteButton.addActionListener(e -> {
             if (table.getSelectedRowCount()>=1) {
                 int[] rows = table.getSelectedRows();
@@ -143,9 +153,12 @@ public class ProductsView extends JFrame{
             table.setFocusable(false);
             table.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
                     () -> {
-                        if (!EditButton.isVisible()) {
-                            EditButton.setVisible(true);
+                        if (table.getSelectedRowCount() == 1) {
                             DeleteButton.setVisible(true);
+                            EditButton.setVisible(true);
+                        }
+                        if (table.getSelectedRowCount() > 1) {
+                            EditButton.setVisible(false);
                         }
                         if (table.getSelectionModel().isSelectionEmpty()) {
                             EditButton.setVisible(false);
@@ -173,7 +186,6 @@ public class ProductsView extends JFrame{
             list.add(p);
         }
         return list;
-
     }
 
     private void createUIComponents() throws IOException, JSONException {
@@ -194,5 +206,9 @@ public class ProductsView extends JFrame{
             return;
         }
         sorter.setRowFilter(rf);
+    }
+
+    public JTable getProductsTable() {
+        return table;
     }
 }

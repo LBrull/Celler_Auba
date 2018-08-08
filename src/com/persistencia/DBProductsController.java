@@ -3,23 +3,17 @@ package com.persistencia;
 import com.model.Product;
 import com.model.ServerResponse;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.prefs.Preferences;
 
 public class DBProductsController {
@@ -93,18 +87,6 @@ public class DBProductsController {
         return serverResponse;
     }
 
-    public boolean usedCode(String text) {
-        ArrayList<Product> list = new ArrayList<>();
-        List<Document> products = DBController.getMongoDB().getCollection("products").find().into(new ArrayList<>());
-        int i=0;
-        boolean trobat = false;
-        while(!trobat && i<products.size()) {
-            if (products.get(i).getString("code").equals(text)) trobat = true;
-            ++i;
-        }
-        return trobat;
-    }
-
     public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
 
         String url = DatabaseUrl +"/api/product/" + ObjectId;
@@ -141,5 +123,43 @@ public class DBProductsController {
         String result = IOUtils.toString(body, StandardCharsets.UTF_8);
         System.out.println(result);
         return result;
+    }
+
+    public ServerResponse editProduct(String objectId, String newDesc, String newType, String newPrice) throws IOException, JSONException {
+        String url = DatabaseUrl +"/api/product/" + objectId;
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPut put = new HttpPut(url);
+
+        put.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        put.setHeader("authorization", token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("description", newDesc);
+        jsonObject.put("type", newType);
+        jsonObject.put("price", newPrice);
+        String json = jsonObject.toString(1);
+
+        StringEntity entity = new StringEntity(json);
+        put.setEntity(entity);
+
+        CloseableHttpResponse response = client.execute(put);
+        InputStream body = response.getEntity().getContent();
+
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            client.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
     }
 }

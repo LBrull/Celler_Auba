@@ -107,10 +107,6 @@ public class DBController {
         return dbProductsController;
     }
 
-    public boolean usedCode(String text) {
-        return dbProductsController.usedCode(text);
-    }
-
     public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
         return dbProductsController.deleteOneProduct(ObjectId);
     }

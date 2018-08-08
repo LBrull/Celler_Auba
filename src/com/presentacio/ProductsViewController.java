@@ -3,8 +3,10 @@ package com.presentacio;
 import com.model.Product;
 import com.model.ProductsController;
 import com.model.ServerResponse;
+import com.persistencia.DBController;
 import org.json.JSONException;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -39,17 +41,13 @@ public class ProductsViewController {
         newProductView = new NewProductView();
     }
 
-    public boolean usedCode(String text) {
-       return productsController.usedCode(text);
-    }
-
     public ServerResponse saveNewProduct(String desc, String type, String price) throws IOException, JSONException {
         Product product = new Product(desc, type, price);
         return productsController.saveNewProduct(product);
 
     }
 
-    public void repaintProductsTable(Product newProduct) {
+    public void repaintProductsTableWhenAddition(Product newProduct) {
         Vector<String> data = new Vector<>();
         data.add(newProduct.getObjectId());
         data.add(newProduct.getDescription());
@@ -59,11 +57,29 @@ public class ProductsViewController {
         productsView.getProductsTableModel().addRow(data);
     }
 
+    public void repaintProductsTableWhenEdit(int rowTable, String objectId, String newDesc, String newType, String newPrice) {
+        repaintProductsTableWhenDeletion(rowTable);
+        Product newProduct = new Product(objectId, newDesc, newType, newPrice);
+        repaintProductsTableWhenAddition(newProduct);
+    }
+
     public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
         return productsController.deleteOneProduct(ObjectId);
     }
 
     public void repaintProductsTableWhenDeletion(int rowTable) {
         productsView.getProductsTableModel().removeRow(rowTable);
+    }
+
+    public static ServerResponse editProduct(String objectId, String newDesc, String newType, String newPrice) throws IOException, JSONException {
+        return DBController.getInstance().getDBProductsController().editProduct(objectId, newDesc, newType, newPrice);
+    }
+
+    public JTable getProductsTable() {
+        return productsView.getProductsTable();
+    }
+
+    public ProductsView getProductsView() {
+        return productsView;
     }
 }

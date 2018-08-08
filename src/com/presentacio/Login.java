@@ -27,6 +27,7 @@ public class Login extends JFrame{
                 if (res.getStatus() == 200) {
                     dispose();
                     saveToken(res.getToken());
+                    MenuController.setSessioName(textField1.getText());
                     LoginController.getInstance().showMenu();
                 }
                 else if (res.getStatus() == 404) {

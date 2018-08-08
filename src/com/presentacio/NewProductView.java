@@ -83,7 +83,7 @@ public class NewProductView extends JFrame{
                     ServerResponse res = controller.saveNewProduct(descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
                     Product newProduct = parseJSON(res);
                     if (res.getStatus() == 200) {
-                        controller.repaintProductsTable(newProduct);
+                        controller.repaintProductsTableWhenAddition(newProduct);
                         dispose();
                     }
 

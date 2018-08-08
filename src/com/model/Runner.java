@@ -1,7 +1,7 @@
 package com.model;
 
 import com.persistencia.DBController;
-import com.presentacio.MenuController;
+import com.presentacio.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +16,10 @@ public class Runner {
     public static void main(String[] args) {
 
         configureLookAndFeel();
-        //configureDB();
-        MenuController menuController = MenuController.getInstance();
-        menuController.showMenuView();
-//        LoginController loginController = LoginController.getInstance();
-//        loginController.showLoginView();
+//        MenuController menuController = MenuController.getInstance();
+//        menuController.showMenuView();
+        LoginController loginController = LoginController.getInstance();
+        loginController.showLoginView();
     }
 
     private static void configureDB() {
@@ -38,10 +37,10 @@ public class Runner {
         //UIManager.put("OptionPane.background", backgroundColor);
         //UIManager.put("OptionPane.foreground", textColor);
         //UIManager.put("OptionPane.messageForeground", textColor);
+        //UIManager.put("Panel.background", backgroundColor);
 
         UIManager.put("Button.background", backgroundColor);
         UIManager.put("Button.foreground", textColor);
-        //UIManager.put("Panel.background", backgroundColor);
         UIManager.put("Label.foreground", textColor);
         UIManager.put("List.background", backgroundColor);
         UIManager.put("CheckBox.background",backgroundColor);

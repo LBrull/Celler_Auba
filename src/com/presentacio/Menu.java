@@ -2,6 +2,7 @@ package com.presentacio;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.prefs.Preferences;
 
 public class Menu extends JFrame{
 
@@ -16,6 +17,9 @@ public class Menu extends JFrame{
     private JLabel activeTempAmetllaLabel;
     private JLabel activeTempRaimLabel;
     private JLabel activeTempOlivaLabel;
+    private JButton tancarSessioButton;
+    private JLabel sessioName;
+    private JButton usersButton;
 
 
     public Menu () {
@@ -23,10 +27,27 @@ public class Menu extends JFrame{
         setContentPane(rootPanel);
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        sessioName.setText(menuController.getSessioName());
         compresVendesButton.setEnabled(false);
+        if (sessioName.getText().equals("admin")) {
+            usersButton.setVisible(true);
+        }
 
-        //TODO
+        //TODO: creacio de nous usuaris
+        usersButton.addActionListener(e -> {
+
+        });
+
+        tancarSessioButton.addActionListener(e -> {
+            Preferences root = Preferences.userRoot();
+            root.remove("token");
+            temporadesButton.setEnabled(false);
+            compresVendesButton.setEnabled(false);
+            clientsProvidersButton.setEnabled(false);
+            productsButton.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "S'ha tancat la sessió", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+        });
+
         temporadesButton.addActionListener(e -> {
             //temporadesController.showTemporadesView();
         });
@@ -48,7 +69,7 @@ public class Menu extends JFrame{
         }
 
         pack();
-        setSize(700, 600);
+        setSize(750, 650);
         setVisible(true);
     }
 

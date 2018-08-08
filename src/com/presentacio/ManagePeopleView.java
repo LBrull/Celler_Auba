@@ -202,12 +202,12 @@ public class ManagePeopleView extends JFrame{
         clientsTable.setFocusable(false);
         clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
-                if(!EditButton.isVisible()) {
-                    EditButton.setVisible(true);
+                if (clientsTable.getSelectedRowCount() == 1 || providersTable.getSelectedRowCount() == 1) {
                     DeleteButton.setVisible(true);
+                    EditButton.setVisible(true);
                 }
-                if (!providersTable.getSelectionModel().isSelectionEmpty()) {
-                    providersTable.clearSelection();
+                if (clientsTable.getSelectedRowCount() > 1 || providersTable.getSelectedRowCount() > 1) {
+                    EditButton.setVisible(false);
                 }
                 if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
                     EditButton.setVisible(false);

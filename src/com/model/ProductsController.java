@@ -29,10 +29,6 @@ public class ProductsController {
         return dbController.getDBProductsController().getProducts();
     }
 
-    public boolean usedCode(String text) {
-        return dbController.usedCode(text);
-    }
-
     public ServerResponse deleteOneProduct(String ObjectId) throws IOException {
         return dbController.deleteOneProduct(ObjectId);
     }
