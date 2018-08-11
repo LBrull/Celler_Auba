@@ -38,14 +38,12 @@ public class ContactsController {
         return providers;
     }
 
-    public void saveNewClient(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) {
-        Client client = new Client(name, surname, dni, telephone, cp, town, address, email, accountNumber);
-        dbController.saveNewClient(client);
+    public ServerResponse saveNewClient(Client client) throws IOException, JSONException {
+        return  dbController.saveNewClient(client);
     }
 
-    public void saveNewProvider(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) {
-        Provider provider = new Provider(name, surname, dni, telephone, cp, town, address, email, accountNumber);
-        dbController.saveNewProvider(provider);
+    public ServerResponse saveNewProvider(Provider provider) throws IOException, JSONException {
+        return dbController.saveNewProvider(provider);
     }
 
     public boolean clientExists(String name, String surname) throws IOException, JSONException {
@@ -56,12 +54,12 @@ public class ContactsController {
         return dbController.providerExists(name, surname);
     }
 
-    public void deleteOneProvider(String name, String surname) {
-        dbController.deleteOneProvider(name, surname);
+    public ServerResponse deleteOneProvider(String objectId) throws IOException {
+        return dbController.deleteOneProvider(objectId);
     }
 
-    public void deleteOneClient(String name, String surname) {
-        dbController.deleteOneClient(name, surname);
+    public ServerResponse deleteOneClient(String objectId) throws IOException {
+        return dbController.deleteOneClient(objectId);
     }
 
 }

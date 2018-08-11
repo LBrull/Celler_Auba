@@ -17,8 +17,6 @@ class ContactsTableModel extends DefaultTableModel {
 
     @Override
     public Class getColumnClass(int col) {
-//        Vector v = (Vector) dataVector.elementAt(0);
-////        return v.elementAt(col).getClass();
         return String.class;
     }
 
@@ -39,7 +37,7 @@ class ContactsTableModel extends DefaultTableModel {
         int i=0;
         int res = 0;
         while (!found && i<getRowCount()) {
-            if (getValueAt(i, 0).equals(name) && getValueAt(i, 1).equals(surname)) {
+            if (getValueAt(i, 1).equals(name) && getValueAt(i, 2).equals(surname)) {
                 res = i;
                 found = true;
             }

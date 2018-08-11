@@ -3,6 +3,8 @@ package com.presentacio;
 import com.model.Client;
 import com.model.ContactsController;
 import com.model.Provider;
+import com.model.ServerResponse;
+import com.persistencia.DBContactsController;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -81,7 +83,7 @@ public class ContactsViewController {
     private void initListeners() {
     }
 
-    public void saveNewClient() {
+    public ServerResponse saveNewClient() throws IOException, JSONException {
         String name = newContactView.getNameTextField().getText();
         String surname = newContactView.getSurnameTextField().getText();
         String dniNif = newContactView.getDniNifTextField().getText();
@@ -91,10 +93,11 @@ public class ContactsViewController {
         String town = newContactView.getTownTextField().getText();
         String address = newContactView.getAddressTextField().getText();
         String email = newContactView.getEmailTextField().getText();
-        contactsController.saveNewClient(name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
+        Client client = new Client(null, name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
+        return contactsController.saveNewClient(client);
     }
 
-    public void saveNewProvider() {
+    public ServerResponse saveNewProvider() throws IOException, JSONException {
         String name = newContactView.getNameTextField().getText();
         String surname = newContactView.getSurnameTextField().getText();
         String dniNif = newContactView.getDniNifTextField().getText();
@@ -104,7 +107,8 @@ public class ContactsViewController {
         String town = newContactView.getTownTextField().getText();
         String address = newContactView.getAddressTextField().getText();
         String email = newContactView.getEmailTextField().getText();
-        contactsController.saveNewProvider(name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
+        Provider provider = new Provider(null, name, surname, dniNif, telephone, cp, town, address, email, accountNumber);
+        return contactsController.saveNewProvider(provider);
     }
 
     public boolean clientExists(String name, String surname) throws IOException, JSONException {
@@ -143,20 +147,40 @@ public class ContactsViewController {
         managePeopleView.getProvidersTableModel().addRow(data);
     }
 
-    public void deleteOneProvider(String name, String surname) {
-        contactsController.deleteOneProvider(name, surname);
+    public ServerResponse deleteOneProvider(String objectId) throws IOException {
+        return contactsController.deleteOneProvider(objectId);
     }
 
-    public void deleteOneClient(String name, String surname) {
-        contactsController.deleteOneClient(name, surname);
+    public ServerResponse deleteOneClient(String objectId) throws IOException {
+        return contactsController.deleteOneClient(objectId);
     }
 
-    public void saveOneClient(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) {
-        contactsController.saveNewClient(name, surname, dni, telephone, cp, town, address, email, accountNumber);
+    public ServerResponse saveOneClient(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) throws IOException, JSONException {
+        Client client = new Client();
+        client.setName(name);
+        client.setSurname(surname);
+        client.setDni_nif(dni);
+        client.setTelephone(telephone);
+        client.setCP(cp);
+        client.setTown(town);
+        client.setAddress(address);
+        client.setEmail(email);
+        client.setAccountNumber(accountNumber);
+        return contactsController.saveNewClient(client);
     }
 
-    public void saveOneProvider(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) {
-        contactsController.saveNewProvider(name, surname, dni, telephone, cp, town, address, email, accountNumber);
+    public ServerResponse saveOneProvider(String name, String surname, String dni, String telephone, String cp, String town, String address, String email, String accountNumber) throws IOException, JSONException {
+        Provider provider = new Provider();
+        provider.setName(name);
+        provider.setSurname(surname);
+        provider.setDni_nif(dni);
+        provider.setTelephone(telephone);
+        provider.setCP(cp);
+        provider.setTown(town);
+        provider.setAddress(address);
+        provider.setEmail(email);
+        provider.setAccountNumber(accountNumber);
+        return contactsController.saveNewProvider(provider);
     }
 
     public void repaintProvidersOneRowDeleted(int row) {
@@ -201,42 +225,62 @@ public class ContactsViewController {
     public void ModifyContactView() throws IOException, JSONException {
         if (1 == providersTable.getSelectedRowCount()) {
             int rowTable = providersTable.convertRowIndexToModel(providersTable.getSelectedRow());
-            String oldName = providersTable.getModel().getValueAt(rowTable, 0).toString();
-            String oldSurname = providersTable.getModel().getValueAt(rowTable, 1).toString();
-            String oldDNI = providersTable.getModel().getValueAt(rowTable, 2).toString();
-            String oldAccountNumber = providersTable.getModel().getValueAt(rowTable, 3).toString();
-            String oldTelephone = providersTable.getModel().getValueAt(rowTable, 4).toString();
-            String oldEmail = providersTable.getModel().getValueAt(rowTable, 5).toString();
-            String oldCp = providersTable.getModel().getValueAt(rowTable, 6).toString();
-            String oldTown = providersTable.getModel().getValueAt(rowTable, 7).toString();
-            String oldAddress = providersTable.getModel().getValueAt(rowTable, 8).toString();
+            String objectId = providersTable.getModel().getValueAt(rowTable, 0).toString();
+            String oldName = providersTable.getModel().getValueAt(rowTable, 1).toString();
+            String oldSurname = providersTable.getModel().getValueAt(rowTable, 2).toString();
+            String oldDNI = providersTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldAccountNumber = providersTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldTelephone = providersTable.getModel().getValueAt(rowTable, 5).toString();
+            String oldEmail = providersTable.getModel().getValueAt(rowTable, 6).toString();
+            String oldCp = providersTable.getModel().getValueAt(rowTable, 7).toString();
+            String oldTown = providersTable.getModel().getValueAt(rowTable, 8).toString();
+            String oldAddress = providersTable.getModel().getValueAt(rowTable, 9).toString();
 
 
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
+            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
         }
 
         else if (1 == clientsTable.getSelectedRowCount()) {
             int rowTable = clientsTable.convertRowIndexToModel(clientsTable.getSelectedRow());
-            String oldName = clientsTable.getModel().getValueAt(rowTable, 0).toString();
-            String oldSurname = clientsTable.getModel().getValueAt(rowTable, 1).toString();
-            String oldDNI = clientsTable.getModel().getValueAt(rowTable, 2).toString();
-            String oldAccountNumber = clientsTable.getModel().getValueAt(rowTable, 3).toString();
-            String oldTelephone = clientsTable.getModel().getValueAt(rowTable, 4).toString();
-            String oldEmail = clientsTable.getModel().getValueAt(rowTable, 5).toString();
-            String oldCp = clientsTable.getModel().getValueAt(rowTable, 6).toString();
-            String oldTown = clientsTable.getModel().getValueAt(rowTable, 7).toString();
-            String oldAddress = clientsTable.getModel().getValueAt(rowTable, 8).toString();
+            String objectId = providersTable.getModel().getValueAt(rowTable, 0).toString();
+            String oldName = clientsTable.getModel().getValueAt(rowTable, 1).toString();
+            String oldSurname = clientsTable.getModel().getValueAt(rowTable, 2).toString();
+            String oldDNI = clientsTable.getModel().getValueAt(rowTable, 3).toString();
+            String oldAccountNumber = clientsTable.getModel().getValueAt(rowTable, 4).toString();
+            String oldTelephone = clientsTable.getModel().getValueAt(rowTable, 5).toString();
+            String oldEmail = clientsTable.getModel().getValueAt(rowTable, 6).toString();
+            String oldCp = clientsTable.getModel().getValueAt(rowTable, 7).toString();
+            String oldTown = clientsTable.getModel().getValueAt(rowTable, 8).toString();
+            String oldAddress = clientsTable.getModel().getValueAt(rowTable, 9).toString();
 
             boolean oldProvider = providerExists(oldName, oldSurname);
             boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
+            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
         }
     }
 
     public ModifyContactView getModifyContactView() {
         return modifyContactView;
+    }
+
+    public static ServerResponse editProvider(String objectId, String name, String surname, String dni_nif, String telephone, String cp, String town, String address, String email, String accountNumber) throws IOException, JSONException {
+        Provider provider = new Provider( objectId,  name,  surname,  dni_nif,  telephone,  cp,  town,  email,  address,  accountNumber);
+        return DBContactsController.editProvider(provider);
+    }
+
+    public void repaintProvidersTableWhenEdit(int rowTable, Provider newProvider) {
+        ContactsTableModel providersTableModel = managePeopleView.getProvidersTableModel();
+        providersTableModel.setValueAt(newProvider.getName(), rowTable, 1);
+        providersTableModel.setValueAt(newProvider.getSurname(), rowTable, 2);
+        providersTableModel.setValueAt(newProvider.getDni_nif(), rowTable, 3);
+        providersTableModel.setValueAt(newProvider.getAccountNumber(), rowTable, 4);
+        providersTableModel.setValueAt(newProvider.getTelephone(), rowTable, 5);
+        providersTableModel.setValueAt(newProvider.getEmail(), rowTable, 6);
+        providersTableModel.setValueAt(newProvider.getCp(), rowTable, 7);
+        providersTableModel.setValueAt(newProvider.getTown(), rowTable, 8);
+        providersTableModel.setValueAt(newProvider.getAddress(), rowTable, 9);
     }
 }
 

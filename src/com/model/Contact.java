@@ -2,6 +2,8 @@ package com.model;
 
 public abstract class Contact {
 
+    private String objectId;
+
     private String name;
     private String surname;
     private String dni_nif;
@@ -14,7 +16,8 @@ public abstract class Contact {
 
     public Contact(){}
 
-    public Contact( String name, String surname, String dni_nif, String telephone, String cp, String town, String address, String email, String accountNumber) {
+    public Contact(String objectId, String name, String surname, String dni_nif, String telephone, String cp, String town, String address, String email, String accountNumber) {
+        this.objectId = objectId;
         this.name = name;
         this.surname = surname;
         this.dni_nif = dni_nif;
@@ -98,4 +101,11 @@ public abstract class Contact {
         this.accountNumber = accountNumber;
     }
 
+    public Object getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 }

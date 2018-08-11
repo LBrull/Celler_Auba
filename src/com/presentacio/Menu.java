@@ -19,7 +19,6 @@ public class Menu extends JFrame{
     private JLabel activeTempOlivaLabel;
     private JButton tancarSessioButton;
     private JLabel sessioName;
-    private JButton usersButton;
 
 
     public Menu () {
@@ -29,14 +28,6 @@ public class Menu extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         sessioName.setText(menuController.getSessioName());
         compresVendesButton.setEnabled(false);
-        if (sessioName.getText().equals("admin")) {
-            usersButton.setVisible(true);
-        }
-
-        //TODO: creacio de nous usuaris
-        usersButton.addActionListener(e -> {
-
-        });
 
         tancarSessioButton.addActionListener(e -> {
             Preferences root = Preferences.userRoot();

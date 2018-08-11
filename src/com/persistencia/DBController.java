@@ -67,16 +67,12 @@ public class DBController {
         return DatabaseUrl;
     }
 
-    public void saveNewClient(Client client) {
-        dbContactsController.saveNewClient(client);
+    public ServerResponse saveNewClient(Client client) throws IOException, JSONException {
+        return dbContactsController.saveNewClient(client);
     }
 
-    public void saveNewProvider(Provider provider) {
-        dbContactsController.saveNewProvider(provider);
-    }
-
-    public void disconnect() {
-        getMongoClient().close();
+    public ServerResponse saveNewProvider(Provider provider) throws IOException, JSONException {
+        return dbContactsController.saveNewProvider(provider);
     }
 
     public boolean clientExists(String name, String surname) throws IOException, JSONException {
@@ -87,12 +83,12 @@ public class DBController {
         return dbContactsController.providerExists(name, surname);
     }
 
-    public void deleteOneProvider(String name, String surname) {
-        dbContactsController.deleteOneProvider(name, surname);
+    public ServerResponse deleteOneProvider(String objectId) throws IOException {
+        return dbContactsController.deleteOneProvider(objectId);
     }
 
-    public void deleteOneClient(String name, String surname) {
-        dbContactsController.deleteOneClient(name, surname);
+    public ServerResponse deleteOneClient(String objectId) throws IOException {
+        return dbContactsController.deleteOneClient(objectId);
     }
 
     public int deleteProviders(Vector<String> names, Vector<String> surnames) {

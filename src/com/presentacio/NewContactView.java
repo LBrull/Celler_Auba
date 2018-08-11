@@ -1,5 +1,6 @@
 package com.presentacio;
 
+import com.model.ServerResponse;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -140,46 +141,66 @@ public class NewContactView extends JFrame {
             if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyType.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
 
                 if (checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
+                    ServerResponse res = null;
                     try {
-                        if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            controller.saveNewClient();
-                            controller.repaintClientsTable();
-                            dispose();
-                        }
+                        res = controller.saveNewClient();
                     } catch (IOException | JSONException e1) {
                         e1.printStackTrace();
                     }
+                    if (res != null && res.getStatus() == 200) {
+                        controller.repaintClientsTable();
+                        dispose();
+                    }
+                    else {
+                        if (res != null) {
+                            JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
                 } else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
+                    ServerResponse res = null;
                     try {
-                        if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            controller.saveNewProvider();
-                            controller.repaintProvidersTable();
-                            dispose();
-                        }
+                        res = controller.saveNewProvider();
                     } catch (IOException | JSONException e1) {
                         e1.printStackTrace();
                     }
-                } else {
-                    try {
-                        if (controller.clientExists(nameTextField.getText(), surnameTextField.getText()) && controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                            JOptionPane.showMessageDialog(null, "El contacte ja existeix con a client i com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                        } else if (controller.clientExists(nameTextField.getText(), surnameTextField.getText())) {
-                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a client", "", JOptionPane.INFORMATION_MESSAGE);
-                        } else if (controller.providerExists(nameTextField.getText(), surnameTextField.getText())) {
-                            JOptionPane.showMessageDialog(null, "El contacte ja existeix com a proveedor", "", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            controller.saveNewClient();
-                            controller.saveNewProvider();
-                            controller.repaintClientsTable();
-                            controller.repaintProvidersTable();
-                            dispose();
+                    if (res != null && res.getStatus() == 200) {
+                        controller.repaintProvidersTable();
+                        dispose();
+                    }
+                    else {
+                        if (res != null) {
+                            JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
+                    }
+
+                } else {
+                    ServerResponse res1 = null;
+                    ServerResponse res2 = null;
+                    try {
+                        res1 = controller.saveNewClient();
                     } catch (IOException | JSONException e1) {
                         e1.printStackTrace();
+                    }
+                    try {
+                        res2 = controller.saveNewProvider();
+                    } catch (IOException | JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                    if (res1 != null && res2 != null && res1.getStatus()==200 && res2.getStatus() == 200) {
+                        controller.repaintClientsTable();
+                        controller.repaintProvidersTable();
+                        dispose();
+                    }
+                    else if (res1 != null && res1.getStatus()==200) {
+                        controller.repaintClientsTable();
+                        JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el client", "", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    }
+                    else if (res2 != null && res2.getStatus()==200) {
+                        controller.repaintProvidersTable();
+                        JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el proveidor", "", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
                     }
                 }
             }

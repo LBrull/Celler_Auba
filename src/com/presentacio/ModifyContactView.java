@@ -1,9 +1,15 @@
 package com.presentacio;
 
+import com.model.Provider;
+import com.model.ServerResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class ModifyContactView extends JFrame{
 
@@ -11,17 +17,10 @@ public class ModifyContactView extends JFrame{
 
     private JButton saveButton;
 
-    private JTextField oldName;
-    private JTextField oldTelephone;
-    private JTextField oldDomicili;
-    private JTextField oldSurname;
-    private JTextField oldEmail;
-    private JTextField oldCp;
-    private JTextField oldTown;
-
     private boolean oldProvider;
     private boolean oldClient;
 
+    private JTextField codiTextField;
     private JTextField newName;
     private JTextField newSurname;
     private JTextField newTelephone;
@@ -29,36 +28,19 @@ public class ModifyContactView extends JFrame{
     private JTextField newCp;
     private JTextField newEmail;
     private JTextField newTown;
+    private JTextField newDni;
+    private JTextField newAccountNumber;
 
     private JLabel labelTitle;
-    private JLabel labelSubtitleOld;
-    private JLabel labelSubtitleNew;
     private JPanel rootPanel;
     private JLabel emptyName;
     private JLabel emptySurname;
     private JLabel emptyTelephone;
 
-    private JButton nameButton;
-    private JButton surnameButton;
-    private JButton telephoneButton;
-    private JButton domiciliButton;
-    private JButton emailButton;
-    private JButton cpButton;
-    private JButton poblacioButton;
-    private JTextField oldDni;
-    private JTextField oldAccountNumber;
-    private JTextField newDni;
-    private JTextField newAccountNumber;
-    private JButton dniButton;
-    private JButton accountNumberButton;
-
-
-    ModifyContactView (String oldName, String oldSurname, String oldDni, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldTown, String oldDomicili, String oldEmail, String oldAccountNumber) {
+    ModifyContactView (String objectId, String oldName, String oldSurname, String oldDni, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldTown, String oldDomicili, String oldEmail, String oldAccountNumber) {
         setContentPane(rootPanel);
 
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
-        labelSubtitleNew.setFont(new Font("Calibri", Font.PLAIN, 16));
-        labelSubtitleOld.setFont(new Font("Calibri", Font.PLAIN, 16));
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,15 +52,17 @@ public class ModifyContactView extends JFrame{
         emptySurname.setFont(new Font("Calibri", Font.PLAIN, 20));
         emptyTelephone.setFont(new Font("Calibri", Font.PLAIN, 20));
 
-        this.oldName.setText(oldName);
-        this.oldSurname.setText(oldSurname);
-        this.oldDni.setText(oldDni);
-        this.oldAccountNumber.setText(oldAccountNumber);
-        this.oldTelephone.setText(oldTelephone);
-        this.oldCp.setText(oldCp);
-        this.oldTown.setText(oldTown);
-        this.oldDomicili.setText(oldDomicili);
-        this.oldEmail.setText(oldEmail);
+        this.codiTextField.setText(objectId);
+        this.newName.setText(oldName);
+        this.newSurname.setText(oldSurname);
+        this.newDni.setText(oldDni);
+        this.newTelephone.setText(oldTelephone);
+        this.newCp.setText(oldCp);
+        this.newTown.setText(oldTown);
+        this.newDomicili.setText(oldDomicili);
+        this.newEmail.setText(oldEmail);
+        this.newAccountNumber.setText(oldAccountNumber);
+
         this.oldClient = oldClient;
         this.oldProvider = oldProvider;
 
@@ -91,41 +75,60 @@ public class ModifyContactView extends JFrame{
 
     private void loadListeners() {
         saveButton.addActionListener(e -> {
-            if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
-                if (oldProvider && !oldClient) { //modifiquem un proveedor
-                    int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
-                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    controller.repaintProvidersOneRowDeleted(rowTable);
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    dispose();
-
-                }
-                else if (oldClient && !oldProvider) { //modifiquem un client
-                    int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
-                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    controller.repaintClientsOneRowDeleted(rowTable);
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    dispose();
-
-                }
-                else { //modifiquem client + proveedor
-                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-                    controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-
-                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-                    controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
-                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    dispose();
+            if (oldProvider && !oldClient) { //modifiquem un proveedor
+                int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
+                try {
+                    ServerResponse serverResponse = ContactsViewController.editProvider(codiTextField.getText(), newName.getText(), newSurname.getText(), newDni.getText(),newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+                    if (serverResponse.getStatus() != 200) {
+                        JOptionPane.showMessageDialog(null, serverResponse.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
+                        Provider newProvider = parseJSON(serverResponse);
+                        controller.repaintProvidersTableWhenEdit(rowTable, newProvider);
+                        dispose();
+                    }
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
                 }
             }
-            else {
-                JOptionPane.showMessageDialog(null, "Heu d'omplir els camps obligatoris", "", JOptionPane.INFORMATION_MESSAGE);
+            else if (oldClient && !oldProvider) { //modifiquem un client
+                int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
+                ServerResponse resDelete;
+                ServerResponse resSave;
+                try {
+                    resDelete = controller.deleteOneClient(codiTextField.getText());
+                    resSave = controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+                    if (resDelete.getStatus() == 200 && resSave.getStatus() == 200) {
+                        controller.repaintClientsOneRowDeleted(rowTable);
+                        controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+                        dispose();
+                    }
+
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
+                }
+
             }
+//                else { //modifiquem client + proveedor
+//                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
+//                    try {
+//                        controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+//                    } catch (IOException | JSONException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
+//                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+//
+//                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
+//                    try {
+//                        controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+//                    } catch (IOException | JSONException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
+//                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+//                    dispose();
+//                }
         });
 
         newName.addKeyListener(new KeyListener() {
@@ -193,49 +196,22 @@ public class ModifyContactView extends JFrame{
                 }
             }
         });
+    }
 
-        nameButton.addActionListener(e-> {
-            newName.setText(oldName.getText());
-            emptyName.setVisible(false);
-        });
-
-        surnameButton.addActionListener(e-> {
-            newSurname.setText(oldSurname.getText());
-            emptySurname.setVisible(false);
-        });
-
-        telephoneButton.addActionListener(e-> {
-            newTelephone.setText(oldTelephone.getText());
-            emptyTelephone.setVisible(false);
-        });
-
-        cpButton.addActionListener(e-> {
-            newCp.setText(oldCp.getText());
-        });
-
-        domiciliButton.addActionListener(e-> {
-            newDomicili.setText(oldDomicili.getText());
-        });
-
-        emailButton.addActionListener(e-> {
-            newEmail.setText(oldEmail.getText());
-        });
-
-        domiciliButton.addActionListener(e-> {
-            newDomicili.setText(oldDomicili.getText());
-        });
-
-        poblacioButton.addActionListener(e-> {
-            newTown.setText(oldTown.getText());
-        });
-
-        dniButton.addActionListener(e-> {
-            newDni.setText(oldDni.getText());
-        });
-
-        accountNumberButton.addActionListener(e-> {
-            newAccountNumber.setText(oldAccountNumber.getText());
-        });
-
+    private Provider parseJSON(ServerResponse res) throws JSONException {
+        JSONObject jsonObject = new JSONObject(res.getMessage());
+        JSONObject jsonProduct = new JSONObject(jsonObject.getString("provider"));
+        Provider newProv = new Provider();
+        newProv.setObjectId(jsonProduct.getString("_id"));
+        newProv.setName(jsonProduct.getString("name"));
+        newProv.setSurname(jsonProduct.getString("surname"));
+        newProv.setAccountNumber(jsonProduct.getString("accountNumber"));
+        newProv.setEmail(jsonProduct.getString("email"));
+        newProv.setAddress(jsonProduct.getString("address"));
+        newProv.setTown(jsonProduct.getString("town"));
+        newProv.setCP(jsonProduct.getString("cp"));
+        newProv.setTelephone(jsonProduct.getString("telephone"));
+        newProv.setDni_nif(jsonProduct.getString("dni_nif"));
+        return newProv;
     }
 }

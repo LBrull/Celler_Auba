@@ -2,9 +2,10 @@ package com.persistencia;
 
 import com.model.Client;
 import com.model.Provider;
-import com.mongodb.client.MongoCollection;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import com.model.ServerResponse;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -14,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -21,7 +24,7 @@ import java.util.prefs.Preferences;
 
 public class DBContactsController {
 
-    private String DBUrl = "https://cellerauba.herokuapp.com";
+    private static String DatabaseUrl = "https://cellerauba.herokuapp.com";
 
     DBContactsController() {
     }
@@ -29,7 +32,7 @@ public class DBContactsController {
     public ArrayList<Client> getClients () throws IOException, JSONException {
         ArrayList<Client> list = new ArrayList<>();
 
-        String url =DBUrl + "/api/clients";
+        String url =DatabaseUrl + "/api/clients";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
 
@@ -46,6 +49,7 @@ public class DBContactsController {
             for (int i = 0; i < clients.length(); ++i) {
                 Client c = new Client();
                 JSONObject jsonClient = clients.getJSONObject(i);
+                c.setObjectId(jsonClient.getString("_id"));
                 c.setName(jsonClient.getString("name"));
                 c.setSurname(jsonClient.getString("surname"));
                 c.setDni_nif(jsonClient.getString("dni_nif"));
@@ -64,7 +68,7 @@ public class DBContactsController {
     public ArrayList<Provider> getProviders() throws IOException, JSONException {
         ArrayList<Provider> list = new ArrayList<>();
 
-        String url = "https://cellerauba.herokuapp.com/api/providers";
+       String url = DatabaseUrl + "/api/providers";
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
 
@@ -73,6 +77,7 @@ public class DBContactsController {
         get.setHeader("authorization", token);
         CloseableHttpResponse response = client.execute(get);
         String responseString = new BasicResponseHandler().handleResponse(response);
+        System.out.println(responseString);
         client.close();
 
         if (response.getStatusLine().getStatusCode() == 200) {
@@ -80,6 +85,7 @@ public class DBContactsController {
             for (int i = 0; i < clients.length(); ++i) {
                 Provider c = new Provider();
                 JSONObject jsonClient = clients.getJSONObject(i);
+                c.setObjectId(jsonClient.getString("_id"));
                 c.setName(jsonClient.getString("name"));
                 c.setSurname(jsonClient.getString("surname"));
                 c.setDni_nif(jsonClient.getString("dni_nif"));
@@ -95,36 +101,95 @@ public class DBContactsController {
         return list;
     }
 
-    public void saveNewClient(Client client) {
-        MongoCollection<Document> collection = DBController.getMongoDB().getCollection("clients");
-        Document newClient = new Document();
-        newClient.append("name", client.getName());
-        newClient.append("surname", client.getSurname());
+    public ServerResponse saveNewClient(Client client) throws JSONException, IOException {
+        String url = DatabaseUrl +"/api/client";
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
 
-        newClient.append("telephone", client.getTelephone());
-        newClient.append("email", client.getEmail());
-        newClient.append("cp", client.getCp());
-        newClient.append("town", client.getTown());
-        newClient.append("address", client.getAddress());
-        newClient.append("dni_nif", client.getDni_nif());
-        newClient.append("accountNumber", client.getAccountNumber());
-        collection.insertOne(newClient);
+        post.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        post.setHeader("authorization", token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", client.getName());
+        jsonObject.put("surname", client.getSurname());
+        jsonObject.put("telephone", client.getTelephone());
+        jsonObject.put("email", client.getEmail());
+        jsonObject.put("cp", client.getCp());
+        jsonObject.put("town", client.getTown());
+        jsonObject.put("address", client.getAddress());
+        jsonObject.put("dni_nif", client.getDni_nif());
+        jsonObject.put("accountNumber", client.getAccountNumber());
+
+        String json = jsonObject.toString(1);
+        StringEntity entity = new StringEntity(json);
+        post.setEntity(entity);
+        CloseableHttpResponse response = httpClient.execute(post);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            JSONObject jsonResponse = new JSONObject(responseString);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            httpClient.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            httpClient.close();
+            return res;
+        }
     }
 
-    public void saveNewProvider(Provider provider) {
-        MongoCollection<Document> collection = DBController.getMongoDB().getCollection("providers");
-        Document newProvider = new Document();
-        newProvider.append("name", provider.getName());
-        newProvider.append("surname", provider.getSurname());
+    public ServerResponse saveNewProvider(Provider provider) throws JSONException, IOException {
+        String url = DatabaseUrl +"/api/provider";
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
 
-        newProvider.append("telephone", provider.getTelephone());
-        newProvider.append("email", provider.getEmail());
-        newProvider.append("cp", provider.getCp());
-        newProvider.append("town", provider.getTown());
-        newProvider.append("address", provider.getAddress());
-        newProvider.append("dni_nif", provider.getDni_nif());
-        newProvider.append("accountNumber", provider.getAccountNumber());
-        collection.insertOne(newProvider);
+        post.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        post.setHeader("authorization", token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", provider.getName());
+        jsonObject.put("surname", provider.getSurname());
+        jsonObject.put("telephone", provider.getTelephone());
+        jsonObject.put("email", provider.getEmail());
+        jsonObject.put("cp", provider.getCp());
+        jsonObject.put("town", provider.getTown());
+        jsonObject.put("address", provider.getAddress());
+        jsonObject.put("dni_nif", provider.getDni_nif());
+        jsonObject.put("accountNumber", provider.getAccountNumber());
+
+        String json = jsonObject.toString(1);
+        StringEntity entity = new StringEntity(json);
+        post.setEntity(entity);
+        CloseableHttpResponse response = httpClient.execute(post);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            JSONObject jsonResponse = new JSONObject(responseString);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            httpClient.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            httpClient.close();
+            return res;
+        }
+    }
+
+    private static String readStream(InputStream body) throws IOException {
+        String result = IOUtils.toString(body, StandardCharsets.UTF_8);
+        return result;
     }
 
     public boolean clientExists(String name, String surname) throws IOException, JSONException {
@@ -149,18 +214,61 @@ public class DBContactsController {
         return found;
     }
 
-    public void deleteOneProvider(String name, String surname) {
-        Document providerToDelete = new Document();
-        providerToDelete.append("name", name);
-        providerToDelete.append("surname", surname);
-        DBController.getMongoDB().getCollection("providers").deleteOne(providerToDelete);
+    public ServerResponse deleteOneProvider(String objectId) throws IOException {
+        String url = DatabaseUrl +"/api/provider/" + objectId;
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpDelete delete = new HttpDelete(url);
+
+        delete.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        delete.setHeader("authorization", token);
+
+        CloseableHttpResponse response = client.execute(delete);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            client.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
     }
 
-    public void deleteOneClient(String name, String surname) {
-        Document clientToDelete = new Document();
-        clientToDelete.append("name", name);
-        clientToDelete.append("surname", surname);
-        DBController.getMongoDB().getCollection("clients").deleteOne(clientToDelete);
+    public ServerResponse deleteOneClient(String objectId) throws IOException {
+        String url = DatabaseUrl +"/api/client/" + objectId;
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpDelete delete = new HttpDelete(url);
+
+        delete.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        delete.setHeader("authorization", token);
+
+        CloseableHttpResponse response = client.execute(delete);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            client.close();
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
+
     }
 
     public int deleteProviders(Vector<String> names, Vector<String> surnames) {
@@ -171,5 +279,50 @@ public class DBContactsController {
             DBController.getMongoDB().getCollection("providers").deleteOne(providerToDelete);
         }
         return 0;
+    }
+
+    public static ServerResponse editProvider(Provider provider) throws JSONException, IOException {
+        String url = DatabaseUrl +"/api/provider/" + provider.getObjectId();
+        System.out.println("ID  QUE ENVIO: "+ provider.getObjectId());
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPut put = new HttpPut(url);
+
+        put.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        put.setHeader("authorization", token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", provider.getName());
+        jsonObject.put("surname", provider.getSurname());
+        jsonObject.put("telephone", provider.getTelephone());
+        jsonObject.put("email", provider.getEmail());
+        jsonObject.put("cp", provider.getCp());
+        jsonObject.put("town", provider.getTown());
+        jsonObject.put("address", provider.getAddress());
+        jsonObject.put("dni_nif", provider.getDni_nif());
+        jsonObject.put("accountNumber", provider.getAccountNumber());
+        String json = jsonObject.toString(1);
+
+        StringEntity entity = new StringEntity(json);
+        put.setEntity(entity);
+
+        CloseableHttpResponse response = client.execute(put);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            client.close();
+            System.out.println("OBJECTE QUE EM RETORNA EL SERVER: "+ res.getMessage());
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            client.close();
+            return res;
+        }
     }
 }
