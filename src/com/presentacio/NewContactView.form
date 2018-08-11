@@ -158,25 +158,6 @@
               <text value="Adreça:"/>
             </properties>
           </component>
-          <component id="eddce" class="javax.swing.JLabel" binding="emptyName">
-            <constraints>
-              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <foreground color="-1597843"/>
-              <requestFocusEnabled value="true"/>
-              <text value="*"/>
-            </properties>
-          </component>
-          <component id="62d09" class="javax.swing.JLabel" binding="emptySurname">
-            <constraints>
-              <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <foreground color="-1597843"/>
-              <text value="*"/>
-            </properties>
-          </component>
           <component id="9ef4" class="javax.swing.JLabel" binding="emptyType">
             <constraints>
               <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -184,15 +165,6 @@
             <properties>
               <foreground color="-1597843"/>
               <requestFocusEnabled value="false"/>
-              <text value="*"/>
-            </properties>
-          </component>
-          <component id="bd517" class="javax.swing.JLabel" binding="emptyTelephone">
-            <constraints>
-              <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <foreground color="-1597843"/>
               <text value="*"/>
             </properties>
           </component>

@@ -7,8 +7,6 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class ModifyContactView extends JFrame{
@@ -16,10 +14,8 @@ public class ModifyContactView extends JFrame{
     private static ContactsViewController controller = ContactsViewController.getInstance();
 
     private JButton saveButton;
-
     private boolean oldProvider;
     private boolean oldClient;
-
     private JTextField codiTextField;
     private JTextField newName;
     private JTextField newSurname;
@@ -33,9 +29,6 @@ public class ModifyContactView extends JFrame{
 
     private JLabel labelTitle;
     private JPanel rootPanel;
-    private JLabel emptyName;
-    private JLabel emptySurname;
-    private JLabel emptyTelephone;
 
     ModifyContactView (String objectId, String oldName, String oldSurname, String oldDni, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldTown, String oldDomicili, String oldEmail, String oldAccountNumber) {
         setContentPane(rootPanel);
@@ -43,14 +36,6 @@ public class ModifyContactView extends JFrame{
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        emptyName.setVisible(true);
-        emptySurname.setVisible(true);
-        emptyTelephone.setVisible(true);
-
-        emptyName.setFont(new Font("Calibri", Font.PLAIN, 20));
-        emptySurname.setFont(new Font("Calibri", Font.PLAIN, 20));
-        emptyTelephone.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         this.codiTextField.setText(objectId);
         this.newName.setText(oldName);
@@ -78,11 +63,10 @@ public class ModifyContactView extends JFrame{
             if (oldProvider && !oldClient) { //modifiquem un proveedor
                 int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
                 try {
-                    ServerResponse serverResponse = ContactsViewController.editProvider(codiTextField.getText(), newName.getText(), newSurname.getText(), newDni.getText(),newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+                    ServerResponse serverResponse = ContactsViewController.editProvider(codiTextField.getText(), newName.getText(), newSurname.getText(), newTelephone.getText(), newEmail.getText(),  newCp.getText(), newTown.getText(), newDomicili.getText(), newDni.getText(),  newAccountNumber.getText());
                     if (serverResponse.getStatus() != 200) {
                         JOptionPane.showMessageDialog(null, serverResponse.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else {
+                    } else {
                         Provider newProvider = parseJSON(serverResponse);
                         controller.repaintProvidersTableWhenEdit(rowTable, newProvider);
                         dispose();
@@ -90,8 +74,7 @@ public class ModifyContactView extends JFrame{
                 } catch (IOException | JSONException e1) {
                     e1.printStackTrace();
                 }
-            }
-            else if (oldClient && !oldProvider) { //modifiquem un client
+            } else if (oldClient && !oldProvider) { //modifiquem un client
                 int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
                 ServerResponse resDelete;
                 ServerResponse resSave;
@@ -108,92 +91,6 @@ public class ModifyContactView extends JFrame{
                     e1.printStackTrace();
                 }
 
-            }
-//                else { //modifiquem client + proveedor
-//                    controller.deleteOneProvider(oldName.getText(), oldSurname.getText());
-//                    try {
-//                        controller.saveOneProvider(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-//                    } catch (IOException | JSONException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                    controller.repaintProvidersOneRowDeleted(controller.getManagePeopleView().getProvidersTableModel().getRow(oldName.getText(), oldSurname.getText()));
-//                    controller.repaintProvidersOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-//
-//                    controller.deleteOneClient(oldName.getText(), oldSurname.getText());
-//                    try {
-//                        controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-//                    } catch (IOException | JSONException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                    controller.repaintClientsOneRowDeleted(controller.getManagePeopleView().geClientsTableModel().getRow(oldName.getText(), oldSurname.getText()));
-//                    controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-//                    dispose();
-//                }
-        });
-
-        newName.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(newName.getText().length()<=0 || newName.getText().equals("")) {
-                    emptyName.setVisible(true);
-                }
-                else {
-                    emptyName.setVisible(false);
-                }
-            }
-        });
-
-        newSurname.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(newSurname.getText().length()<=0 || newSurname.getText().equals("")) {
-                    emptySurname.setVisible(true);
-                }
-                else {
-                    emptySurname.setVisible(false);
-                }
-            }
-        });
-
-        newTelephone.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(newTelephone.getText().length()<=0 || newTelephone.getText().equals("")) {
-                    emptyTelephone.setVisible(true);
-                }
-                else {
-                    emptyTelephone.setVisible(false);
-                }
             }
         });
     }

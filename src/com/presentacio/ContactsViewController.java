@@ -6,6 +6,7 @@ import com.model.Provider;
 import com.model.ServerResponse;
 import com.persistencia.DBContactsController;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -119,31 +120,35 @@ public class ContactsViewController {
         return contactsController.providerExists(name, surname);
     }
 
-    public void repaintClientsTable() {
+    public void repaintClientsTableWhenAdd(ServerResponse res) throws JSONException {
         Vector<String> data = new Vector<>();
-        data.add(newContactView.getNameTextField().getText());
-        data.add(newContactView.getSurnameTextField().getText());
-        data.add(newContactView.getDniNifTextField().getText());
-        data.add(newContactView.getAccountNumberTextField().getText());
-        data.add(newContactView.getTelephoneTextField().getText());
-        data.add(newContactView.getEmailTextField().getText());
-        data.add(newContactView.getCpTextField().getText());
-        data.add(newContactView.getTownTextField().getText());
-        data.add(newContactView.getAddressTextField().getText());
+        Client client = parseJSONClient(res);
+        data.add(client.getObjectId().toString());
+        data.add(client.getName());
+        data.add(client.getSurname());
+        data.add(client.getDni_nif());
+        data.add(client.getAccountNumber());
+        data.add(client.getTelephone());
+        data.add(client.getEmail());
+        data.add(client.getCp());
+        data.add(client.getTown());
+        data.add(client.getAddress());
         managePeopleView.getClientsTableModel().addRow(data);
     }
 
-    public void repaintProvidersTable() {
+    public void repaintProvidersTableWhenAdd(ServerResponse res) throws JSONException {
         Vector<String> data = new Vector<>();
-        data.add(newContactView.getNameTextField().getText());
-        data.add(newContactView.getSurnameTextField().getText());
-        data.add(newContactView.getDniNifTextField().getText());
-        data.add(newContactView.getAccountNumberTextField().getText());
-        data.add(newContactView.getTelephoneTextField().getText());
-        data.add(newContactView.getEmailTextField().getText());
-        data.add(newContactView.getCpTextField().getText());
-        data.add(newContactView.getTownTextField().getText());
-        data.add(newContactView.getAddressTextField().getText());
+        Provider provider = parseJSONProvider(res);
+        data.add(provider.getObjectId().toString());
+        data.add(provider.getName());
+        data.add(provider.getSurname());
+        data.add(provider.getDni_nif());
+        data.add(provider.getAccountNumber());
+        data.add(provider.getTelephone());
+        data.add(provider.getEmail());
+        data.add(provider.getCp());
+        data.add(provider.getTown());
+        data.add(provider.getAddress());
         managePeopleView.getProvidersTableModel().addRow(data);
     }
 
@@ -265,7 +270,7 @@ public class ContactsViewController {
         return modifyContactView;
     }
 
-    public static ServerResponse editProvider(String objectId, String name, String surname, String dni_nif, String telephone, String cp, String town, String address, String email, String accountNumber) throws IOException, JSONException {
+    public static ServerResponse editProvider(String objectId, String name, String surname, String telephone, String email, String cp, String town, String address, String dni_nif, String accountNumber) throws IOException, JSONException {
         Provider provider = new Provider( objectId,  name,  surname,  dni_nif,  telephone,  cp,  town,  email,  address,  accountNumber);
         return DBContactsController.editProvider(provider);
     }
@@ -281,6 +286,38 @@ public class ContactsViewController {
         providersTableModel.setValueAt(newProvider.getCp(), rowTable, 7);
         providersTableModel.setValueAt(newProvider.getTown(), rowTable, 8);
         providersTableModel.setValueAt(newProvider.getAddress(), rowTable, 9);
+    }
+    private Provider parseJSONProvider(ServerResponse res) throws JSONException {
+        JSONObject jsonObject = new JSONObject(res.getMessage());
+        JSONObject jsonProduct = new JSONObject(jsonObject.getString("provider"));
+        Provider newProv = new Provider();
+        newProv.setObjectId(jsonProduct.getString("_id"));
+        newProv.setName(jsonProduct.getString("name"));
+        newProv.setSurname(jsonProduct.getString("surname"));
+        newProv.setAccountNumber(jsonProduct.getString("accountNumber"));
+        newProv.setEmail(jsonProduct.getString("email"));
+        newProv.setAddress(jsonProduct.getString("address"));
+        newProv.setTown(jsonProduct.getString("town"));
+        newProv.setCP(jsonProduct.getString("cp"));
+        newProv.setTelephone(jsonProduct.getString("telephone"));
+        newProv.setDni_nif(jsonProduct.getString("dni_nif"));
+        return newProv;
+    }
+    private Client parseJSONClient(ServerResponse res) throws JSONException {
+        JSONObject jsonObject = new JSONObject(res.getMessage());
+        JSONObject jsonProduct = new JSONObject(jsonObject.getString("client"));
+        Client newCli = new Client();
+        newCli.setObjectId(jsonProduct.getString("_id"));
+        newCli.setName(jsonProduct.getString("name"));
+        newCli.setSurname(jsonProduct.getString("surname"));
+        newCli.setAccountNumber(jsonProduct.getString("accountNumber"));
+        newCli.setEmail(jsonProduct.getString("email"));
+        newCli.setAddress(jsonProduct.getString("address"));
+        newCli.setTown(jsonProduct.getString("town"));
+        newCli.setCP(jsonProduct.getString("cp"));
+        newCli.setTelephone(jsonProduct.getString("telephone"));
+        newCli.setDni_nif(jsonProduct.getString("dni_nif"));
+        return newCli;
     }
 }
 

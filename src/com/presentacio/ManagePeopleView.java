@@ -144,18 +144,6 @@ public class ManagePeopleView extends JFrame{
         setVisible(true);
     }
 
-    private void actualizeClientsTable(int[] rows) {
-        for ( int i = (rows.length) -1 ;  i >= 0; i-- ) {
-            controller.repaintClientsOneRowDeleted(clientsTable.convertRowIndexToModel(rows[i]));
-        }
-    }
-
-    private void actualizeProvidersTable(int[] rows) {
-        for ( int i = rows.length -1 ;  i >= 0; i-- ) {
-            controller.repaintProvidersOneRowDeleted(providersTable.convertRowIndexToModel(rows[i]));
-        }
-    }
-
     private void newFilter() {
         RowFilter<ContactsTableModel, Object> rf;
         //If current expression doesn't parse, don't update.
@@ -212,10 +200,22 @@ public class ManagePeopleView extends JFrame{
         clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
                 if (clientsTable.getSelectedRowCount() == 1 || providersTable.getSelectedRowCount() == 1) {
+                    if (clientsTable.getSelectedRowCount() != 0) {
+                        providersTable.clearSelection();
+                    }
+                    else if (providersTable.getSelectedRowCount() != 0) {
+                        clientsTable.clearSelection();
+                    }
                     DeleteButton.setVisible(true);
                     EditButton.setVisible(true);
                 }
                 if (clientsTable.getSelectedRowCount() > 1 || providersTable.getSelectedRowCount() > 1) {
+                    if (clientsTable.getSelectedRowCount() != 0) {
+                        providersTable.clearSelection();
+                    }
+                    else if (providersTable.getSelectedRowCount() != 0) {
+                        clientsTable.clearSelection();
+                    }
                     EditButton.setVisible(false);
                 }
                 if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
@@ -292,9 +292,5 @@ public class ManagePeopleView extends JFrame{
 
     public JTable getClientsTable() {
         return clientsTable;
-    }
-
-    public ContactsTableModel geClientsTableModel() {
-        return clientsTableModel;
     }
 }

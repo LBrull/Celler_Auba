@@ -18,7 +18,7 @@
           <color color="-1597843"/>
         </border>
         <children>
-          <grid id="c6250" layout-manager="GridLayoutManager" row-count="10" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c6250" layout-manager="GridLayoutManager" row-count="10" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -92,33 +92,6 @@
                 </constraints>
                 <properties>
                   <selectionColor color="-1597843"/>
-                </properties>
-              </component>
-              <component id="62ef0" class="javax.swing.JLabel" binding="emptyName">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <foreground color="-1597843"/>
-                  <text value="*"/>
-                </properties>
-              </component>
-              <component id="1bcb6" class="javax.swing.JLabel" binding="emptySurname">
-                <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <foreground color="-1597843"/>
-                  <text value="*"/>
-                </properties>
-              </component>
-              <component id="daa8b" class="javax.swing.JLabel" binding="emptyTelephone">
-                <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <foreground color="-1597843"/>
-                  <text value="*"/>
                 </properties>
               </component>
               <component id="3761e" class="javax.swing.JLabel">

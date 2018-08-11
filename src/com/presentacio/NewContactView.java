@@ -5,8 +5,6 @@ import org.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class NewContactView extends JFrame {
@@ -23,10 +21,7 @@ public class NewContactView extends JFrame {
     private JButton saveButton;
     private JPanel rootPanel;
     private JLabel labelTitle;
-    private JLabel emptyName;
-    private JLabel emptySurname;
     private JLabel emptyType;
-    private JLabel emptyTelephone;
     private JTextField cpTextField;
     private JTextField townTextField;
     private JTextField dniNifTextField;
@@ -39,82 +34,8 @@ public class NewContactView extends JFrame {
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        emptyName.setVisible(true);
-        emptySurname.setVisible(true);
-        emptyTelephone.setVisible(true);
         emptyType.setVisible(true);
-
-        emptyName.setFont(new Font("Calibri", Font.PLAIN, 20));
-        emptySurname.setFont(new Font("Calibri", Font.PLAIN, 20));
         emptyType.setFont(new Font("Calibri", Font.PLAIN, 20));
-        emptyTelephone.setFont(new Font("Calibri", Font.PLAIN, 20));
-        //emptyCp.setFont(new Font("Calibri", Font.PLAIN, 20));
-
-        nameTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(nameTextField.getText().length()<=0 || nameTextField.getText().equals("")) {
-                    emptyName.setVisible(true);
-                }
-                else {
-                    emptyName.setVisible(false);
-                }
-            }
-        });
-
-        surnameTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(surnameTextField.getText().length()<=0 || surnameTextField.getText().equals("")) {
-                    emptySurname.setVisible(true);
-                }
-                else {
-                    emptySurname.setVisible(false);
-                }
-            }
-        });
-
-        telephoneTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if(telephoneTextField.getText().length()<=0 || telephoneTextField.getText().equals("")) {
-                    emptyTelephone.setVisible(true);
-                }
-                else {
-                    emptyTelephone.setVisible(false);
-                }
-            }
-        });
 
         checkBoxClient.addActionListener(e -> {
             if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
@@ -137,75 +58,60 @@ public class NewContactView extends JFrame {
 /////////////////////////////////////////
 
         saveButton.addActionListener(e -> {
-
-            if (!emptyName.isVisible() && !emptySurname.isVisible() && !emptyType.isVisible() && !emptyTelephone.isVisible()) { //si no hi ha cap error de rellenar formulari...
-
-                if (checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                    ServerResponse res = null;
-                    try {
-                        res = controller.saveNewClient();
-                    } catch (IOException | JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    if (res != null && res.getStatus() == 200) {
-                        controller.repaintClientsTable();
+            if (checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
+                ServerResponse res;
+                try {
+                    res = controller.saveNewClient();
+                    if (res.getStatus() == 200 && !res.getMessage().contains("not save")) {
+                        controller.repaintClientsTableWhenAdd(res);
                         dispose();
                     }
                     else {
-                        if (res != null) {
-                            JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
+                        JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
+                }
 
-                } else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
-                    ServerResponse res = null;
-                    try {
-                        res = controller.saveNewProvider();
-                    } catch (IOException | JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    if (res != null && res.getStatus() == 200) {
-                        controller.repaintProvidersTable();
+            } else if (!checkBoxClient.isSelected() && checkBoxProvider.isSelected()) {
+                ServerResponse res;
+                try {
+                    res = controller.saveNewProvider();
+                    if (res.getStatus() == 200) {
+                        controller.repaintProvidersTableWhenAdd(res);
                         dispose();
                     }
                     else {
-                        if (res != null) {
-                            JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
+                        JOptionPane.showMessageDialog(null, res.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
+                }
 
-                } else {
-                    ServerResponse res1 = null;
-                    ServerResponse res2 = null;
-                    try {
-                        res1 = controller.saveNewClient();
-                    } catch (IOException | JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    try {
-                        res2 = controller.saveNewProvider();
-                    } catch (IOException | JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    if (res1 != null && res2 != null && res1.getStatus()==200 && res2.getStatus() == 200) {
-                        controller.repaintClientsTable();
-                        controller.repaintProvidersTable();
+            } else {
+                ServerResponse res1;
+                ServerResponse res2;
+                try {
+                    res1 = controller.saveNewClient();
+                    res2 = controller.saveNewProvider();
+                    if (res1.getStatus()==200 && res2.getStatus() == 200) {
+                        controller.repaintClientsTableWhenAdd(res1);
+                        controller.repaintProvidersTableWhenAdd(res2);
                         dispose();
                     }
-                    else if (res1 != null && res1.getStatus()==200) {
-                        controller.repaintClientsTable();
+                    else if (res1.getStatus()==200) {
+                        controller.repaintClientsTableWhenAdd(res1);
                         JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el client", "", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                     }
-                    else if (res2 != null && res2.getStatus()==200) {
-                        controller.repaintProvidersTable();
+                    else if (res2.getStatus()==200) {
+                        controller.repaintProvidersTableWhenAdd(res2);
                         JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el proveidor", "", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                     }
+                } catch (IOException | JSONException e1) {
+                    e1.printStackTrace();
                 }
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Heu d'omplir els camps obligatoris", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
