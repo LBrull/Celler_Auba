@@ -1,5 +1,6 @@
 package com.presentacio;
 
+import com.model.Client;
 import com.model.Provider;
 import com.model.ServerResponse;
 import org.json.JSONException;
@@ -60,30 +61,30 @@ public class ModifyContactView extends JFrame{
 
     private void loadListeners() {
         saveButton.addActionListener(e -> {
-            if (oldProvider && !oldClient) { //modifiquem un proveedor
+            if (oldProvider) { //modifiquem un proveedor
                 int rowTable = controller.getManagePeopleView().getProvidersTable().convertRowIndexToModel(controller.getManagePeopleView().getProvidersTable().getSelectedRow());
                 try {
                     ServerResponse serverResponse = ContactsViewController.editProvider(codiTextField.getText(), newName.getText(), newSurname.getText(), newTelephone.getText(), newEmail.getText(),  newCp.getText(), newTown.getText(), newDomicili.getText(), newDni.getText(),  newAccountNumber.getText());
                     if (serverResponse.getStatus() != 200) {
                         JOptionPane.showMessageDialog(null, serverResponse.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        Provider newProvider = parseJSON(serverResponse);
+                        Provider newProvider = parseJSONProvider(serverResponse);
                         controller.repaintProvidersTableWhenEdit(rowTable, newProvider);
                         dispose();
                     }
                 } catch (IOException | JSONException e1) {
                     e1.printStackTrace();
                 }
-            } else if (oldClient && !oldProvider) { //modifiquem un client
+            } else if (oldClient) { //modifiquem un client
                 int rowTable = controller.getManagePeopleView().getClientsTable().convertRowIndexToModel(controller.getManagePeopleView().getClientsTable().getSelectedRow());
-                ServerResponse resDelete;
-                ServerResponse resSave;
                 try {
-                    resDelete = controller.deleteOneClient(codiTextField.getText());
-                    resSave = controller.saveOneClient(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
-                    if (resDelete.getStatus() == 200 && resSave.getStatus() == 200) {
-                        controller.repaintClientsOneRowDeleted(rowTable);
-                        controller.repaintClientsOneRowAdded(newName.getText(), newSurname.getText(), newDni.getText(), newTelephone.getText(), newCp.getText(), newTown.getText(), newDomicili.getText(), newEmail.getText(), newAccountNumber.getText());
+                    ServerResponse serverResponse = ContactsViewController.editClient(codiTextField.getText(), newName.getText(), newSurname.getText(), newTelephone.getText(), newEmail.getText(),  newCp.getText(), newTown.getText(), newDomicili.getText(), newDni.getText(),  newAccountNumber.getText());
+                    if (serverResponse.getStatus() != 200) {
+                        JOptionPane.showMessageDialog(null, serverResponse.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
+                        Client newClient = parseJSONClient(serverResponse);
+                        controller.repaintClientsTableWhenEdit(rowTable, newClient);
                         dispose();
                     }
 
@@ -95,7 +96,7 @@ public class ModifyContactView extends JFrame{
         });
     }
 
-    private Provider parseJSON(ServerResponse res) throws JSONException {
+    private Provider parseJSONProvider(ServerResponse res) throws JSONException {
         JSONObject jsonObject = new JSONObject(res.getMessage());
         JSONObject jsonProduct = new JSONObject(jsonObject.getString("provider"));
         Provider newProv = new Provider();
@@ -110,5 +111,22 @@ public class ModifyContactView extends JFrame{
         newProv.setTelephone(jsonProduct.getString("telephone"));
         newProv.setDni_nif(jsonProduct.getString("dni_nif"));
         return newProv;
+    }
+
+    private Client parseJSONClient(ServerResponse res) throws JSONException {
+        JSONObject jsonObject = new JSONObject(res.getMessage());
+        JSONObject jsonProduct = new JSONObject(jsonObject.getString("client"));
+        Client newCli = new Client();
+        newCli.setObjectId(jsonProduct.getString("_id"));
+        newCli.setName(jsonProduct.getString("name"));
+        newCli.setSurname(jsonProduct.getString("surname"));
+        newCli.setAccountNumber(jsonProduct.getString("accountNumber"));
+        newCli.setEmail(jsonProduct.getString("email"));
+        newCli.setAddress(jsonProduct.getString("address"));
+        newCli.setTown(jsonProduct.getString("town"));
+        newCli.setCP(jsonProduct.getString("cp"));
+        newCli.setTelephone(jsonProduct.getString("telephone"));
+        newCli.setDni_nif(jsonProduct.getString("dni_nif"));
+        return newCli;
     }
 }

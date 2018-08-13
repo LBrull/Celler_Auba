@@ -130,7 +130,6 @@ public class DBContactsController {
 
         if (response.getStatusLine().getStatusCode() == 200) {
             String responseString = new BasicResponseHandler().handleResponse(response);
-            JSONObject jsonResponse = new JSONObject(responseString);
             res.setStatus(200);
             res.setMessage(responseString);
             httpClient.close();
@@ -173,7 +172,6 @@ public class DBContactsController {
 
         if (response.getStatusLine().getStatusCode() == 200) {
             String responseString = new BasicResponseHandler().handleResponse(response);
-            JSONObject jsonResponse = new JSONObject(responseString);
             res.setStatus(200);
             res.setMessage(responseString);
             httpClient.close();
@@ -188,8 +186,7 @@ public class DBContactsController {
     }
 
     private static String readStream(InputStream body) throws IOException {
-        String result = IOUtils.toString(body, StandardCharsets.UTF_8);
-        return result;
+        return IOUtils.toString(body, StandardCharsets.UTF_8);
     }
 
     public boolean clientExists(String name, String surname) throws IOException, JSONException {
@@ -322,6 +319,51 @@ public class DBContactsController {
             res.setStatus(response.getStatusLine().getStatusCode());
             res.setMessage(readStream(body));
             client.close();
+            return res;
+        }
+    }
+
+    public static ServerResponse editClient(Client client) throws JSONException, IOException {
+        String url = DatabaseUrl +"/api/client/" + client.getObjectId();
+        System.out.println("ID  QUE ENVIO: "+ client.getObjectId());
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPut put = new HttpPut(url);
+
+        put.setHeader("Content-Type", "application/json");
+        String token = "Bearer "+ Preferences.userRoot().get("token", null);
+        put.setHeader("authorization", token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", client.getName());
+        jsonObject.put("surname", client.getSurname());
+        jsonObject.put("telephone", client.getTelephone());
+        jsonObject.put("email", client.getEmail());
+        jsonObject.put("cp", client.getCp());
+        jsonObject.put("town", client.getTown());
+        jsonObject.put("address", client.getAddress());
+        jsonObject.put("dni_nif", client.getDni_nif());
+        jsonObject.put("accountNumber", client.getAccountNumber());
+        String json = jsonObject.toString(1);
+
+        StringEntity entity = new StringEntity(json);
+        put.setEntity(entity);
+
+        CloseableHttpResponse response = httpClient.execute(put);
+        InputStream body = response.getEntity().getContent();
+        ServerResponse res = new ServerResponse();
+
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String responseString = new BasicResponseHandler().handleResponse(response);
+            res.setStatus(200);
+            res.setMessage(responseString);
+            httpClient.close();
+            System.out.println("OBJECTE QUE EM RETORNA EL SERVER: "+ res.getMessage());
+            return res;
+        }
+        else {
+            res.setStatus(response.getStatusLine().getStatusCode());
+            res.setMessage(readStream(body));
+            httpClient.close();
             return res;
         }
     }

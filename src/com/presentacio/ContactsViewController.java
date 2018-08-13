@@ -242,14 +242,14 @@ public class ContactsViewController {
             String oldAddress = providersTable.getModel().getValueAt(rowTable, 9).toString();
 
 
-            boolean oldProvider = providerExists(oldName, oldSurname);
-            boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
+//            boolean oldProvider = providerExists(oldName, oldSurname);
+//            boolean oldClient = clientExists(oldName, oldSurname);
+            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, true, false, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
         }
 
         else if (1 == clientsTable.getSelectedRowCount()) {
             int rowTable = clientsTable.convertRowIndexToModel(clientsTable.getSelectedRow());
-            String objectId = providersTable.getModel().getValueAt(rowTable, 0).toString();
+            String objectId = clientsTable.getModel().getValueAt(rowTable, 0).toString();
             String oldName = clientsTable.getModel().getValueAt(rowTable, 1).toString();
             String oldSurname = clientsTable.getModel().getValueAt(rowTable, 2).toString();
             String oldDNI = clientsTable.getModel().getValueAt(rowTable, 3).toString();
@@ -260,9 +260,9 @@ public class ContactsViewController {
             String oldTown = clientsTable.getModel().getValueAt(rowTable, 8).toString();
             String oldAddress = clientsTable.getModel().getValueAt(rowTable, 9).toString();
 
-            boolean oldProvider = providerExists(oldName, oldSurname);
-            boolean oldClient = clientExists(oldName, oldSurname);
-            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, oldProvider, oldClient, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
+//            boolean oldProvider = providerExists(oldName, oldSurname);
+//            boolean oldClient = clientExists(oldName, oldSurname);
+            modifyContactView = new ModifyContactView(objectId, oldName, oldSurname, oldDNI, false, true, oldTelephone, oldCp, oldTown, oldAddress, oldEmail, oldAccountNumber);
         }
     }
 
@@ -271,8 +271,13 @@ public class ContactsViewController {
     }
 
     public static ServerResponse editProvider(String objectId, String name, String surname, String telephone, String email, String cp, String town, String address, String dni_nif, String accountNumber) throws IOException, JSONException {
-        Provider provider = new Provider( objectId,  name,  surname,  dni_nif,  telephone,  cp,  town,  email,  address,  accountNumber);
+        Provider provider = new Provider(objectId, name, surname, dni_nif, telephone, cp, town, email, address, accountNumber);
         return DBContactsController.editProvider(provider);
+    }
+
+    public static ServerResponse editClient(String objectId, String name, String surname, String telephone, String email, String cp, String town, String address, String dni_nif, String accountNumber) throws IOException, JSONException {
+        Client client = new Client(objectId, name, surname, dni_nif, telephone, cp, town, email, address, accountNumber);
+        return DBContactsController.editClient(client);
     }
 
     public void repaintProvidersTableWhenEdit(int rowTable, Provider newProvider) {
@@ -287,6 +292,20 @@ public class ContactsViewController {
         providersTableModel.setValueAt(newProvider.getTown(), rowTable, 8);
         providersTableModel.setValueAt(newProvider.getAddress(), rowTable, 9);
     }
+
+    public void repaintClientsTableWhenEdit(int rowTable, Client newClient) {
+        ContactsTableModel clientsTableModel = managePeopleView.getClientsTableModel();
+        clientsTableModel.setValueAt(newClient.getName(), rowTable, 1);
+        clientsTableModel.setValueAt(newClient.getSurname(), rowTable, 2);
+        clientsTableModel.setValueAt(newClient.getDni_nif(), rowTable, 3);
+        clientsTableModel.setValueAt(newClient.getAccountNumber(), rowTable, 4);
+        clientsTableModel.setValueAt(newClient.getTelephone(), rowTable, 5);
+        clientsTableModel.setValueAt(newClient.getEmail(), rowTable, 6);
+        clientsTableModel.setValueAt(newClient.getCp(), rowTable, 7);
+        clientsTableModel.setValueAt(newClient.getTown(), rowTable, 8);
+        clientsTableModel.setValueAt(newClient.getAddress(), rowTable, 9);
+    }
+
     private Provider parseJSONProvider(ServerResponse res) throws JSONException {
         JSONObject jsonObject = new JSONObject(res.getMessage());
         JSONObject jsonProduct = new JSONObject(jsonObject.getString("provider"));

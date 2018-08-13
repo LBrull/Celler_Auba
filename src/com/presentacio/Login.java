@@ -11,15 +11,17 @@ public class Login extends JFrame{
     private JTextField textField1;
     private JPasswordField passwordField1;
     private JLabel titleLabel;
-    private JButton iniciarSessióButton;
+    private JButton iniciarSessioButton;
+    private JPanelBackground JPanelBackground;
 
     public Login () {
+
         super();
-        setContentPane(rootPanel);
+        JPanelBackground.setBackground("/loginBack.png");
         titleLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        iniciarSessióButton.addActionListener(l -> {
+        setContentPane(JPanelBackground);
+        iniciarSessioButton.addActionListener(l -> {
             ServerResponse res;
             try {
                 String pass = new String(passwordField1.getPassword());
@@ -59,4 +61,7 @@ public class Login extends JFrame{
         root.put("token", token);
     }
 
+    private void createUIComponents() {
+        JPanelBackground = new JPanelBackground();
+    }
 }

@@ -9,7 +9,7 @@ public class MenuController {
     private TransactionsViewController transactionsInstance;
     private ProductsViewController productsInstance;
 
-    private MenuController () {}
+    private MenuController() {}
 
     public static MenuController getInstance() {
         if (instance == null) {

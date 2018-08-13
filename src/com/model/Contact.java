@@ -16,7 +16,7 @@ public abstract class Contact {
 
     public Contact(){}
 
-    public Contact(String objectId, String name, String surname, String dni_nif, String telephone, String cp, String town, String address, String email, String accountNumber) {
+    public Contact(String objectId, String name, String surname, String dni_nif, String telephone, String cp, String town, String email, String address, String accountNumber) {
         this.objectId = objectId;
         this.name = name;
         this.surname = surname;
