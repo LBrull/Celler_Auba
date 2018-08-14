@@ -8,6 +8,7 @@ public class MenuController {
     private ContactsViewController contactsInstance;
     private TransactionsViewController transactionsInstance;
     private ProductsViewController productsInstance;
+    private TemporadesViewController temporadesInstance;
 
     private MenuController() {}
 
@@ -44,5 +45,10 @@ public class MenuController {
     public void showProductesView() {
         productsInstance = ProductsViewController.getInstance();
         productsInstance.showProductsView();
+    }
+
+    public void showTemporadesView() {
+        temporadesInstance = TemporadesViewController.getInstance();
+        temporadesInstance.showTemporadesView();
     }
 }

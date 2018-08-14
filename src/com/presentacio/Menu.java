@@ -23,7 +23,7 @@ public class Menu extends JFrame{
 
     public Menu () {
         super();
-        setTitle("Celler Aubà - Menú");
+        setTitle("Celler Aubrca - Menú");
         setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 28));
@@ -42,7 +42,7 @@ public class Menu extends JFrame{
         });
 
         temporadesButton.addActionListener(e -> {
-            //temporadesController.showTemporadesView();
+            menuController.showTemporadesView();
         });
 
         clientsProvidersButton.addActionListener(e -> {
