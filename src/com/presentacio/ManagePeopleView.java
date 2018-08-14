@@ -201,24 +201,15 @@ public class ManagePeopleView extends JFrame{
         clientsTable.setFocusable(false);
         clientsTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
-                if (clientsTable.getSelectedRowCount() == 1 || providersTable.getSelectedRowCount() == 1) {
-                    if (clientsTable.getSelectedRowCount() != 0) {
-                        providersTable.clearSelection();
-                    }
-                    else if (providersTable.getSelectedRowCount() != 0) {
-                        clientsTable.clearSelection();
-                    }
+                if (clientsTable.getSelectedRowCount() == 1) {
                     DeleteButton.setVisible(true);
                     EditButton.setVisible(true);
+                    providersTable.clearSelection();
+
                 }
-                if (clientsTable.getSelectedRowCount() > 1 || providersTable.getSelectedRowCount() > 1) {
-                    if (clientsTable.getSelectedRowCount() != 0) {
-                        providersTable.clearSelection();
-                    }
-                    else if (providersTable.getSelectedRowCount() != 0) {
-                        clientsTable.clearSelection();
-                    }
+                if (clientsTable.getSelectedRowCount() > 1) {
                     EditButton.setVisible(false);
+                    providersTable.clearSelection();
                 }
                 if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
                     EditButton.setVisible(false);
@@ -256,11 +247,14 @@ public class ManagePeopleView extends JFrame{
         providersTable.setFocusable(false);
         providersTable.getSelectionModel().addListSelectionListener(e -> SwingUtilities.invokeLater(
             () -> {
-                if(!EditButton.isVisible()) {
-                    EditButton.setVisible(true);
+                if (providersTable.getSelectedRowCount() == 1) {
                     DeleteButton.setVisible(true);
+                    EditButton.setVisible(true);
+                    clientsTable.clearSelection();
+
                 }
-                if (!clientsTable.getSelectionModel().isSelectionEmpty()) {
+                if (providersTable.getSelectedRowCount() > 1) {
+                    EditButton.setVisible(false);
                     clientsTable.clearSelection();
                 }
                 if (clientsTable.getSelectionModel().isSelectionEmpty() && providersTable.getSelectionModel().isSelectionEmpty()) {
