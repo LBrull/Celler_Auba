@@ -240,7 +240,7 @@
             <properties>
               <borderPainted value="false"/>
               <contentAreaFilled value="true"/>
-              <icon value="icons/ok_60x60.png"/>
+              <icon value="icons/ok_60x60_green.png"/>
               <text value=""/>
             </properties>
           </component>

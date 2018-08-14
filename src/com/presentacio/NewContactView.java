@@ -21,37 +21,37 @@ public class NewContactView extends JFrame {
     private JButton saveButton;
     private JPanel rootPanel;
     private JLabel labelTitle;
-    private JLabel emptyType;
     private JTextField cpTextField;
     private JTextField townTextField;
     private JTextField dniNifTextField;
     private JTextField accountNumberTextField;
+    private JLabel JLabelTipus;
 
 
     NewContactView() {
         super();
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        emptyType.setVisible(true);
-        emptyType.setFont(new Font("Calibri", Font.PLAIN, 20));
+        JLabelTipus.setForeground(new Color(200,30,60));
 
         checkBoxClient.addActionListener(e -> {
             if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                emptyType.setVisible(true);
+                JLabelTipus.setForeground(new Color(200,30,60));
             }
             else {
-                emptyType.setVisible(false);
+                JLabelTipus.setForeground(new Color(0,0,0));
             }
         });
 
         checkBoxProvider.addActionListener(e -> {
             if (!checkBoxClient.isSelected() && !checkBoxProvider.isSelected()) {
-                emptyType.setVisible(true);
+                JLabelTipus.setForeground(new Color(200,30,60));
             }
             else {
-                emptyType.setVisible(false);
+                JLabelTipus.setForeground(new Color(0,0,0));
             }
         });
 
@@ -88,7 +88,7 @@ public class NewContactView extends JFrame {
                     e1.printStackTrace();
                 }
 
-            } else {
+            } else if (checkBoxClient.isSelected() && checkBoxProvider.isSelected()){
                 ServerResponse res1;
                 ServerResponse res2;
                 try {
@@ -101,17 +101,20 @@ public class NewContactView extends JFrame {
                     }
                     else if (res1.getStatus()==200) {
                         controller.repaintClientsTableWhenAdd(res1);
-                        JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el client", "", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Només s'ha pogut guardar el client", "", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                     }
                     else if (res2.getStatus()==200) {
                         controller.repaintProvidersTableWhenAdd(res2);
-                        JOptionPane.showMessageDialog(null, "Només s'ha pogut guardar el proveidor", "", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Només s'ha pogut guardar el proveidor", "", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                     }
                 } catch (IOException | JSONException e1) {
                     e1.printStackTrace();
                 }
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Heu de triar el tipus de contacte", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

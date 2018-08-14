@@ -22,7 +22,7 @@ public class JPanelBackground extends JPanel {
 
     // Metodo donde le pasaremos la dirección de la imagen a cargar.
     public void setBackground(String imagePath) {
-            Image image = new ImageIcon(getClass().getResource("/images/loginBack.png")).getImage();
+            Image image = new ImageIcon(getClass().getResource(imagePath)).getImage();
             this.setOpaque(false);
             this.background = image;
             repaint();

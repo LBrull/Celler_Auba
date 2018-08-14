@@ -23,8 +23,10 @@ public class Menu extends JFrame{
 
     public Menu () {
         super();
+        setTitle("Celler Aubà - Menú");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
-        labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
+        labelTitle.setFont(new Font("Calibri", Font.PLAIN, 28));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         sessioName.setText(menuController.getSessioName());
         compresVendesButton.setEnabled(false);
@@ -61,6 +63,7 @@ public class Menu extends JFrame{
 
         pack();
         setSize(750, 650);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

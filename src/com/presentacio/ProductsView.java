@@ -31,6 +31,8 @@ public class ProductsView extends JFrame{
     ProductsView() {
         super();
         setContentPane(rootPanel);
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         labelWindowTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         EditButton.setVisible(false);

@@ -23,6 +23,8 @@ public class EditProductView extends JFrame{
 
     public EditProductView(String objectId, String desc, String type, String price) {
         super();
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         codiTextField.setText(objectId);

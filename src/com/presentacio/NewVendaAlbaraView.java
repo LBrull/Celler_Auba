@@ -43,6 +43,8 @@ public class NewVendaAlbaraView extends JFrame{
 
     NewVendaAlbaraView() {
         setContentPane(rootPanel);
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         tipusSelector.setSelectedIndex(0);
         String date =  String.valueOf(LocalDateTime.now().getDayOfMonth());

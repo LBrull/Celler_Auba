@@ -15,6 +15,8 @@ public class TransactionsView extends JFrame{
 
     public TransactionsView() {
         setContentPane(rootPanel);
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         labelSubtitle1.setFont(new Font("Calibri", Font.PLAIN, 16));
         labelSubtitle2.setFont(new Font("Calibri", Font.PLAIN, 16));

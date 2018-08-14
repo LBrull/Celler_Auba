@@ -26,7 +26,7 @@
               <borderPainted value="false"/>
               <contentAreaFilled value="true"/>
               <hideActionText value="false"/>
-              <icon value="icons/add_contact_60x60.png"/>
+              <icon value="icons/addContact_60x60_green.png"/>
               <opaque value="false"/>
               <text value=""/>
             </properties>
@@ -38,7 +38,7 @@
             <properties>
               <borderPainted value="false"/>
               <contentAreaFilled value="true"/>
-              <icon value="icons/delete_contact_60x60.png"/>
+              <icon value="icons/delete_60x60_green.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -49,7 +49,7 @@
             <properties>
               <borderPainted value="false"/>
               <contentAreaFilled value="true"/>
-              <icon value="icons/edit_60x60.png"/>
+              <icon value="icons/edit_60x60_green.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -119,7 +119,7 @@
               <inheritsPopupMenu value="false"/>
               <intercellSpacing width="0" height="0"/>
               <rowHeight value="18"/>
-              <selectionBackground color="-1597843"/>
+              <selectionBackground color="-5716667"/>
               <selectionForeground color="-13948117"/>
               <showHorizontalLines value="false"/>
               <showVerticalLines value="false"/>
@@ -145,7 +145,7 @@
               <inheritsPopupMenu value="false"/>
               <intercellSpacing width="0" height="0"/>
               <rowHeight value="18"/>
-              <selectionBackground color="-1597843"/>
+              <selectionBackground color="-5716667"/>
               <selectionForeground color="-13948117"/>
               <showHorizontalLines value="false"/>
               <showVerticalLines value="false"/>
@@ -176,8 +176,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <enabled value="false"/>
-              <icon value="icons/search_25x25.png"/>
+              <enabled value="true"/>
+              <icon value="icons/search_25x25_chocolate.png"/>
               <text value=""/>
             </properties>
           </component>

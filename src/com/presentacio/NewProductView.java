@@ -18,20 +18,25 @@ public class NewProductView extends JFrame{
     private JLabel labelTitle;
     private JTextField descripcioTextField;
     private JTextField preuTextField;
-    private JLabel emptyDescription;
-    private JLabel emptyPrice;
     private JButton saveButton;
     private JPanel rootPanel;
     private JComboBox typeComboBox;
+    private JLabel productLabel;
+    private JLabel priceLabel;
     private Object[] tipus = {"AM", "RA", "OL"};
+    private boolean correctProduct = false;
+    private boolean correctPrice = false;
 
     NewProductView() {
         super();
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        emptyPrice.setFont(new Font("Calibri", Font.PLAIN, 20));
-        emptyDescription.setFont(new Font("Calibri", Font.PLAIN, 20));
+
+        productLabel.setForeground(new Color(200,30,60));
+        priceLabel.setForeground(new Color(200,30,60));
 
         descripcioTextField.addKeyListener(new KeyListener() {
             @Override
@@ -47,10 +52,12 @@ public class NewProductView extends JFrame{
             @Override
             public void keyReleased(KeyEvent e) {
                 if(descripcioTextField.getText().length()<=0 || descripcioTextField.getText().equals("")) {
-                    emptyDescription.setVisible(true);
+                    productLabel.setForeground(new Color(200,30,60));
+                    correctProduct = false;
                 }
                 else {
-                    emptyDescription.setVisible(false);
+                    productLabel.setForeground(new Color(0,0,0));
+                    correctProduct = true;
                 }
             }
         });
@@ -69,16 +76,18 @@ public class NewProductView extends JFrame{
             @Override
             public void keyReleased(KeyEvent e) {
                 if(preuTextField.getText().length()<=0 || preuTextField.getText().equals("") || preuTextField.getText().contains(",")) {
-                    emptyPrice.setVisible(true);
+                    priceLabel.setForeground(new Color(200,30,60));
+                    correctPrice = false;
                 }
                 else {
-                    emptyPrice.setVisible(false);
+                    priceLabel.setForeground(new Color(0,0,0));
+                    correctPrice = true;
                 }
             }
         });
 
         saveButton.addActionListener(e -> {
-            if (!emptyDescription.isVisible() && !emptyPrice.isVisible()) {
+            if (correctPrice && correctProduct) {
                 try {
                     ServerResponse res = controller.saveNewProduct(descripcioTextField.getText(), this.getProductType(), preuTextField.getText());
                     Product newProduct = parseJSON(res);

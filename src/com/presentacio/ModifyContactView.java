@@ -33,7 +33,8 @@ public class ModifyContactView extends JFrame{
 
     ModifyContactView (String objectId, String oldName, String oldSurname, String oldDni, boolean oldProvider, boolean oldClient, String oldTelephone, String oldCp, String oldTown, String oldDomicili, String oldEmail, String oldAccountNumber) {
         setContentPane(rootPanel);
-
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         labelTitle.setFont(new Font("Calibri", Font.PLAIN, 20));
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

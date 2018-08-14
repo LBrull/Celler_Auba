@@ -38,6 +38,8 @@ public class ManagePeopleView extends JFrame{
 
     ManagePeopleView() {
         super();
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
         setContentPane(rootPanel);
 
         labelClients.setFont(new Font("Calibri", Font.PLAIN, 18));

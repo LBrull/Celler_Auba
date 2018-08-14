@@ -13,12 +13,17 @@ public class Login extends JFrame{
     private JLabel titleLabel;
     private JButton iniciarSessioButton;
     private JPanelBackground JPanelBackground;
+    private JPanel loginCredentialsPanel;
 
     public Login () {
 
         super();
-        JPanelBackground.setBackground("/loginBack.png");
-        titleLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
+        setTitle("Celler Aubà");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/icono-olivo.png")).getImage());
+        setResizable(false);
+
+        JPanelBackground.setBackground("/images/login_back_blur.jpg");
+        titleLabel.setFont(new Font("Calibri", Font.PLAIN, 28));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(JPanelBackground);
         iniciarSessioButton.addActionListener(l -> {
@@ -52,7 +57,8 @@ public class Login extends JFrame{
         });
 
         pack();
-        setSize(500, 300);
+        setSize(850, 600);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
