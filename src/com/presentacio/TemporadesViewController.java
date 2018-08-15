@@ -5,7 +5,7 @@ public class TemporadesViewController {
     //private static DBTemporadesController dbTemporadesController = DBTemporadesController.getInstance();
 
     // TODO: vistes associades al controlador
-    private TemporadesView temporadesView;
+    //private TemporadesView temporadesView;
 
     private TemporadesViewController() {
     }
@@ -18,6 +18,6 @@ public class TemporadesViewController {
     }
 
     public void showTemporadesView() {
-        new TemporadesView();
+        //new TemporadesView();
     }
 }
